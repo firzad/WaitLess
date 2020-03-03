@@ -19,7 +19,7 @@ def post_json(client, url, json_dict):
         url,
         data=json.dumps(json_dict),
         content_type='application/json'
-        )
+    )
 
 
 def json_response(response):
@@ -54,7 +54,8 @@ def test_post_app(client):
     name = 'Safari broser'
     response = client.post('/apps', data={'name': name})
     assert response.status_code == 201
-    obj = db.session.query(Application).filter(Application.name == name).first()
+    obj = db.session.query(Application).filter(
+        Application.name == name).first()
     assert json_response(response)['id'] == obj.id
     db.session.delete(obj)
     db.session.commit()

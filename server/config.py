@@ -11,11 +11,11 @@ class Config(object):
     MIGRATION_DIR = os.path.join('core', 'migrations')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:\
         {passwd}@{host}:5432/{db}'.format(
-            user=os.environ.get('DBUSER'),
-            passwd=os.environ.get('DBPASS'),
-            host=os.environ.get('DBHOST'),
-            db=os.environ.get('DBNAME')
-        )
+        user=os.environ.get('DBUSER'),
+        passwd=os.environ.get('DBPASS'),
+        host=os.environ.get('DBHOST'),
+        db=os.environ.get('DBNAME')
+    )
 
 
 class ProductionConfig(Config):

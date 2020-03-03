@@ -6,14 +6,14 @@ services:
     container_name: flask-servers
     working_dir: /var/www/server
     ports:
-        - 5000:5000
+      - 5000:5000
     volumes:
-        - ./server/:/var/www/server
+      - ./server/:/var/www/server
     command: python manage.py runserver --host=0.0.0.0
     env_file:
-        - .env
+      - .env
     depends_on:
-        - database
+      - database
   database:
     image: postgres:10
     container_name: flask-databases
@@ -25,9 +25,9 @@ services:
     working_dir: /var/www/client/
     command: yarn start
     ports:
-        - 3000:3000
+      - 3000:3000
     env_file:
       - .env
     volumes:
-        - ./server/:/var/www/server/
-        - ./client/:/var/www/client/
+      - ./server/:/var/www/server/
+      - ./client/:/var/www/client/
