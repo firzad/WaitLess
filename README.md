@@ -1,6 +1,9 @@
 # capstone-project-masterminds
 capstone-project-masterminds created by GitHub Classroom
 
+Boilerplate credits:
+https://github.com/kingbar1990/React-TypeScript-Flask-boilerplate
+
 ### Build project
 
 1. Rename ".env.example" to ".env"
