@@ -30,7 +30,7 @@ docker-compose up -d database
 docker-compose run flask python manage.py db upgrade
 ```
 
-6. Create mode_modules
+6. Create node_modules
 ```bash
 docker-compose run node yarn
 ```

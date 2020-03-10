@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ServerData } from '../interface';
+import { ServerData } from '../../interfaces/toBeDeleted_Sample_interface';
 
 class Details extends React.Component<ServerData> {
     render() {

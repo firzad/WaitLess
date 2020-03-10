@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { Popup, ServerData, ServerResponse } from '../interface';
+import { Popup, ServerData, ServerResponse } from '../../interfaces/toBeDeleted_Sample_interface';
 
-import axios from '../axios';
+import axios from '../../axios';
 
 class VersionForm extends React.Component<Popup> {
     state = {

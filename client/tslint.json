@@ -7,5 +7,10 @@
             "coverage/lcov-report/*.js"
         ]
     },
-    "no-unused-expression": true
+    "no-unused-expression": true,
+    "compilerOptions": {
+        "plugins": [
+          { "name": "typescript-tslint-plugin" }
+        ]
+      }
 }

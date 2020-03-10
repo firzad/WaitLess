@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import axios from './axios';
 
-import Form from './components/Form';
-import Item from './components/Item';
+import Form from './components/toBeDeleted_Sample/Form';
+import Item from './components/toBeDeleted_Sample/Item';
 
-import { ServerData, ServerResponse } from './interface';
+import { ServerData, ServerResponse } from './interfaces/toBeDeleted_Sample_interface';
 
 class App extends React.Component {
     state = {
@@ -38,10 +38,9 @@ class App extends React.Component {
                 <article className="row">
                     {this.state.data.map((app: ServerData) => <Item key={app.id} {...app} updateParent={this.loadData} />)}
                     <button
-                        type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    >
+                        type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Add Application
-          </button>
+                    </button>
                     <Form closePopup={this.togglePopup} updateParent={this.loadData} />
                 </article>
             </div>
