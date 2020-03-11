@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 
-import axios from './axios';
+import axios from "./axios";
 
-import Form from './components/toBeDeleted_Sample/Form';
-import Item from './components/toBeDeleted_Sample/Item';
+import Form from "./components/toBeDeleted_Sample/Form";
+import Item from "./components/toBeDeleted_Sample/Item";
 
-import { ServerData, ServerResponse } from './interfaces/toBeDeleted_Sample_interface';
+import { ServerData, ServerResponse } from "./interfaces/toBeDeleted_Sample_interface";
 
 class App extends React.Component {
     state = {

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { ServerData } from '../../interfaces/toBeDeleted_Sample_interface';
+import { ServerData } from "../../interfaces/toBeDeleted_Sample_interface";
 
-import Details from './Details';
-import VersionForm from './VersionForm';
+import Details from "./Details";
+import VersionForm from "./VersionForm";
 
 class Item extends React.Component<ServerData> {
     state = {

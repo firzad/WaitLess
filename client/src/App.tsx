@@ -1,14 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 
-// import axios from './axios';
+import { LandingPage } from "./components/LandingPage";
 
 class App extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                
-            </div>
+            <LandingPage></LandingPage>
         );
     }
 }
