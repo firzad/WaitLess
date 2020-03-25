@@ -1,1 +1,1 @@
-export {};
+export { Staff } from "./Staff";

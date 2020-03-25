@@ -1,1 +1,1 @@
-export {};
+export { Customer } from "./Customer";
