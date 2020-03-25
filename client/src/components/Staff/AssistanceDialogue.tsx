@@ -25,6 +25,7 @@ function AssistanceDialogue(props) {
 	const [assistanceList, setAssistanceList] = React.useState(['4','5','7']);
 
 
+
 	function removeAssistanceTable(table){
 		/////////////
 		//CALL TO BACKEND
@@ -77,9 +78,19 @@ export default function AssistanceDialogueIcon(){
 
 	//num_assistance = backend.getNumAssistance()
 
+    const [num_assistance, setNumAssistance] = React.useState(0)
+
+    function updateNumAssistance(){
+        //new_num = backend.getnumassistance()
+        const new_num = 3
+        setNumAssistance(new_num)
+    }
+
+    setInterval(updateNumAssistance, 5000)
+
 	return (
 		<div><IconButton color="inherit" onClick={handleClickOpen}>
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={num_assistance} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>

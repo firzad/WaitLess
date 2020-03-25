@@ -13,10 +13,6 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DoneIcon from '@material-ui/icons/Done';
 
 
-
-
-
-
 export default function ActiveTables(){
 	///new_tables = backend.getactivetables()
 	const tables = {
@@ -76,29 +72,12 @@ export default function ActiveTables(){
 			'icons':{}
 		}
 		createIcons(new_tables)
-		console.log(new_tables)
 
 		setActiveTables(new_tables)
 	}
 	
 
 	function mapReactTableList(){
-		/*const table_icons = {}
-		for (const table in active_tables.tableList){
-			if (active_tables[table] === 'Ordering'){
-				table_icons[table] = <MenuBookIcon />
-			}
-			else if (active_tables[table] === 'Preparing order'){
-				table_icons[table] = <Restaurant />
-			}
-			else if (active_tables[table] === 'Order Ready'){
-				table_icons[table] = <LocalDiningIcon />
-			}
-			else if (active_tables[table] === 'Order Delivered'){
-				table_icons[table] = <DoneIcon />
-			}
-		}
-		*/
 		return Object.keys(active_tables.tableList).map((tableid) =>(
 			<ListItem key = {tableid}>
 	          <ListItemAvatar>

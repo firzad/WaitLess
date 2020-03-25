@@ -10,30 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 
 
-
-function mapReactTableList(tables){
-
-	const tablelist = tables.tableList;
-	console.log(tablelist)
-	return tables.map((table) =>(
-		<ListItem key = {table}>
-          <ListItemAvatar>
-            <Avatar>
-              <Restaurant	 />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={"Table " + table.toString()}
-          />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="More">
-              <MoreVert />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-	))
-}
-
 export default function AvailableTables(){
 	
 
@@ -43,15 +19,45 @@ export default function AvailableTables(){
 
 	const tables = ['6','9','10']
 
-	const tableReact = mapReactTableList(tables)
-	////////////////////////////
-	///TEMPORARY TEMPLATE FOR TABLES RETREIVED FROM BACKEND
-	////////////////////////////
+	const [free_tables, setFreeTables] = React.useState(tables);
+
+	function updateFreeTables(){
+		///CALL BACKEND
+		///new_tables = backend.getfreetables()
+		const free_tables = ['6','9','11']
+		setFreeTables(free_tables)
+	}
+
+		
+	function mapReactTableList(){
+
+		return free_tables.map((table) =>(
+			<ListItem key = {table}>
+	          <ListItemAvatar>
+	            <Avatar>
+	              <Restaurant	 />
+	            </Avatar>
+	          </ListItemAvatar>
+	          <ListItemText
+	            primary={"Table " + table.toString()}
+	          />
+	          <ListItemSecondaryAction>
+	            <IconButton edge="end" aria-label="More">
+	              <MoreVert />
+	            </IconButton>
+	          </ListItemSecondaryAction>
+	        </ListItem>
+		))
+	}
+
+	const reactTableList = mapReactTableList()
+	setInterval(updateFreeTables,5000);
+
 	return(
 		<React.Fragment>
 			<List>
 	        {
-	        	tableReact
+	        	reactTableList
 	        }
 	        </List>
 	    </React.Fragment>
