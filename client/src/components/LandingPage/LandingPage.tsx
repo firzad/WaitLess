@@ -1,7 +1,4 @@
 import React from 'react';
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import StaffDashboard from '../Staff/StaffDashboard';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from "react-router-dom";
 import { userStyles } from "../../styles/userStyles";
@@ -9,7 +6,7 @@ import { Grid, Button, AppBar, Toolbar, IconButton, Typography } from "@material
 
 
 export function LandingPage() {
-    const styleClasses: any = useLandingPageStyles();
+    const styleClasses: any = userStyles();
 
 
     return (
