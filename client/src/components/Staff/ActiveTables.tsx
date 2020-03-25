@@ -15,53 +15,10 @@ import DoneIcon from '@material-ui/icons/Done';
 
 
 
-function mapReactTableList(tables){
 
-	const tablelist = tables.tableList;
-
-	const table_icons = {}
-	for (const table in tablelist){
-		if (tablelist[table] === 'Ordering'){
-			table_icons[table] = <MenuBookIcon />
-		}
-		else if (tablelist[table] === 'Preparing order'){
-			table_icons[table] = <Restaurant />
-		}
-		else if (tablelist[table] === 'Order Ready'){
-			table_icons[table] = <LocalDiningIcon />
-		}
-		else if (tablelist[table] === 'Order Delivered'){
-			table_icons[table] = <DoneIcon />
-		}
-	}
-
-	console.log(tablelist)
-	return Object.keys(tablelist).map((tableid) =>(
-		<ListItem key = {tableid}>
-          <ListItemAvatar>
-            <Avatar>
-            	{table_icons[tableid]}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={"Table " + tableid.toString() + ": " + tablelist[tableid]}
-          />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="More">
-              <MoreVert />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-	))
-}
 
 export default function ActiveTables(){
-	
-
-	//CALL TO BACKEND
-	//const tables = backend.getActiveTables() //calls backend, gets active tables
-	
-	///TEMPORARY TEMPLATE FOR TABLES RETREIVED FROM BACKEND
+	///new_tables = backend.getactivetables()
 	const tables = {
 		'freeTables' : 3,
 		'activeTables' : 7,
@@ -73,17 +30,101 @@ export default function ActiveTables(){
 			'3' : 'Preparing Order',
 			'8' : 'Ordering',
 			'1' : 'Order Delivered'
-			}
+			},
+			'icons':{}
 	}
 
-	const tableReact = mapReactTableList(tables)
+	function createIcons(tables){
+		tables.icons = {}
+		for (const table in tables.tableList){
+			switch(tables.tableList[table]){
+				case 'Ordering':
+					tables.icons[table] = <MenuBookIcon />
+					break
+				case 'Preparing Order':
+					tables.icons[table] = <Restaurant />
+					break
+				case 'Order Ready':
+					tables.icons[table] = <LocalDiningIcon />
+					break
+				case 'Order Delivered':
+					tables.icons[table] = <DoneIcon />
+					break
+			}
+		}
+	}
+
+	createIcons(tables)
+
+	const [active_tables, setActiveTables] = React.useState(tables);
+
+	function updateActiveTables(){
+		///CALL BACKEND
+		///new_tables = backend.getactivetables()
+		const new_tables = {
+			'freeTables' : 3,
+			'activeTables' : 7,
+			'tableList':{
+				'4' : 'Ordering',
+				'5' : 'Order Ready',
+				'7' : 'Order Ready',
+				'2' : 'Order Delivered',
+				'3' : 'Order Ready',
+				'8' : 'Ordering',
+				'1' : 'Order Delivered'
+				},
+			'icons':{}
+		}
+		createIcons(new_tables)
+		console.log(new_tables)
+
+		setActiveTables(new_tables)
+	}
 	
 
+	function mapReactTableList(){
+		/*const table_icons = {}
+		for (const table in active_tables.tableList){
+			if (active_tables[table] === 'Ordering'){
+				table_icons[table] = <MenuBookIcon />
+			}
+			else if (active_tables[table] === 'Preparing order'){
+				table_icons[table] = <Restaurant />
+			}
+			else if (active_tables[table] === 'Order Ready'){
+				table_icons[table] = <LocalDiningIcon />
+			}
+			else if (active_tables[table] === 'Order Delivered'){
+				table_icons[table] = <DoneIcon />
+			}
+		}
+		*/
+		return Object.keys(active_tables.tableList).map((tableid) =>(
+			<ListItem key = {tableid}>
+	          <ListItemAvatar>
+	            <Avatar>
+	            	{active_tables.icons[tableid]}
+	            </Avatar>
+	          </ListItemAvatar>
+	          <ListItemText
+	            primary={"Table " + tableid.toString() + ": " + active_tables.tableList[tableid]}
+	          />
+	          <ListItemSecondaryAction>
+	            <IconButton edge="end" aria-label="More">
+	              <MoreVert />
+	            </IconButton>
+	          </ListItemSecondaryAction>
+	        </ListItem>
+		))
+	}
+
+	const reactTableList = mapReactTableList()
+	setInterval(updateActiveTables,5000);
 	return(
 		<React.Fragment>
 			<List>
 	        {
-	        	tableReact
+	        	reactTableList
 	        }
 	        </List>
 	    </React.Fragment>
