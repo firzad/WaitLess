@@ -31,3 +31,17 @@ Worked on the scope identification for the KDS. Discussed the various parts of t
 Worked on completing the Jira Epics and corresponding user stories for the KDS.
 
 
+## Week 4
+---------
+Set up the routing for the front end system. Cleared package blockers and cleaned up dependencies. Working on the layout of the system.
+
+
+## Week 5
+---------
+Database design. Tables schema has been finalised after various iterative changes
+
+Started working on the Kitchen view of the app. Currently working on the initial layout of the bump screen.
+
+
+## Week 6
+---------
