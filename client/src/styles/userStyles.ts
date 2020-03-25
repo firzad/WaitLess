@@ -6,7 +6,7 @@ export const userStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
         },
         appBar: {
-            backgroundColor : '#343A40'
+            backgroundColor: '#343A40'
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -20,6 +20,10 @@ export const userStyles = makeStyles((theme: Theme) =>
         },
         gridContainer: {
             paddingTop: '3%',
-        }
+        },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
     })
 );

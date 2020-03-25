@@ -14,9 +14,11 @@ export function LandingPage() {
         <div className={styleClasses.root}>
             <AppBar position="static" className={styleClasses.appBar}>
                 <Toolbar>
-                    <IconButton edge="start" className={styleClasses.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
+                    <Link to="/home">
+                        <IconButton edge="start" className={styleClasses.menuButton} color="inherit" aria-label="menu">
+                            <MenuIcon />
+                        </IconButton>
+                    </Link>
                     <Typography variant="h6" className={styleClasses.title}>
                         WAITLESS
                 </Typography>
