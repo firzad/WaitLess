@@ -16,15 +16,13 @@ import Dialog from '@material-ui/core/Dialog';
 function AssistanceDialogue(props) {
 	const { onClose, open } = props;
 
-	const handleClose = () => {
+	function handleClose(){
 		onClose(false);
 	};
 
 	//CALL TO THE BACKEND HERE
 	//const [assistanceList, setAssistanceList] = React.useState(backend.getTableAssistanceList());  	
 	const [assistanceList, setAssistanceList] = React.useState(['4','5','7']);
-
-
 
 	function removeAssistanceTable(table){
 		/////////////
@@ -33,7 +31,6 @@ function AssistanceDialogue(props) {
 		//const new_tables = backend.getTableAssistance()
 		//setAssistanceList(new_tables)
 		///////////
-
 		const tables = assistanceList.slice()
 		const index = tables.indexOf(table);
 		tables.splice(index,1)
@@ -56,7 +53,7 @@ function AssistanceDialogue(props) {
                         <ListItemSecondaryAction>
                         <IconButton edge="end"  onClick={() => removeAssistanceTable(table)} aria-label="More"  >
                             <Done />
-                            </IconButton>
+                        </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>	
                 ))}
@@ -89,7 +86,8 @@ export default function AssistanceDialogueIcon(){
     setInterval(updateNumAssistance, 5000)
 
 	return (
-		<div><IconButton color="inherit" onClick={handleClickOpen}>
+		<div>
+        <IconButton color="inherit" onClick={handleClickOpen}>
             <Badge badgeContent={num_assistance} color="secondary">
               <NotificationsIcon />
             </Badge>
@@ -97,5 +95,5 @@ export default function AssistanceDialogueIcon(){
 
           <AssistanceDialogue open={open} onClose={handleClose} />
         </div>
-      )
+    )
 }
