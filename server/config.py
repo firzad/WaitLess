@@ -4,17 +4,16 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
-    DEBUG = False
+    DEBUG = True
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = 'this-really-needs-to-be-changed'
+    # SECRET_KEY = 'this-really-needs-to-be-changed'
     MIGRATION_DIR = os.path.join('core', 'migrations')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:\
-        {passwd}@{host}:5432/{db}'.format(
-        user=os.environ.get('DBUSER'),
-        passwd=os.environ.get('DBPASS'),
-        host=os.environ.get('DBHOST'),
-        db=os.environ.get('DBNAME')
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
+        user="postgres",
+        passwd="rest4567",
+        host="localhost",
+        db="Waitless"
     )
 
 
