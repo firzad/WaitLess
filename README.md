@@ -42,6 +42,33 @@ docker-compose up
 
 8. Open in your browser http://localhost:3000/
 
+#### Steps to run the server
+
+1. Change directory to server
+```bash
+cd server
+```
+
+2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+3. Change DB details if required in config.py
+```python
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
+        user="username",
+        passwd="password",
+        host="localhost",
+        db="Waitless"
+)
+```
+
+4. Start the server
+```bash
+python manage.py
+```
+
 ### Run tests
 
 ```bash
