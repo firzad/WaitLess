@@ -44,7 +44,7 @@ createStyles({
     },
     formControl: {
         margin: theme.spacing(2),
-        marginTop: 0
+        marginTop: 0,
     },
     formControlLabel: {
         marginBottom: 0,

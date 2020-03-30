@@ -12,16 +12,16 @@ export function OrderTicket(props: any) {
     const styleClasses = orderTicketStyles();
     // const bull = <span className={styleClasses.bullet}>•</span>;
 
-    const [dateTime, setDateTime] = useState(moment(props.orderItem.orderDate));
+    const [dateTime, setDateTime] = useState(moment.duration(moment().utc().diff(moment(props.orderItem.orderDate).utc())));
     const [priorityTheme, setPriorityTheme] = useState({ timeColor: 'default', cardBorderColor: 'default' });
 
     useEffect(() => {
         const id = setInterval(() => {
-            setDateTime(moment(moment().utc().diff(moment(props.orderItem.orderDate).utc())).utc());
-            console.log(props.orderItem.orderNo, dateTime.minutes())
-            if (dateTime.minutes() < 10) {
+            setDateTime(moment.duration(moment().utc().diff(moment(props.orderItem.orderDate).utc())));
+            // console.log(props.orderItem.orderNo, dateTime.minutes())
+            if (dateTime.asMinutes() < 10) {
                 setPriorityTheme({ timeColor: styleClasses.timerGreen, cardBorderColor: styleClasses.cardBorderGreen });
-            } else if (dateTime.minutes() < 15) {
+            } else if (dateTime.asMinutes() < 15) {
                 setPriorityTheme({ timeColor: styleClasses.timerYellow, cardBorderColor: styleClasses.cardBorderYellow });
             } else {
                 setPriorityTheme({ timeColor: styleClasses.timerRed, cardBorderColor: styleClasses.cardBorderRed });
@@ -30,6 +30,7 @@ export function OrderTicket(props: any) {
         return () => {
             clearInterval(id);
         }
+    // eslint-disable-next-line
     }, [dateTime]);
 
     return (
@@ -48,7 +49,7 @@ export function OrderTicket(props: any) {
                     // </IconButton>
                     // }
                     title={`Table #${props.value}`}
-                    subheader={dateTime.format("HH:mm:ss")}
+                    subheader={moment.utc(dateTime.asMilliseconds()).format("HH:mm:ss")}
                 />
                 <CardContent>
                     {/* <Typography variant="h5" component="h2">
