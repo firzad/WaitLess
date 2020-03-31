@@ -1,51 +1,140 @@
 import * as React from "react";
-import MenuIcon from '@material-ui/icons/Menu';
+import clsx from 'clsx';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-import { Link } from "react-router-dom";
 import { userStyles } from "../../styles/userStyles";
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography, CssBaseline } from "@material-ui/core";
+
+import MenuIcon from '@material-ui/icons/Menu';
+import LocalDiningIcon from '@material-ui/icons/LocalDining';
+import PersonIcon from '@material-ui/icons/Person';
+import TableChartIcon from '@material-ui/icons/TableChart';
+import BarChartIcon from '@material-ui/icons/BarChart';
+
+import MenuSetting from './MenuSetting';
+import TableSetting from './TableSetting';
+import StaffSetting from './StaffSetting';
+import Analytics from './Analytics';
+
+
+
+import SideBar from './sidebar';
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+    },
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    hide: {
+      display: 'none',
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginLeft: 0,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: drawerWidth,
+    },
+  }),
+);
+
+const settings = [
+    {
+        'title': 'Menu',
+        'icon': <LocalDiningIcon/>,
+        'component': <MenuSetting/>
+    },
+    {
+        'title': 'Tables',
+        'icon': <TableChartIcon/>,
+        'component': <TableSetting/>
+    },
+    {
+        'title': 'Staff',
+        'icon': <PersonIcon/>,
+        'component': <StaffSetting/>
+    },
+    {
+        'title': 'Analytics',
+        'icon': <BarChartIcon/>,
+        'component': <Analytics/>
+    }
+]
 
 export function Admin() {
     const styleClasses: any = userStyles();
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [index, setIndex] = React.useState(0);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+    
     return (
         <div className={styleClasses.root}>
-            <AppBar position="static" className={styleClasses.appBar}>
+            <CssBaseline />
+            <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
                 <Toolbar>
-                    <Link to="/home">
-                        <IconButton edge="start" className={styleClasses.menuButton} color="inherit" aria-label="menu">
+                        <IconButton color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={clsx(classes.menuButton, open && classes.hide)}>
                             <MenuIcon />
                         </IconButton>
-                    </Link>
                     <Typography variant="h6" className={styleClasses.title}>
                         Admin
-                </Typography>
+                    </Typography>
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>
-            <main className={styleClasses.content}>
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                    facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                    gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                    donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                    Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                    imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                    arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                    donec massa sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                    facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                    tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                    consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                    vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                    hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                    tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                    nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                    accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+            <SideBar settingsList={settings} setIndex={setIndex} handleDrawerClose={handleDrawerClose} open={open}/>
+            <main className={clsx(classes.content, {
+                [classes.contentShift]: open,
+                })} >        
+             <div className={classes.drawerHeader} />
+                {settings[index].component}
             </main>
         </div>
     );
