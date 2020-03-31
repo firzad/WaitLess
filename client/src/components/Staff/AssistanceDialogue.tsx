@@ -14,7 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 
 function AssistanceDialogue(props) {
-	const { onClose, open } = props;
+	const { onClose, open, setNumAssistance } = props;
 
 	function handleClose(){
 		onClose(false);
@@ -36,6 +36,7 @@ function AssistanceDialogue(props) {
 		tables.splice(index,1)
 
 		setAssistanceList(tables)
+        setNumAssistance(tables.length)
 	}
 
     return (
@@ -75,12 +76,12 @@ export default function AssistanceDialogueIcon(){
 
 	//num_assistance = backend.getNumAssistance()
 
-    const [num_assistance, setNumAssistance] = React.useState(0)
+    const [num_assistance, setNumAssistance] = React.useState(3)
 
     function updateNumAssistance(){
         //new_num = backend.getnumassistance()
-        const new_num = 3
-        setNumAssistance(new_num)
+        //const new_num = 3
+        //setNumAssistance(new_num)
     }
 
     setInterval(updateNumAssistance, 5000)
@@ -93,7 +94,7 @@ export default function AssistanceDialogueIcon(){
             </Badge>
           </IconButton>
 
-          <AssistanceDialogue open={open} onClose={handleClose} />
+          <AssistanceDialogue open={open} onClose={handleClose} setNumAssistance={setNumAssistance}/>
         </div>
     )
 }

@@ -7,6 +7,9 @@ export const commonStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
     },
+    expBar: {
+      width: '100%',
+    },
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
     },
