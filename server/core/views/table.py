@@ -46,7 +46,7 @@ class TableDetailById(Resource):
         if 'table_size' in request.json:
             table.table_size = request.json['table_size']
         if 'table_status' in request.json:
-            table.table_status = bool(request.json['table_status'])
+            table.table_status = request.json['table_status']
         db.session.commit()
         return table, 200
 

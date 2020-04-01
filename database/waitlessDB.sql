@@ -41,7 +41,7 @@ FOREIGN KEY(ingredient_id) REFERENCES ingredients(ingredient_id) ON DELETE CASCA
 CREATE TABLE table_details(
 table_number integer NOT NULL UNIQUE, 
 table_size integer, 
-table_status bool NOT NULL,
+table_status varchar(50) NOT NULL,
 PRIMARY KEY(table_number));
 -- Create ticket Table
 CREATE TABLE ticket(
