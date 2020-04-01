@@ -49,7 +49,7 @@ function TableDetails(props){
 		] 
 		return(
 			<div className={classes.expBar}>
-      		<ExpansionPanel expanded={expanded == 'panel1'} onChange={expansionChange('panel1')}>
+      		<ExpansionPanel expanded={expanded === 'panel1'} onChange={expansionChange('panel1')}>
 	      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 	        	<Typography>Order History</Typography>
 	        	</ExpansionPanelSummary>
@@ -64,7 +64,7 @@ function TableDetails(props){
 	        		</List>
 	        	</ExpansionPanelDetails>
 			</ExpansionPanel>
-			<ExpansionPanel expanded={expanded == 'panel2'} onChange={expansionChange('panel2')}>
+			<ExpansionPanel expanded={expanded === 'panel2'} onChange={expansionChange('panel2')}>
 	      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 	        	<Typography>Table Settings</Typography>
 	        	</ExpansionPanelSummary>
