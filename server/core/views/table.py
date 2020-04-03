@@ -50,4 +50,10 @@ class TableDetailById(Resource):
         db.session.commit()
         return table, 200
 
+    @marshal_with(table_resource_fields)
+    def get(self, table_number):
+        """get table status"""
+        table_status = TableDetails.query.get_or_404(table_number)
+        return table_status, 200
+
 

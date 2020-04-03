@@ -9,4 +9,4 @@ class TableDetails(db.Model):
 
     def __init__(self, size):
         self.table_size = size
-        self.table_status = False
+        self.table_status = "Empty"

@@ -11,7 +11,7 @@ class Config(object):
     MIGRATION_DIR = os.path.join('core', 'migrations')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
         user="postgres",
-        passwd="rest4567",
+        passwd="password",
         host="localhost",
         db="Waitless"
     )

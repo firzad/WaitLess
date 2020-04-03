@@ -8,7 +8,7 @@ import axios from '../../axios';
 export interface Tables{
     table_number: number,
     table_size: number,
-    table_status: boolean
+    table_status: string
 }
 
 export interface ServerResponse{
