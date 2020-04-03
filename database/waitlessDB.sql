@@ -1,7 +1,7 @@
 use Waitless;
 -- Create Category Table
 CREATE TABLE category(
-category_id integer NOT NULL, 
+category_id serial, 
 category_name varchar(50) NOT NULL, 
 visibility bool,  
 position_in_menu integer UNIQUE,
