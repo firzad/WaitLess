@@ -39,7 +39,7 @@ FOREIGN KEY(menu_id) REFERENCES Menu(menu_id) ON DELETE CASCADE,
 FOREIGN KEY(ingredient_id) REFERENCES ingredients(ingredient_id) ON DELETE CASCADE);
 -- Create table_details Table
 CREATE TABLE table_details(
-table_number BIGSERIAL NOT NULL UNIQUE , 
+table_number BIGSERIAL NOT NULL UNIQUE, 
 table_size integer, 
 table_status varchar(50) NOT NULL,
 PRIMARY KEY(table_number));

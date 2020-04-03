@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
 import Restaurant from '@material-ui/icons/Restaurant';
@@ -8,38 +8,37 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import axios from '../../axios';
+
+//import interfaces
+import {Tables, ServerResponse} from "../../interfaces/table"
 
 
 export default function AvailableTables(){
-	
 
-	/////////////////////////
-	//const tables = backend.getActiveTables() //calls backend, gets active tables
-	///////////////////
+	const [free_tables, setFreeTables] = React.useState<Tables | any>([]);
 
-	const tables = ['6','9','10']
-
-	const [free_tables, setFreeTables] = React.useState(tables);
-
-	function updateFreeTables(){
-		///CALL BACKEND
-		///new_tables = backend.getfreetables()
-		const free_tables = ['6','9','11']
-		setFreeTables(free_tables)
-	}
+	useEffect(() => {
+        axios.get(`Tables/free`).then(
+            (res: ServerResponse) => {
+                const data = res.data;
+                setFreeTables(data);
+            }
+        )
+    });
 
 		
 	function mapReactTableList(){
 
 		return free_tables.map((table) =>(
-			<ListItem key = {table}>
+			<ListItem key = {table.table_number}>
 	          <ListItemAvatar>
 	            <Avatar>
 	              <Restaurant	 />
 	            </Avatar>
 	          </ListItemAvatar>
 	          <ListItemText
-	            primary={"Table " + table.toString()}
+	            primary={"Table " + table.table_number.toString() + ': ' + table.table_size.toString() + ' Seats'}
 	          />
 	          <ListItemSecondaryAction>
 	            <IconButton edge="end" aria-label="More">
@@ -51,7 +50,6 @@ export default function AvailableTables(){
 	}
 
 	const reactTableList = mapReactTableList()
-	setInterval(updateFreeTables,5000);
 
 	return(
 		<React.Fragment>
