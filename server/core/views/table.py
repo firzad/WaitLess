@@ -7,7 +7,8 @@ from core import db
 table_resource_fields = {
     'table_number': fields.Integer,
     'table_size': fields.Integer,
-    'table_status': fields.String    
+    'table_status': fields.String,
+    'current_session': fields.Integer 
 }
 
 parser = reqparse.RequestParser()

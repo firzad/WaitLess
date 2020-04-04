@@ -4,6 +4,7 @@ from core import app
 from .menu import MenuItems
 from .table import TableDetail, TableDetailById, FreeTables, ActiveTables
 from .category import Categories, CategoryById
+from .ticket import Ticket
 
 api = Api(app)   
 
@@ -15,6 +16,8 @@ api.add_resource(ActiveTables, '/Tables/active')
 api.add_resource(TableDetailById, '/Tables/<table_number>')
 api.add_resource(Categories, '/Categories')
 api.add_resource(CategoryById, '/Categories/<category_id>')
+api.add_resource(Ticket, '/Ticket/<session_id>')
+
 
 if __name__ == '__main__':
     app.run()
