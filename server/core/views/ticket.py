@@ -12,7 +12,7 @@ table_resource_fields = {
 }
 
 parser = reqparse.RequestParser()
-parser.add_argument('session_id','table_number')
+parser.add_argument('session_id')
 
 class Ticket(Resource):
 

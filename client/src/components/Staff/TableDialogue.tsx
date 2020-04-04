@@ -11,8 +11,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { commonStyles } from "../../styles/generalStyles";
+import axios from '../../axios';
+
+//import interfaces
+import {TicketItemResponse, TicketItem} from "../../interfaces/ticket"
+//import {Tables} from "../../interfaces/table"
 
 
 function TableDetails(props){
@@ -21,70 +27,65 @@ function TableDetails(props){
 	const tableid = props.tableid
 	const [expanded, setExpanded] = React.useState('');
 
+	let [ticket_list, setTicketList] = React.useState<TicketItem | any>([]);
+
 	const expansionChange = (panel) => (event, isExpanded) => {
+		if (isExpanded === true){
+			axios.get('Tables/'+tableid.toString())
+	    	.then(
+	            (res) => {
+	            	const table_details = res.data
+	            	axios.get('Ticket/Session/'+table_details.current_session.toString())
+	            	.then(
+	            		(tk: TicketItemResponse) => {
+	            			setTicketList(tk.data)
+	            		}
+	            	)
+	        })	
+		}
+		
 	    setExpanded(isExpanded ? panel : false);
 	};
 
-	const table_dat = {
-			'freeTables' : 3,
-			'activeTables' : 7,
-			'tableList':{
-				'4' : 'Ordering',
-				'5' : 'Order Ready',
-				'7' : 'Order Ready',
-				'2' : 'Order Delivered',
-				'3' : 'Order Ready',
-				'8' : 'Ordering',
-				'1' : 'Order Delivered'
-				},
-			'icons':{}
-	}
+	return(
+		<div className={classes.expBar}>
+  		<ExpansionPanel expanded={expanded === 'panel1'} onChange={expansionChange('panel1')}>
+      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        	<Typography>Order History</Typography>
+        	</ExpansionPanelSummary>
 
-	if (table_dat.tableList[tableid] === 'Order Ready' || table_dat.tableList[tableid] === 'Order Delivered'){
-		const curr_order = [
-			['Burger','$10'],
-			['Salad','$7'],
-			['Soup','$10'],
-			['Coke','$3']
-		] 
-		return(
-			<div className={classes.expBar}>
-      		<ExpansionPanel expanded={expanded === 'panel1'} onChange={expansionChange('panel1')}>
-	      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-	        	<Typography>Order History</Typography>
-	        	</ExpansionPanelSummary>
+        	<ExpansionPanelDetails>
+        	<List className={classes.expBar}>
 
-	        	<ExpansionPanelDetails>
-	      			<List>
-	     			{curr_order.map((order_item) => (
-						<ListItem>
-							<ListItemText primary={order_item[0] + ": " + order_item[1]}/>
-						</ListItem>
-					))}
-	        		</List>
-	        	</ExpansionPanelDetails>
-			</ExpansionPanel>
-			<ExpansionPanel expanded={expanded === 'panel2'} onChange={expansionChange('panel2')}>
-	      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-	        	<Typography>Table Settings</Typography>
-	        	</ExpansionPanelSummary>
+        		{ticket_list.map((ticket, t_idx) => (
+        			<div className={classes.expBar}>
+        			<Divider variant="fullWidth" component="div" />
 
-	        	<ExpansionPanelDetails>
-	     			<Button variant="contained">Pay Now</Button>
-	        	</ExpansionPanelDetails>
-			</ExpansionPanel>
-			</div>
-		)
-	}
-	else{
-		return(
-			<List>
-				<ListItem>
-					<ListItemText primary={'Currently Ordering'}/>
-				</ListItem>
-        	</List>
-        )
-	}
+					<Typography component="h3" color="primary">{'Order ' + (t_idx+1).toString()}</Typography>
+
+      				{ticket.map((order, o_idx) => (
+     					<ListItem key={order.order_item_id}>
+						<ListItemText primary={'Menu Item: ' + order.menu_id.toString() + ', Remark: ' + order.remark + ', Status: ' + order.item_status}/>
+						</ListItem>	
+     				))}
+     				</div>
+	      		))}
+
+			</List>
+
+        	</ExpansionPanelDetails>
+		</ExpansionPanel>
+		<ExpansionPanel expanded={expanded === 'panel2'} onChange={expansionChange('panel2')}>
+      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        	<Typography>Table Settings</Typography>
+        	</ExpansionPanelSummary>
+
+        	<ExpansionPanelDetails>
+     			<Button variant="contained">Pay Now</Button>
+        	</ExpansionPanelDetails>
+		</ExpansionPanel>
+		</div>
+	)
 }
 
 function TableBox(props){
