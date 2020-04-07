@@ -10,25 +10,25 @@ export function Kitchen() {
         {
             tabeleNo: '1234',
             orderNo: 100,
-            orderDate: new Date('2020-03-30T07:24:55.544Z'),
+            orderDate: new Date('2020-04-01T03:15:50.737Z'),
             orderItems: []
         },
         {
             tabeleNo: '2345',
             orderNo: 101,
-            orderDate: new Date('2020-03-30T07:10:22.449Z'),
+            orderDate: new Date('2020-04-01T03:10:50.737Z'),
             orderItems: []
         },
         {
             tabeleNo: '3456',
             orderNo: 102,
-            orderDate: new Date('2020-03-30T07:17:22.449Z'),
+            orderDate: new Date('2020-04-01T03:05:50.737Z'),
             orderItems: []
         },
         {
             tabeleNo: '4567',
             orderNo: 103,
-            orderDate: new Date('2020-03-30T07:20:22.449Z'),
+            orderDate: new Date('2020-04-01T03:20:50.737Z'),
             orderItems: []
         },
     ]
