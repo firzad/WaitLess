@@ -68,6 +68,11 @@ function TableDetails(props){
 	    setExpanded(isExpanded ? panel : false);
 	};
 
+
+	function handlePayNow(){
+		
+	}
+
 	return(
 		<div className={classes.expBar}>
   		<ExpansionPanel expanded={expanded === 'panel1'} onChange={expansionChange('panel1')}>
@@ -103,7 +108,7 @@ function TableDetails(props){
         	</ExpansionPanelSummary>
 
         	<ExpansionPanelDetails>
-     			<Button variant="contained">Pay Now</Button>
+     			<Button variant="contained" onclick={handlePayNow}>Pay Now</Button>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
 		</div>
