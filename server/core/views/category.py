@@ -19,7 +19,7 @@ class Categories(Resource):
     @marshal_with(category_resource_fields)
     def get(self):
         """Returns a list of categories"""
-        return Category.query.all(), 200
+        return Category.query.order_by(Category.position_in_menu).all(), 200
 
     @marshal_with(category_resource_fields)
     def post(self):

@@ -70,7 +70,7 @@ function TableDetails(props){
 
 
 	function handlePayNow(){
-		
+
 	}
 
 	return(
@@ -108,7 +108,7 @@ function TableDetails(props){
         	</ExpansionPanelSummary>
 
         	<ExpansionPanelDetails>
-     			<Button variant="contained" onclick={handlePayNow}>Pay Now</Button>
+     			<Button variant="contained" onClick={handlePayNow}>Pay Now</Button>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
 		</div>
