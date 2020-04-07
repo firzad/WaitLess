@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState, useEffect} from "react"
+import {useState, useEffect, Fragment} from "react"
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Grid, Card, CardActions, CardContent, Button, TextField } from '@material-ui/core';
 import { userStyles } from "../../styles/userStyles";
@@ -35,27 +35,41 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function TableSetting(){
-    const classes: any = useStyles();
     const styleClasses: any = userStyles();
     const [tables, setTables] = useState<Tables | any>([]);
     const [loading, setLoading] = useState(true);
-    const [newTableSize, setSize] = useState(2);
-
-    const handleNewTableChange = (event) => {
-        setSize(event.target.value);
+    const newTable : Tables = {
+        'table_number': 0,
+        'table_size': 2,
+        'table_status': "Avaliable",
+        'current_session': 0
     }
 
+    // const handleNewTableChange = (event) => {
+    //     setSize(event.target.value);
+    // }
 
-    const addTable = () => {
-        axios.post<Tables>(`Tables`,{'table_size': newTableSize}).then(
+
+    const addTable = (table_size: number) => {
+        axios.post<Tables>(`Tables`,{'table_size': table_size}).then(
             (res:ServerPostResponse) => {
                 let temp = tables;
                 temp.push(res.data);
                 setTables(temp);
-                setSize(2);
             }
         )
     }
+
+    const updateTable = (table_size: number, index: number) => {
+        axios.put<Tables>(`Tables`,{'table_size': table_size}).then(
+            (res:ServerPostResponse) => {
+                let temp = tables;
+                temp[index] = res.data;
+                setTables(temp);
+            }
+        )
+    }
+
 
     useEffect(() => {
         if (tables.length === 0){
@@ -75,35 +89,47 @@ export default function TableSetting(){
             <Grid container spacing={1}>
                 {
                 tables.map((table:Tables, index:number)=>(
-                    <Grid item xs={3} key={index}>
-                        <Card className={classes.root} variant="outlined">
-                            <CardContent className={classes.paper}>
-                                <Grid container direction="column" spacing={3}>
-                                    <TextField label="Table Number" disabled={true} style={{ margin: 8 }} margin="normal" value={table.table_number}/>
-                                    <TextField label="Table Size" style={{ margin: 8 }} margin="normal" value={table.table_size} />
-                                </Grid>
-                            </CardContent>
-                            <CardActions>
-                                <Button>Update</Button>
-                                <Button>Delete</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
+                    <TableDetail table={table} index={index} updateTable={updateTable}/>
                 ))}
-                <Grid item xs={3}>
-                    <Card className={classes.root} variant="outlined">
-                        <CardContent className={classes.paper}>
-                            <Grid container direction="column" spacing={3}>
-                                <TextField label="Table Number" disabled={true} style={{ margin: 8 }} margin="normal" defaultValue="new table"/>
-                                <TextField label="Table Size" style={{ margin: 8 }} margin="normal" value={newTableSize} onChange={handleNewTableChange}/>
-                            </Grid>    
-                        </CardContent>
-                        <CardActions>
-                                <Button onClick={addTable}>Add</Button> 
-                        </CardActions>
-                    </Card>
-                </Grid>
+                <TableDetail table={newTable} index="-1" addTable={addTable}/>
             </Grid>}
         </div>
     )
+}
+
+export function TableDetail(props){
+    const index = props.index;
+    const table = props.table;
+    const [table_size, setTableSize] = useState(props.table.table_size)
+    const classes : any = useStyles()
+
+    const handleTableSizeChange = (event) => {
+        setTableSize(Number(event.target.value));
+    }
+
+
+    return (
+        <Grid item xs={3}>
+            <Card className={classes.root} variant="outlined">
+                <CardContent className={classes.paper}>
+                    <Grid container direction="column" spacing={3}>
+                        { index === "-1" ?
+                        <TextField label="Table Number" disabled={true} style={{ margin: 8 }} margin="normal" defaultValue="new table"/> :
+                        <TextField label="Table Number" disabled={true} style={{ margin: 8 }} margin="normal" value={table.table_number}/> }
+                        <TextField label="Table Size" style={{ margin: 8 }} margin="normal" value={table_size} onChange={handleTableSizeChange}/>
+                    </Grid>    
+                </CardContent>
+                <CardActions>
+                    { index === "-1" ?
+                        <Button onClick={()=>props.addTable(table_size)}>Add</Button> :
+                        <Fragment>
+                            <Button onClick={()=>props.updateTable(table_size, Number(index))}>Update</Button>
+                            <Button>Delete</Button>
+                        </Fragment>
+                    }
+                </CardActions>
+            </Card>
+        </Grid>
+    )
+
 }
