@@ -21,26 +21,6 @@ import {TicketMenuItemResponse, TicketMenuItem} from "../../interfaces/ticket"
 //import {Tables} from "../../interfaces/table"
 
 
-/*interface TicketItemStruct{
-	menu_id: number,
-	item_name: string,
-	price: number,
-	remark: string
-}
-
-function ParseTickets(ticket_data){
-	return ticket_data.map((ticket,t_idx) => (
-		ticket.map((order_item,o_idx) =>(
-			const order_struct: TicketItemStruct = {
-				menu_id: order_item.menu_id,
-				item_name: 
-			}
-		))
-	))
-}
-*/
-
-
 function TableDetails(props){
 	const classes: any = commonStyles();
 
@@ -69,9 +49,6 @@ function TableDetails(props){
 	};
 
 
-	function handlePayNow(){
-		
-	}
 
 	return(
 		<div className={classes.expBar}>
@@ -108,7 +85,7 @@ function TableDetails(props){
         	</ExpansionPanelSummary>
 
         	<ExpansionPanelDetails>
-     			<Button variant="contained" onclick={handlePayNow}>Pay Now</Button>
+     			<Button variant="contained" >Pay Now</Button>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
 		</div>

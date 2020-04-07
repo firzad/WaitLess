@@ -42,3 +42,8 @@ class CategoryById(Resource):
 
         db.session.commit()
         return category, 200
+
+
+    @marshal_with(category_resource_fields) 
+    def get(self, category_id): 
+        return Category.query.filter(Category.category_id == category_id).all(), 200

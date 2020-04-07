@@ -27,7 +27,6 @@ export default function AvailableTables(){
 
 		
 	function mapReactTableList(){
-
 		return free_tables.map((table) =>(
 			<ListItem key = {table.table_number}>
 	          <ListItemAvatar>

@@ -71,6 +71,67 @@ interface TabPanelProps {
 );
 
 export default function Menu(){
+
+
+  /*
+  initialise your states:
+  - categories
+    . select 
+
+
+  alternative:
+  const [current_category, setCategory] = state
+
+  const list_categories = []
+  const menu_items = None
+  axios.get(categories){
+    setCategory(response[0])
+    menu_items = [size(categories)]
+    for each category{
+      axios.get(categories/menu){
+        menu_items.append([array of menu items])
+      }
+    }
+  }
+  */
+
+
+  /*
+  RENDER FUNCTION DECLARATIONS
+  function renderMenuItems(curr_cat){
+    <list>
+      menu_items[current_category].map(item){
+        <listitem> item.name </listitem>
+      }
+    </list
+  }
+
+  function renderCategories{ 
+    <div>
+    list_categories.map(){
+      <header> category_name </header>
+    }
+    </div
+
+  }
+
+
+  //final return statement
+  return(
+  .....
+  .....
+    </renderCategories>
+
+    <gridlist>
+    </renderMenuItems>
+    </gridlist>
+
+  )
+
+  */
+
+
+
     const imagePath = 'assets/Customer/'
     //const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
@@ -80,6 +141,8 @@ export default function Menu(){
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+
+
     return(
         <Container maxWidth="lg" className={classes1.container}>
             <Grid container spacing={3}>

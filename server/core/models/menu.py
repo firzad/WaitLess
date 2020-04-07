@@ -13,6 +13,3 @@ class Menu(db.Model):
     date_added = db.Column(db.DateTime)
     total_calories = db.Column(db.Integer)
     discount = db.Column(db.Integer)
-
-
-
