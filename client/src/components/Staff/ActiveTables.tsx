@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import List from '@material-ui/core/List';
 import Restaurant from '@material-ui/icons/Restaurant';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,86 +10,61 @@ import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DoneIcon from '@material-ui/icons/Done';
 import TableDialogue from './TableDialogue'
+import axios from '../../axios';
+
+//import interfaces
+import {Tables, ServerResponse} from "../../interfaces/table"
 
 
 export default function ActiveTables(){
-	///new_tables = backend.getactivetables()
-	const tables = {
-		'freeTables' : 3,
-		'activeTables' : 7,
-		'tableList':{
-			'4' : 'Ordering',
-			'5' : 'Preparing Order',
-			'7' : 'Order Ready',
-			'2' : 'Order Ready',
-			'3' : 'Preparing Order',
-			'8' : 'Ordering',
-			'1' : 'Order Delivered'
-			},
-		'icons':{}
+
+	function createIcons(){
+		const icons = active_tables.map((table) => {
+				switch(table.table_status){
+					case 'Seated':
+						return <MenuBookIcon />
+					case 'Preparing Order':
+						return <Restaurant />
+					case 'Ready to Deliver':
+						return <LocalDiningIcon />
+					case 'Delivered':
+						return <DoneIcon />
+					default:
+						return <MenuBookIcon />
+				}
+		})
+		return icons
 	}
 
-	function createIcons(tables){
-		tables.icons = {}
-		for (const table in tables.tableList){
-			switch(tables.tableList[table]){
-				case 'Ordering':
-					tables.icons[table] = <MenuBookIcon />
-					break
-				case 'Preparing Order':
-					tables.icons[table] = <Restaurant />
-					break
-				case 'Order Ready':
-					tables.icons[table] = <LocalDiningIcon />
-					break
-				case 'Order Delivered':
-					tables.icons[table] = <DoneIcon />
-					break
-			}
-		}
-	}
 
-	createIcons(tables)
+	const [active_tables, setActiveTables] = React.useState<Tables | any>([]);
+	const [table_icons, setTableIcons] = React.useState([<MenuBookIcon />])
 
-	const [active_tables, setActiveTables] = React.useState(tables);
-
-	function updateActiveTables(){
-		///CALL BACKEND
-		///new_tables = backend.getactivetables()
-		const new_tables = {
-			'freeTables' : 3,
-			'activeTables' : 7,
-			'tableList':{
-				'4' : 'Ordering',
-				'5' : 'Order Ready',
-				'7' : 'Order Ready',
-				'2' : 'Order Delivered',
-				'3' : 'Order Ready',
-				'8' : 'Ordering',
-				'1' : 'Order Delivered'
-				},
-			'icons':{}
-		}
-		createIcons(new_tables)
-
-		setActiveTables(new_tables)
-	}
+	useEffect(() => {
+		axios.get(`Tables/active`).then(
+            (res: ServerResponse) => {
+                const data = res.data;
+                setActiveTables(data);
+                setTableIcons(createIcons())
+            }
+        )
+	})
 	
 
 	function mapReactTableList(){
-		return Object.keys(active_tables.tableList).map((tableid) =>(
-			<ListItem key = {tableid}>
+		return active_tables.map((table, index) =>(
+			<ListItem key = {table.table_number}>
 	          <ListItemAvatar>
 	            <Avatar>
-	            	{active_tables.icons[tableid]}
+	            	{table_icons[index]}
 	            </Avatar>
 	          </ListItemAvatar>
 	          <ListItemText
-	            primary={"Table " + tableid.toString() + ": " + active_tables.tableList[tableid]}
+	            primary={"Table " + table.table_number.toString() + ": " + table.table_status}
 	          />
 	          <ListItemSecondaryAction>
 	            
-	          <TableDialogue table={tableid}/>
+	          <TableDialogue table={table.table_number}/>
 	          
 	          </ListItemSecondaryAction>
 	        </ListItem>
@@ -97,7 +72,7 @@ export default function ActiveTables(){
 	}
 
 	const reactTableList = mapReactTableList()
-	setInterval(updateActiveTables,5000);
+	//setInterval(updateActiveTables,500000);
 	return(
 		<React.Fragment>
 			<List>

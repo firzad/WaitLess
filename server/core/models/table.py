@@ -6,6 +6,7 @@ class TableDetails(db.Model):
     table_number = db.Column(db.Integer, primary_key=True)
     table_size = db.Column(db.Integer)
     table_status = db.Column(db.String)
+    current_session = db.Column(db.Integer)
 
     def __init__(self, size):
         self.table_size = size

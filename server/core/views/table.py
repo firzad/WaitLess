@@ -7,7 +7,8 @@ from core import db
 table_resource_fields = {
     'table_number': fields.Integer,
     'table_size': fields.Integer,
-    'table_status': fields.String    
+    'table_status': fields.String,
+    'current_session': fields.Integer 
 }
 
 parser = reqparse.RequestParser()
@@ -57,3 +58,26 @@ class TableDetailById(Resource):
         return table_status, 200
 
 
+
+class FreeTables(Resource):
+    @marshal_with(table_resource_fields)
+    def get(self):
+        """Return list of free tables"""
+        free_tables = []
+        tables = TableDetails.query.all()
+        for table in tables:
+            if table.table_status == "Empty":
+                free_tables.append(table)
+        return free_tables, 200
+
+
+class ActiveTables(Resource):
+    @marshal_with(table_resource_fields)
+    def get(self):
+        """Return list of all active tables"""
+        active_tables = []
+        tables = TableDetails.query.all()
+        for table in tables:
+            if table.table_status != "Empty":
+                active_tables.append(table)
+        return active_tables, 200

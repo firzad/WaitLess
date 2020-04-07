@@ -5,19 +5,10 @@ import { Grid, Card, CardActions, CardContent, Button, TextField } from '@materi
 import { userStyles } from "../../styles/userStyles";
 import axios from '../../axios';
 
-export interface Tables{
-    table_number: number,
-    table_size: number,
-    table_status: boolean
-}
+//import interfaces
+import {Tables, ServerResponse, ServerPostResponse} from "../../interfaces/table"
 
-export interface ServerResponse{
-    data: [Tables]
-}
-
-export interface ServerPostResponse{
-    data: Tables
-}
+    
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
