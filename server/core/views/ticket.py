@@ -3,7 +3,6 @@ from flask_restful import Resource, fields, marshal_with, reqparse, request
 from core.models.ticket import TicketModel
 from core import db
 
-
 ticket_resource_fields = {
     'ticket_id': fields.Integer,
     'session_id': fields.Integer,

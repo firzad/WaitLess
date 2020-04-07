@@ -57,3 +57,10 @@ class MenuItemById(Resource):
     def get_no_marshal(self, menu_id):
         """Return menu item by id, non marshaled object directly. used internally by ticket_item.py view"""
         return Menu.query.filter(Menu.menu_id == menu_id).all()
+
+
+class MenuItemByCategory(Resource):
+    @marshal_with(menu_resource_fields)
+    def get(self, category_id):
+        """Return menu item by id"""
+        return Menu.query.filter(Menu.category_id == category_id).all(), 200
