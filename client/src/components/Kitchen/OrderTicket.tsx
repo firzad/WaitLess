@@ -30,7 +30,7 @@ export function OrderTicket(props: any) {
         return () => {
             clearInterval(id);
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [dateTime]);
 
     return (
@@ -48,7 +48,7 @@ export function OrderTicket(props: any) {
                     //     <MoreVertIcon />
                     // </IconButton>
                     // }
-                    title={`Table #${props.value}`}
+                    title={`Table #${props.orderItem.tabeleNo}     Order #${props.orderItem.orderNo}`}
                     subheader={moment.utc(dateTime.asMilliseconds()).format("HH:mm:ss")}
                 />
                 <CardContent>
@@ -64,6 +64,15 @@ export function OrderTicket(props: any) {
                             <FormControlLabel className={styleClasses.formControlLabel}
                                 control={<Checkbox value="Test Item #1" inputProps={{ 'aria-label': 'Test Item #1' }} />}
                                 label="Test Item #1" />
+                            <Typography variant="body2" component="p">
+                                {"+ Ingredient #1"}
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                {"+ Ingredient #2"}
+                            </Typography>
+                            <Typography variant="body2" component="p">
+                                {"- Ingredient #3"}
+                            </Typography>
                             <FormControlLabel className={styleClasses.formControlLabel}
                                 control={<Checkbox value="Test Item #2" inputProps={{ 'aria-label': 'Test Item #2' }} />}
                                 label="Test Item #2" />

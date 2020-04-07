@@ -15,3 +15,4 @@ class Menu(db.Model):
     discount = db.Column(db.Integer)
 
 
+

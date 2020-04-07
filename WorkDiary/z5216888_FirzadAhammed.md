@@ -45,3 +45,15 @@ Started working on the Kitchen view of the app. Currently working on the initial
 
 ## Week 6
 ---------
+Working on order ticket component at the kitchen side.
+
+Ticket latyout has been setup. Categorical classification needs to be implemented.
+
+A standalone timer component has been created.
+
+
+## Week 7
+---------
+Working on setting up a push notification system which alerts system regarding updates and changes.
+
+Set up Flask-Socket-IO for asynchronous server messages.

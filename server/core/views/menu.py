@@ -14,7 +14,6 @@ menu_resource_fields = {
     'date_added': fields.String,
     'total_calories': fields.Integer,
     'discount': fields.Integer
-    
 }
 
 class MenuItems(Resource):
@@ -22,3 +21,13 @@ class MenuItems(Resource):
     def get(self):
         """Return the list of all MenuItems."""
         return Menu.query.all(), 200
+
+class MenuItemById(Resource):
+    @marshal_with(menu_resource_fields)
+    def get(self, menu_id):
+        """Return menu item by id"""
+        return Menu.query.filter(Menu.menu_id == menu_id).all(), 200
+
+    def get_no_marshal(self, menu_id):
+        """Return menu item by id, non marshaled object directly. used internally by ticket_item.py view"""
+        return Menu.query.filter(Menu.menu_id == menu_id).all()

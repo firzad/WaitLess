@@ -1,53 +1,141 @@
 import * as React from "react";
-
+import clsx from 'clsx';
+//import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+//import Paper from '@material-ui/core/Paper';
+//import PropTypes from 'prop-types';
 import MenuIcon from '@material-ui/icons/Menu';
-
-import { Link } from "react-router-dom";
+//import Tabs from '@material-ui/core/Tabs';
+//import Tab from '@material-ui/core/Tab';
+//import { Link } from "react-router-dom";
 import { userStyles } from "src/styles/userStyles";
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Typography} from "@material-ui/core";
+import { commonStyles } from "../../styles/generalStyles";
+//import GridList from '@material-ui/core/GridList';
+//import GridListTile from '@material-ui/core/GridListTile';
+//import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+//import tileData from './tileData';
+//import categoryList from './categoryList';
+//import Bucket from './Bucket';
+import ModifyOrder from './ModifyOrder';
+import Menu from './Menu'
+import Bucket from './Bucket';
 
-export function Customer() {
+const drawerWidth = 240;
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexGrow: 1,
+      //width: '100%',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      overflow: 'hidden',
+      backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+      //width: ,
+      height: 450,
+    },
+    icon: {
+      color: 'rgba(255, 255, 255, 0.54)',
+    },
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    menuButton: {
+      marginLeft: theme.spacing(2),
+    },
+    hide: {
+      display: 'none',
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      marginRight: 0,
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: drawerWidth,
+    },
+  }),
+);
+export function Customer() { 
+    ////const imagePath = 'assets/Customer/'
     const styleClasses: any = userStyles();
+    const classes1: any = commonStyles();
+    const classes = useStyles();
+    //const [value, setValue] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
+    const [/*index, */setIndex] = React.useState(0);
+    const handleDrawerOpen = () => {
+      setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+     
     return (
         <div className={styleClasses.root}>
-            <AppBar position="static" className={styleClasses.appBar}>
+            <AppBar position="static" className={clsx(classes1.appBar)}>
                 <Toolbar>
-                    <Link to="/home">
-                        <IconButton edge="start" className={styleClasses.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton>
-                    </Link>
                     <Typography variant="h6" className={styleClasses.title}>
-                        Menu
-                </Typography>
+                        Customer
+                    </Typography>
+                      <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
+                        color="inherit" 
+                        aria-label="open drawer" 
+                        onClick={handleDrawerOpen}>
+                            <MenuIcon />
+                      </IconButton>
+
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>
-            <main className={styleClasses.content}>
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                    facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                    gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                    donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                    Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                    imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                    arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                    donec massa sapien faucibus et molestie ac.
-                </Typography>
-                <Typography paragraph>
-                    Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                    facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                    tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                    consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                    vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                    hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                    tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                    nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                    accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-                </Typography>
+            <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} open={open}/>
+            <main className={clsx(classes.content, {[classes.contentShift]: open,})} >
+              <Container className={classes1.container}>
+                  <Grid container spacing={3}>
+                    <Grid item md={7}>
+                      <Menu/>
+                    </Grid>
+                    <Grid item md={5}>
+                        <Bucket/>
+                        <ModifyOrder/>
+                    </Grid>
+                  </Grid>
+              </Container>
             </main>
         </div>
     );
 }
+

@@ -4,7 +4,7 @@ from core.models.ticket import TicketModel
 from core import db
 
 
-table_resource_fields = {
+ticket_resource_fields = {
     'ticket_id': fields.Integer,
     'session_id': fields.Integer,
     'ticket_timestamp': fields.DateTime,
@@ -16,7 +16,7 @@ parser.add_argument('session_id')
 
 class Ticket(Resource):
 
-    @marshal_with(table_resource_fields)
+    @marshal_with(ticket_resource_fields)
     def get(self, session_id):
         """get ticket details"""
         ticket = TicketModel.query.filter(TicketModel.session_id == session_id).all()
