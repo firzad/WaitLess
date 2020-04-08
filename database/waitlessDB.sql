@@ -1,11 +1,11 @@
 use Waitless;
 -- Create Category Table
 CREATE TABLE category(
-category_id serial, 
+category_id serial NOT NULL UNIQUE, 
 category_name varchar(50) NOT NULL, 
 visibility bool,  
 position_in_menu integer UNIQUE,
-primary key(category_id));
+PRIMARY KEY(category_id));
 -- Create Ingredients Table
 CREATE TABLE ingredients(
 ingredient_id integer NOT NULL,
@@ -15,14 +15,14 @@ calorie float,
 PRIMARY KEY(ingredient_id));
 -- Create Menu Table
 CREATE TABLE Menu(
-menu_id integer NOT NULL,
+menu_id serial NOT NULL UNIQUE,
 category_id integer NOT NULL,
 item_name varchar(50) NOT NULL, 
 description varchar(150), 
 price float NOT NULL, 
 visibility bool, 
 position_in_menu integer,  
-date_added timestamp, 
+date_added timestamp default current_timestamp, 
 total_calories float, 
 discount float,
 PRIMARY KEY(menu_id),

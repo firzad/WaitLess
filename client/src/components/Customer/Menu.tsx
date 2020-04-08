@@ -23,7 +23,7 @@ import axios from '../../axios';
 
 //import interfaces
 //import {Menu, MenuResponse} from "../../interfaces/menu"
-import {Category, CategoryResponse} from "../../interfaces/menu"
+import {Category, CategoryResponse} from "../../interfaces/category"
 /*
   initialise your states:
   - categories

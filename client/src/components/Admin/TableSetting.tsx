@@ -53,9 +53,7 @@ export default function TableSetting(){
     const addTable = (table_size: number) => {
         axios.post<Tables>(`Tables`,{'table_size': table_size}).then(
             (res:ServerPostResponse) => {
-                let temp = tables;
-                temp.push(res.data);
-                setTables(temp);
+                setTables((tables) => [...tables, res.data]);
             }
         )
     }

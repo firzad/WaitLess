@@ -11,7 +11,7 @@ class TicketItemModel(db.Model):
     remark = db.Column(db.String)
     item_status = db.Column(db.String)
 
-    def __init__(self, ticket_id, menu_id, ingredients_added, ingredients_removed, remark, item_status):
+    def __init__(self, order_item_id, ticket_id, menu_id, ingredients_added, ingredients_removed, remark, item_status):
         self.order_item_id = order_item_id
         self.ticket_id = ticket_id
         self.menu_id = menu_id

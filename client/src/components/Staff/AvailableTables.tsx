@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import List from '@material-ui/core/List';
-import IconButton from '@material-ui/core/IconButton';
 import Restaurant from '@material-ui/icons/Restaurant';
 import ListItem from '@material-ui/core/ListItem';
-import MoreVert from '@material-ui/icons/MoreVert';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -29,7 +27,6 @@ export default function AvailableTables(){
 
 		
 	function mapReactTableList(){
-
 		return free_tables.map((table) =>(
 			<ListItem key = {table.table_number}>
 	          <ListItemAvatar>
@@ -38,12 +35,12 @@ export default function AvailableTables(){
 	            </Avatar>
 	          </ListItemAvatar>
 	          <ListItemText
-	            primary={"Table " + table.table_number.toString() + ': ' + table.table_size.toString() + ' Seats'}
+	            primary={"Table " + table.table_number.toString()}
 	          />
 	          <ListItemSecondaryAction>
-	            <IconButton edge="end" aria-label="More">
-	              <MoreVert />
-	            </IconButton>
+	            <ListItemText
+	            primary={table.table_size.toString() + ' Seats'}
+	          />
 	          </ListItemSecondaryAction>
 	        </ListItem>
 		))

@@ -17,7 +17,7 @@ import { commonStyles } from "../../styles/generalStyles";
 import axios from '../../axios';
 
 //import interfaces
-import {TicketItemResponse, TicketItem} from "../../interfaces/ticket"
+import {TicketMenuItemResponse, TicketMenuItem} from "../../interfaces/ticket"
 //import {Tables} from "../../interfaces/table"
 
 
@@ -27,7 +27,7 @@ function TableDetails(props){
 	const tableid = props.tableid
 	const [expanded, setExpanded] = React.useState('');
 
-	let [ticket_list, setTicketList] = React.useState<TicketItem | any>([]);
+	let [ticket_list, setTicketList] = React.useState<TicketMenuItem | any>([]);
 
 	const expansionChange = (panel) => (event, isExpanded) => {
 		if (isExpanded === true){
@@ -37,7 +37,8 @@ function TableDetails(props){
 	            	const table_details = res.data
 	            	axios.get('Ticket/Session/'+table_details.current_session.toString())
 	            	.then(
-	            		(tk: TicketItemResponse) => {
+	            		(tk: TicketMenuItemResponse) => {
+	            			//const ticket_struct = ParseTickets(tk.data)//parse tickets and get the menu details for each
 	            			setTicketList(tk.data)
 	            		}
 	            	)
@@ -46,6 +47,8 @@ function TableDetails(props){
 		
 	    setExpanded(isExpanded ? panel : false);
 	};
+
+
 
 	return(
 		<div className={classes.expBar}>
@@ -61,11 +64,12 @@ function TableDetails(props){
         			<div className={classes.expBar}>
         			<Divider variant="fullWidth" component="div" />
 
-					<Typography component="h3" color="primary">{'Order ' + (t_idx+1).toString()}</Typography>
+					<Typography component="h3" color="primary">
+					{'Order ' + (t_idx+1).toString() + ' \xa0\xa0\xa0' + ticket[t_idx].ticket_timestamp.toString().slice(0,-5)}</Typography>
 
       				{ticket.map((order, o_idx) => (
-     					<ListItem key={order.order_item_id}>
-						<ListItemText primary={'Menu Item: ' + order.menu_id.toString() + ', Remark: ' + order.remark + ', Status: ' + order.item_status}/>
+     					<ListItem key={o_idx+t_idx*ticket_list.length}>
+						<ListItemText primary={order.item_name + ', Remark: ' + order.remark + ', Status: ' + order.item_status + ', Price: $' + order.price.toString()}/>
 						</ListItem>	
      				))}
      				</div>
@@ -81,7 +85,7 @@ function TableDetails(props){
         	</ExpansionPanelSummary>
 
         	<ExpansionPanelDetails>
-     			<Button variant="contained">Pay Now</Button>
+     			<Button variant="contained" >Pay Now</Button>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
 		</div>

@@ -1,7 +1,7 @@
 from flask_restful import Api
 
 from core import app
-from .menu import MenuItems
+from .menu import MenuItems, MenuItemById, MenuItemByCategory
 from .table import TableDetail, TableDetailById, FreeTables, ActiveTables
 from .category import Categories, CategoryById
 from .ticket import Ticket
@@ -11,6 +11,8 @@ api = Api(app)
 
 
 api.add_resource(MenuItems, '/Menu')
+api.add_resource(MenuItemById, '/Menu/<menu_id>')
+api.add_resource(MenuItemByCategory, '/Menu/Category/<category_id>')
 api.add_resource(TableDetail, '/Tables')
 api.add_resource(FreeTables, '/Tables/free')
 api.add_resource(ActiveTables, '/Tables/active')
