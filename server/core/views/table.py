@@ -81,3 +81,13 @@ class ActiveTables(Resource):
             if table.table_status != "Empty":
                 active_tables.append(table)
         return active_tables, 200
+
+class TableSession(Resource):
+    @marshal_with(table_resource_fields)
+    def patch(self, table_number):
+        table = TableDetails.query.get_or_404(table_number)
+
+        if 'session_id' in request.json:
+            table.current_session = request.json['session_id']
+        db.session.commit()
+        return table, 200

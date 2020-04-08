@@ -6,6 +6,7 @@ from .table import TableDetail, TableDetailById, FreeTables, ActiveTables
 from .category import Categories, CategoryById
 from .ticket import Ticket
 from .ticket_item import TicketItem, TicketsBySession
+from .summary import SummaryTable, SummaryById
 
 api = Api(app)   
 
@@ -13,6 +14,8 @@ api = Api(app)
 api.add_resource(MenuItems, '/Menu')
 api.add_resource(MenuItemById, '/Menu/<menu_id>')
 api.add_resource(MenuItemByCategory, '/Menu/Category/<category_id>')
+api.add_resource(SummaryTable, '/Summary')
+api.add_resource(SummaryById, '/Summary/<session_id>')
 api.add_resource(TableDetail, '/Tables')
 api.add_resource(FreeTables, '/Tables/free')
 api.add_resource(ActiveTables, '/Tables/active')
