@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-import { Typography, Grid} from '@material-ui/core';
+import { Typography, Grid, Paper} from '@material-ui/core';
 //import { userStyles } from "src/styles/userStyles";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -52,6 +52,12 @@ const useStyles = makeStyles((theme: Theme) =>
         ...theme.mixins.toolbar,
         justifyContent: 'flex-start',
       },
+      paper: {
+          padding: theme.spacing(1),
+          alignItems: 'center',
+          alignText: 'center',
+          height: '100%'
+      }
 })
 );
 
@@ -100,9 +106,11 @@ export default function Bucket(props){
                 </Typography>
             </div>
             <Divider/>
-            <Grid container spacing={4} align-content="flex-start" align-items="flex-start" justify-content="flex-start">
-                <Grid item>
-                    <Typography variant="h5" align="right">
+            <Paper className={classes.paper}>
+             <Grid container spacing={4} direction="column" justify="center">
+             <Grid item container justify="center">
+                <Grid item> 
+                    <Typography variant="h5" align="center">
                         Item Name
                     </Typography>
                 </Grid>
@@ -115,18 +123,22 @@ export default function Bucket(props){
                         </ListItem>
                         ))}
                     </List>
+                    <Divider/>
                 </Grid>
-                <Grid item>
-                    <Button variant="contained" size="medium" color="primary">
+                <Grid item >
+                    <Button size="medium" color="primary">
                         PLACE ORDER
                     </Button>
+                    <Divider/>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" size="medium" color="primary">
+                    <Button size="medium" color="primary">
                         PAY BILL
                     </Button>
                 </Grid>
-            </Grid>
+                </Grid>
+            </Grid> 
+            </Paper>
         </Drawer>
     );
 }

@@ -96,6 +96,7 @@ export function Customer() {
     //const [value, setValue] = React.useState(0);
     const [open, setOpen] = React.useState(false);
     const [/*index, */setIndex] = React.useState(0);
+    const [openModify, setModify] = React.useState(false);
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -125,14 +126,14 @@ export function Customer() {
             <main className={clsx(classes.content, {[classes.contentShift]: open,})} >
               <Container className={classes1.container}>
                   <Grid container spacing={3}>
-                    <Grid item md={7}>
-                      <Menu/>
+                    <Grid item md={9}>
+                      <Menu setModify={setModify}/>
                     </Grid>
-                    <Grid item md={5}>
-                        <Bucket/>
-                        <ModifyOrder/>
+                    <Grid item md={3}>
+                        {openModify?<ModifyOrder/>:null}
                     </Grid>
                   </Grid>
+                  <Bucket/>
               </Container>
             </main>
         </div>

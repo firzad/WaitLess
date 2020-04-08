@@ -3,6 +3,7 @@ import * as React from "react";
 //import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+//import {useState, useEffect, Fragment} from "react"
 //import Paper from '@material-ui/core/Paper';
 //import PropTypes from 'prop-types';
 //import MenuIcon from '@material-ui/icons/Menu';
@@ -14,11 +15,61 @@ import { Box/*, AppBar, Toolbar, IconButton*/, Typography } from "@material-ui/c
 import { commonStyles } from "../../styles/generalStyles";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+//import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import tileData from './tileData';
-import categoryList from './categoryList';
+//import tileData from './tileData';
+//import categoryList from './categoryList';
+import axios from '../../axios';
 
+//import interfaces
+//import {Menu, MenuResponse} from "../../interfaces/menu"
+import {Category, CategoryResponse} from "../../interfaces/menu"
+/*
+  initialise your states:
+  - categories
+    . select 
+  alternative:
+  const [current_category, setCategory] = state
+  const list_categories = []
+  const menu_items = None
+  axios.get(categories){
+    setCategory(response[0])
+    menu_items = [size(categories)]
+    for each category{
+      axios.get(categories/menu){
+        menu_items.append([array of menu items])
+      }
+    }
+  }
+  */
+
+
+  /*
+  RENDER FUNCTION DECLARATIONS
+  function renderMenuItems(curr_cat){
+    <list>
+      menu_items[current_category].map(item){
+        <listitem> item.name </listitem>
+      }
+    </list
+  }
+  function renderCategories{ 
+    <div>
+    list_categories.map(){
+      <header> category_name </header>
+    }
+    </div
+  }
+  //final return statement
+  return(
+  .....
+  .....
+    </renderCategories>
+    <gridlist>
+    </renderMenuItems>
+    </gridlist>
+  )
+  */
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -69,9 +120,11 @@ interface TabPanelProps {
     },
   }),
 );
-
-export default function Menu(){
-    const imagePath = 'assets/Customer/'
+export default function Menu(props){
+    const [current_category,setCategory] = React.useState<Category | any>([]);
+    //const [menu, setMenu] = React.useState<Menu | any>([]);
+    //const menuItem=[]
+    //const imagePath = 'assets/Customer/'
     //const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
     const classes = useStyles();
@@ -80,6 +133,54 @@ export default function Menu(){
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+
+    axios.get('Categories').then(
+        (res:CategoryResponse) =>{
+            const categoryList=res.data
+            setCategory(categoryList)
+            /*axios.get('/Menu/Category/'+categoryList.category_id.toString()).then(
+                (menuItem:MenuResponse)=>{
+                    const menuData = menuItem.data
+                    setMenu(menuData)
+                }
+            )*/
+        }
+    )
+
+    /*function renderMenuItems(){
+        return(tileData.map(tile => (
+            <GridListTile key={tile.img} onClick={props.setModify}>
+                console.log("---------")
+                console.log(title.img)
+                <Typography>{tile.img}</Typography>
+                <img src={imagePath+tile.img} alt={tile.title} />
+                <GridListTileBar
+                title={tile.title}
+                subtitle={<span>$ {tile.author}</span>}
+                />
+            </GridListTile>
+            ))
+        )
+    }
+    const menuItemList = renderMenuItems()*/
+
+    function renderCategoryItems(){
+        return(current_category.map((category,index) => (
+            <TabPanel value={category.category_name} index={index}>
+                <GridList cellHeight={180} cols={4} className={classes.gridList}>
+                    <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
+                    </GridListTile>
+                    {
+                        // menuItemList
+                        console.log(category)
+                    }
+                </GridList>
+            </TabPanel>
+            ))
+
+        )
+    }
+    const categoryList = renderCategoryItems()
     return(
         <Container maxWidth="lg" className={classes1.container}>
             <Grid container spacing={3}>
@@ -92,31 +193,14 @@ export default function Menu(){
                 variant="scrollable"
                 scrollButtons="auto">
                 
-                {categoryList.map((category,index) => (
-                <Tab label={category.label} {...a11yProps(index)}/>
+                {current_category.map((category,index) => (
+                <Tab label={category.category_name} {...a11yProps(index)}/>
                 ))}
                 </Tabs>
             </Grid>
-            {categoryList.map((category,index) => (
-            <TabPanel value={value} index={index}>
-                <GridList cellHeight={180} cols={4} className={classes.gridList}>
-                    <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
-                    </GridListTile>
-                    {tileData.map(tile => (
-                    <GridListTile key={tile.img}>
-                        console.log("---------")
-                        console.log(title.img)
-                        <Typography>{tile.img}</Typography>
-                        <img src={imagePath+tile.img} alt={tile.title} />
-                        <GridListTileBar
-                        title={tile.title}
-                        subtitle={<span>$ {tile.author}</span>}
-                        />
-                    </GridListTile>
-                    ))}
-                </GridList>
-            </TabPanel>
-            ))}
+            {
+                categoryList
+            }
         </Container>
     );
-} 
+}
