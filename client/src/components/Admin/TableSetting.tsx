@@ -58,12 +58,23 @@ export default function TableSetting(){
         )
     }
 
-    const updateTable = (table_size: number, index: number) => {
-        axios.put<Tables>(`Tables`,{'table_size': table_size}).then(
+    const updateTable = (table_number:number, table_size: number, index: number) => {
+        axios.patch<Tables>(`Tables/`+table_number.toString(),{'table_size': table_size}).then(
             (res:ServerPostResponse) => {
                 let temp = tables;
                 temp[index] = res.data;
                 setTables(temp);
+            }
+        )
+    }
+
+    const deleteTable = (table_number:number, table_size: number, index: number) => {
+        axios.delete(`Tables/`+table_number.toString(),{'table_size': table_size}).then(
+            (res:any) => {
+                setTables(tables => {
+                    const list = tables.filter((item, j) => index !== j);
+                    return list
+                });
             }
         )
     }
@@ -87,7 +98,7 @@ export default function TableSetting(){
             <Grid container spacing={1}>
                 {
                 tables.map((table:Tables, index:number)=>(
-                    <TableDetail table={table} index={index} updateTable={updateTable}/>
+                    <TableDetail table={table} index={index} updateTable={updateTable} deleteTable={deleteTable}/>
                 ))}
                 <TableDetail table={newTable} index="-1" addTable={addTable}/>
             </Grid>}
@@ -121,8 +132,8 @@ export function TableDetail(props){
                     { index === "-1" ?
                         <Button onClick={()=>props.addTable(table_size)}>Add</Button> :
                         <Fragment>
-                            <Button onClick={()=>props.updateTable(table_size, Number(index))}>Update</Button>
-                            <Button>Delete</Button>
+                            <Button onClick={()=>props.updateTable(table.table_number, table_size, Number(index))}>Update</Button>
+                            <Button onClick={()=>props.deleteTable(table.table_number, table_size, Number(index))}>Delete</Button>
                         </Fragment>
                     }
                 </CardActions>

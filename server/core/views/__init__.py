@@ -6,8 +6,12 @@ from .table import TableDetail, TableDetailById, FreeTables, ActiveTables
 from .category import Categories, CategoryById
 from .ticket import Ticket
 from .ticket_item import TicketItem, TicketsBySession
+<<<<<<< HEAD
 from .ingredients import Ingredients
 from .itemDetails import ItemDetails
+=======
+from .summary import SummaryTable, SummaryById
+>>>>>>> e9ec37801cf1176cb126f0e297fbe9d4a4763e05
 
 api = Api(app)   
 
@@ -15,7 +19,12 @@ api = Api(app)
 api.add_resource(MenuItems, '/Menu')
 api.add_resource(MenuItemById, '/Menu/<menu_id>')
 api.add_resource(MenuItemByCategory, '/Menu/Category/<category_id>')
+<<<<<<< HEAD
 api.add_resource(Ingredients, '/Ingredients')
+=======
+api.add_resource(SummaryTable, '/Summary')
+api.add_resource(SummaryById, '/Summary/<session_id>')
+>>>>>>> e9ec37801cf1176cb126f0e297fbe9d4a4763e05
 api.add_resource(TableDetail, '/Tables')
 api.add_resource(FreeTables, '/Tables/free')
 api.add_resource(ActiveTables, '/Tables/active')
