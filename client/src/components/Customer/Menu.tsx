@@ -1,76 +1,22 @@
 import * as React from "react";
-//import clsx from 'clsx';
-//import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import {/*useState, useEffect, */Fragment} from "react"
-//import Paper from '@material-ui/core/Paper';
-//import PropTypes from 'prop-types';
-//import MenuIcon from '@material-ui/icons/Menu';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-//import { Link } from "react-router-dom";
-//import { userStyles } from "src/styles/userStyles";
 import { Box/*, AppBar, Toolbar, IconButton*/, Typography } from "@material-ui/core";
 import { commonStyles } from "../../styles/generalStyles";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-//import tileData from './tileData';
-//import categoryList from './categoryList';
 import axios from '../../axios';
 
 //import interfaces
 import {MenuJson, MenuResponse} from "../../interfaces/menu"
 import {Category, CategoryResponse} from "../../interfaces/category"
 
-/*
-  initialise your states:
-  - categories
-    . select 
-  alternative:
-  const [current_category, setCategory] = state
-  const list_categories = []
-  const menu_items = None
-  axios.get(categories){
-    setCategory(response[0])
-    menu_items = [size(categories)]
-    for each category{
-      axios.get(categories/menu){
-        menu_items.append([array of menu items])
-      }
-    }
-  }
-  */
 
-
-  /*
-  RENDER FUNCTION DECLARATIONS
-  function renderMenuItems(curr_cat){
-    <list>
-      menu_items[current_category].map(item){
-        <listitem> item.name </listitem>
-      }
-    </list
-  }
-  function renderCategories{ 
-    <div>
-    list_categories.map(){
-      <header> category_name </header>
-    }
-    </div
-  }
-  //final return statement
-  return(
-  .....
-  .....
-    </renderCategories>
-    <gridlist>
-    </renderMenuItems>
-    </gridlist>
-  )
-  */
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -124,7 +70,6 @@ interface TabPanelProps {
 export function RenderMenuItems(props){
     const tileData=props.tileData
     //const imagePath = 'assets/Customer/'
-    //console.log(tileData)
     return(<Fragment>
         {
             tileData.map((tile,index) => {
@@ -193,6 +138,7 @@ export default function Menu(props){
                                 subtitle={<span>$ {tile.price}</span>}
                                 />
                             </GridListTile>
+                            
                         )})
                     }
                 </GridList>
