@@ -3,7 +3,7 @@ import * as React from "react";
 //import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-//import {useState, useEffect, Fragment} from "react"
+import {/*useState, useEffect, */Fragment} from "react"
 //import Paper from '@material-ui/core/Paper';
 //import PropTypes from 'prop-types';
 //import MenuIcon from '@material-ui/icons/Menu';
@@ -15,15 +15,16 @@ import { Box/*, AppBar, Toolbar, IconButton*/, Typography } from "@material-ui/c
 import { commonStyles } from "../../styles/generalStyles";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-//import GridListTileBar from '@material-ui/core/GridListTileBar';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 //import tileData from './tileData';
 //import categoryList from './categoryList';
 import axios from '../../axios';
 
 //import interfaces
-//import {Menu, MenuResponse} from "../../interfaces/menu"
+import {MenuJson, MenuResponse} from "../../interfaces/menu"
 import {Category, CategoryResponse} from "../../interfaces/category"
+
 /*
   initialise your states:
   - categories
@@ -120,59 +121,79 @@ interface TabPanelProps {
     },
   }),
 );
+export function RenderMenuItems(props){
+    const tileData=props.tileData
+    //const imagePath = 'assets/Customer/'
+    //console.log(tileData)
+    return(<Fragment>
+        {
+            tileData.map((tile,index) => {
+                console.log(tile)
+                return(
+                
+            <GridListTile key={tile.menu_id} onClick={props.setModify}>
+                {/* <Typography>{tile.img}</Typography> */}
+                {/* <img src={imagePath+tile.img} alt={tile.title} /> */}
+                <GridListTileBar
+                title={tile.item_name}
+                subtitle={<span>$ {tile.price}</span>}
+                />
+            </GridListTile>
+        )})
+    }
+    </Fragment>)
+}
 export default function Menu(props){
     const [current_category,setCategory] = React.useState<Category | any>([]);
-    //const [menu, setMenu] = React.useState<Menu | any>([]);
-    //const menuItem=[]
-    //const imagePath = 'assets/Customer/'
-    //const styleClasses: any = userStyles();
+    const [menu, setMenu] = React.useState<MenuJson | any>([]);
     const classes1: any = commonStyles();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     
+    
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
-
-    axios.get('Categories').then(
-        (res:CategoryResponse) =>{
-            const categoryList=res.data
-            setCategory(categoryList)
-            /*axios.get('/Menu/Category/'+categoryList.category_id.toString()).then(
-                (menuItem:MenuResponse)=>{
-                    const menuData = menuItem.data
-                    setMenu(menuData)
-                }
-            )*/
-        }
-    )
-
-    /*function renderMenuItems(){
-        return(tileData.map(tile => (
-            <GridListTile key={tile.img} onClick={props.setModify}>
-                console.log("---------")
-                console.log(title.img)
-                <Typography>{tile.img}</Typography>
-                <img src={imagePath+tile.img} alt={tile.title} />
-                <GridListTileBar
-                title={tile.title}
-                subtitle={<span>$ {tile.author}</span>}
-                />
-            </GridListTile>
-            ))
+    React.useEffect(() => {
+        if (current_category.length === 0){
+        axios.get('Categories').then(
+            (res:CategoryResponse) =>{
+                const categoryList=res.data
+                setCategory(categoryList)
+            }
         )
-    }
-    const menuItemList = renderMenuItems()*/
+        }
+        if (menu.length === 0){
+        axios.get('Menu').then(
+            (menuItem:MenuResponse)=>{
+                const menuData = menuItem.data
+                console.log(menuData)
+                setMenu(menuData)
+            }
+        )
+        }
+    })
 
     function renderCategoryItems(){
         return(current_category.map((category,index) => (
-            <TabPanel value={category.category_name} index={index}>
+            <TabPanel value={value} index={index}>
                 <GridList cellHeight={180} cols={4} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
                     </GridListTile>
+                    
                     {
-                        // menuItemList
-                        console.log(category)
+                            menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
+                                return(
+                                
+                            <GridListTile key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
+                                {/* <Typography>{tile.img}</Typography> */}
+                                {/* <img src={imagePath+tile.img} alt={tile.title} /> */}
+                                <GridListTileBar
+                                title={tile.item_name}
+                                subtitle={<span>$ {tile.price}</span>}
+                                />
+                            </GridListTile>
+                        )})
                     }
                 </GridList>
             </TabPanel>

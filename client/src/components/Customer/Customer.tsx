@@ -1,24 +1,13 @@
 import * as React from "react";
 import clsx from 'clsx';
-//import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 //import Paper from '@material-ui/core/Paper';
-//import PropTypes from 'prop-types';
 import MenuIcon from '@material-ui/icons/Menu';
-//import Tabs from '@material-ui/core/Tabs';
-//import Tab from '@material-ui/core/Tab';
-//import { Link } from "react-router-dom";
 import { userStyles } from "src/styles/userStyles";
 import { AppBar, Toolbar, IconButton, Typography} from "@material-ui/core";
 import { commonStyles } from "../../styles/generalStyles";
-//import GridList from '@material-ui/core/GridList';
-//import GridListTile from '@material-ui/core/GridListTile';
-//import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-//import tileData from './tileData';
-//import categoryList from './categoryList';
-//import Bucket from './Bucket';
 import ModifyOrder from './ModifyOrder';
 import Menu from './Menu'
 import Bucket from './Bucket';
@@ -89,14 +78,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 export function Customer() { 
-    ////const imagePath = 'assets/Customer/'
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
     const classes = useStyles();
-    //const [value, setValue] = React.useState(0);
     const [open, setOpen] = React.useState(false);
     const [/*index, */setIndex] = React.useState(0);
-    const [openModify, setModify] = React.useState(false);
+    const [modifyvalue, setmodifyValue] = React.useState(null);
+    const [orderValue, setOrderValue] = React.useState([{a:'b'}]);
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -104,7 +92,10 @@ export function Customer() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-     
+    const setBucketValue =(order:any) => {
+      setOrderValue((orderValue) => [...orderValue, order]);
+    }
+    console.log(orderValue)
     return (
         <div className={styleClasses.root}>
             <AppBar position="static" className={clsx(classes1.appBar)}>
@@ -127,13 +118,13 @@ export function Customer() {
               <Container className={classes1.container}>
                   <Grid container spacing={3}>
                     <Grid item md={9}>
-                      <Menu setModify={setModify}/>
+                      <Menu setmodifyValue={setmodifyValue}/>
                     </Grid>
                     <Grid item md={3}>
-                        {openModify?<ModifyOrder/>:null}
+                        {modifyvalue?<ModifyOrder setBucketValue={setBucketValue} modifyvalue={modifyvalue}/>:null}
                     </Grid>
                   </Grid>
-                  <Bucket/>
+                  <Bucket orderValue={orderValue}/>
               </Container>
             </main>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Paper} from '@material-ui/core';
 //import { userStyles } from "src/styles/userStyles";
@@ -62,29 +62,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Bucket(props){
-    const itemList: any =[
-        {
-            itemName:'Burger 1',
-            itemPrice:'$20'
-        },
-        {
-            itemName:'Burger 2',
-            itemPrice:'$15'
-        },
-        {
-            itemName:'Burger 3',
-            itemPrice:'$14'
-        },
-        {
-            itemName:'Burger 4',
-            itemPrice:'$13'
-        },
-        {
-            itemName:'Burger 5',
-            itemPrice:'$10'
-        },
-    ]
     const classes = useStyles();
+    const itemDetails=props.orderValue
     //const itemList = props.itemList
     const theme = useTheme();
     return(
@@ -116,12 +95,14 @@ export default function Bucket(props){
                 </Grid>
                 <Grid item>
                     <List>
-                        {itemList.map((obj) => (
-                        <ListItem button key={obj.itemName}>
-                            <ListItemText primary={obj.itemName} />
-                            <ListItemText primary={obj.itemPrice} />
+                        {itemDetails?<Fragment>
+                        {itemDetails.map((obj) => (
+                        <ListItem button key={obj.item_name}>
+                            <ListItemText primary={obj.item_name} />
+                            {/* <ListItemText primary={obj.itemPrice} /> */}
                         </ListItem>
-                        ))}
+                         ))}
+                         </Fragment>:<div>"text"</div>} 
                     </List>
                     <Divider/>
                 </Grid>
@@ -135,6 +116,7 @@ export default function Bucket(props){
                     <Button size="medium" color="primary">
                         PAY BILL
                     </Button>
+                    <Divider/>
                 </Grid>
                 </Grid>
             </Grid> 

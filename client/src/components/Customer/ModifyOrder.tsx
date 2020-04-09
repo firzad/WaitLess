@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import CloseIcon from '@material-ui/icons/Close';
-
+//import CloseIcon from '@material-ui/icons/Close';
+import axios from '../../axios';
+import {ItemDetailsJson, ItemDetailsJsonResponse} from "../../interfaces/itemdetails"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -37,40 +38,64 @@ const useStyles = makeStyles((theme: Theme) =>
         margin: theme.spacing(1),
       },
       closeButton: {
-        position: 'absolute',
+        //position: 'relative',
         right: theme.spacing(1),
         top: theme.spacing(1),
         color: theme.palette.grey[500],
       },
   }),
 );
-export default function ModifyOrder(){
-    //const styleClasses: any = userStyles();
+export default function ModifyOrder(props){
+    const menuD=props.modifyvalue
+    const [itemDetails, setitemDetails] = React.useState<ItemDetailsJson | any>([]);
     const classes = useStyles();
     const [state, setState] = React.useState({
-        ingredient: false,
+        ingredient: true,
       });
-    const description = "A hamburger (also burger for short) is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun."
-    const ingredientsList = [
-        {
-            ingredientName:"Lettuce"
-        },
-        {
-            ingredientName:"Jalepenos"
-        },
-        {
-            ingredientName:"Olives"
-        },
-        {
-            ingredientName:"Tomatoes"
-        },
-        {
-            ingredientName:"Red Onions"
-        },
-    ]
+  
+    React.useEffect(() => {
+        if(itemDetails.length===0){
+            axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
+                (res:ItemDetailsJsonResponse) =>{
+                    const itemDetailsList=res.data
+                    setitemDetails(itemDetailsList)
+                }
+            )
+        }
+    })
+    console.log(itemDetails)
+    var ingredientsList: string[]=[]
+    itemDetails.map((obj, index) => (
+        ingredientsList.push(obj.ingredients)
+    ))
+    const IL = ingredientsList.join(', ');
+    const description = menuD.description
+    const [remarksState, setRemarksState] = React.useState("");
+    const [orderQuantityState, setOrderQuantityState] = React.useState(0);
+
+    const handleOnClickOrder =(event) =>{
+        props.setBucketValue(
+            {
+            "item_name":menuD.item_name,
+            //"ingredient":ingredientsState,
+            "remarks":remarksState,
+            "quantity":orderQuantityState
+        }
+        )
+    }
+    const handleQuantityClick = (event) =>{
+        setOrderQuantityState( stateCount => 
+          event === 'Add' ? stateCount + 1: stateCount - 1
+        );
+    }
+    const handleRemarks= (event) => {
+        setRemarksState(event.target.value);
+    }
+    
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
       };
+      
     return(
         <div className={classes.root}>
             <Paper className={classes.paper}>
@@ -80,13 +105,13 @@ export default function ModifyOrder(){
                 <Grid item container direction="row">
                     <Grid item>
                     <Typography variant="h5" align="center">
-                        Item Name
+                        {menuD.item_name}
                     </Typography>
                     </Grid>
                     <Grid item>
-                    <IconButton aria-label="close" className={classes.closeButton}>
+                    {/* <IconButton aria-label="close" className={classes.closeButton}>
                         <CloseIcon />
-                    </IconButton>
+                    </IconButton> */}
                     </Grid>
                 </Grid>
                 <Grid item xs={2} sm container>
@@ -101,47 +126,48 @@ export default function ModifyOrder(){
                 </Grid>
                 <Grid item>
                     <Typography variant="body2">
-                        Ingredients: 
+                        Ingredients: {IL}
                     </Typography>
                 </Grid>
                 <Grid item>
                     <FormControl component="fieldset" className={classes.formControl}>
                         <FormLabel component="legend">Add Ingredients</FormLabel>
                         <FormGroup>
-                        {ingredientsList.map((obj) => (
+                        {itemDetails.map((obj) => (
                             <FormControlLabel
-                                control={<Checkbox onChange={handleChange} name={obj.ingredientName} />}
-                                label={obj.ingredientName} labelPlacement="start"
+                                control={<Checkbox onChange={handleChange} name={obj.ingredients} />}
+                                label={obj.ingredients} labelPlacement="start"
                             />
                             ))}
                         </FormGroup>
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <Grid container direction="row" justify="flex-start" alignItems="center">
+                    <Grid container direction="row" justify="center" alignItems="center">
                         <Typography variant="body2">
                         Remarks: 
                         </Typography>
-                        <TextField id="remarks" label="remarks" variant="outlined" />
+                        <TextField id="remarks" label="remarks" variant="outlined" value={remarksState}
+                        onChange={handleRemarks} />
                     </Grid>
                 </Grid>
                 <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
                     <Grid item>
-                    <IconButton aria-label="add">
+                    <IconButton aria-label="add" onClick={()=>handleQuantityClick("Add")}>
                         <AddCircleIcon style={{ fontSize: 30 }}/>
                     </IconButton>
                     </Grid>
                     <Grid item>
-                    <TextField id="itemQuantity" variant="outlined" InputProps={{style: {height:40, width:40} }}/>
+                    <TextField disabled value ={orderQuantityState} id="itemQuantity" variant="outlined" InputProps={{style: {height:40, width:40} }}/>
                     </Grid>
                     <Grid item>
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={()=>handleQuantityClick("Delete")}>
                         <RemoveCircleIcon style={{ fontSize: 30 }}/>
                     </IconButton>
                     </Grid> 
                 </Grid>
                 <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
-                    <Button variant="contained" size="medium" color="primary" className={classes.margin}>
+                    <Button variant="contained" size="medium" color="primary" className={classes.margin} onClick={handleOnClickOrder}>
                     ADD ORDER
                     </Button>
                 </Grid>
