@@ -8,12 +8,13 @@ insert into table_details (table_size, table_status)
 insert into table_details (table_size, table_status) 
 	values (2, 'Empty');
 insert into table_details (table_size, table_status) 
-	values (24, 'Empty');
+	values (4, 'Empty');
 
 ---Customer enters and is seated, create a new session (IMPORTANT!! RENAME DATE_ORDER TO DATE_SEATED!! remind james <-)
 insert into summary (table_number, date_order, price)
 	values (1,'2020-04-08 10:00:00',0);
-update table_details set table_status='Seated' where table_number=1;
+update table_details set table_status='Seated', current_session='1' where table_number=1;
+
 
 ---customer is now seated and places an order of 2 meals
 insert into ticket (session_id, ticket_timestamp, table_number)
