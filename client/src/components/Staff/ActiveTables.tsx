@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DoneIcon from '@material-ui/icons/Done';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
 import TableDialogue from './TableDialogue'
 import axios from '../../axios';
 
@@ -21,6 +22,10 @@ export default function ActiveTables(props){
 
 	function createIcons(data){
 		const icons = data.map((table) => {
+				if (table.assistance == true){
+					return <Avatar style={{backgroundColor: "indianred"}}><AnnouncementIcon/></Avatar>
+
+				}
 				switch(table.table_status){
 					case 'Seated':
 						return <Avatar style={{backgroundColor: "darkcyan"}}><MenuBookIcon/></Avatar>

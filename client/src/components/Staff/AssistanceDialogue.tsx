@@ -5,7 +5,7 @@ import Badge from '@material-ui/core/Badge';
 import ListItem from '@material-ui/core/ListItem';
 import Done from '@material-ui/icons/Done';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsIcon from '@material-ui/icons/Announcement';
 import PersonIcon from '@material-ui/icons/Person';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,6 +25,7 @@ function AssistanceDialogue(props) {
 
 	function removeAssistanceTable(table_number){
 		axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':false})
+        handleClose()
 	}
 
     return (

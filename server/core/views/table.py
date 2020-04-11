@@ -8,7 +8,8 @@ table_resource_fields = {
     'table_number': fields.Integer,
     'table_size': fields.Integer,
     'table_status': fields.String,
-    'current_session': fields.Integer 
+    'current_session': fields.Integer,
+    'assistance': fields.Boolean
 }
 
 parser = reqparse.RequestParser()
@@ -106,9 +107,10 @@ class TableSession(Resource):
         return table, 200
 
 class SwitchTableAssistance(Resource):
+    @marshal_with(table_resource_fields)
     def patch(self, table_number):
         table = TableDetails.query.get_or_404(table_number)
         if 'assistance' in request.json:
-            table.current_session = request.json['assistance']
+            table.assistance = request.json['assistance']
         db.session.commit()
         return table, 200

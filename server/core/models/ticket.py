@@ -1,4 +1,5 @@
 from core import db
+from datetime import datetime
 
 class TicketModel(db.Model):
     __tablename__ = 'ticket'
@@ -8,7 +9,7 @@ class TicketModel(db.Model):
     ticket_timestamp = db.Column(db.DateTime)
     table_number = db.Column(db.Integer)
 
-    def __init__(self, session_id, ticket_timestamp, table_number):
+    def __init__(self, session_id, table_number):
         self.session_id = session_id
-        self.ticket_timestamp = ticket_timestamp
+        self.ticket_timestamp = str(datetime.now())
         self.table_number = table_number

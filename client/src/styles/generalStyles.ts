@@ -7,8 +7,17 @@ export const commonStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
     },
+    tablehead: {
+      backgroundColor: 'grey',
+      color: theme.palette.common.white,
+    },
     expBar: {
       width: '100%',
+    },
+    expansionList: {
+      width: '90%',
+      maxHeight: 400,
+      overflow: 'auto',
     },
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
