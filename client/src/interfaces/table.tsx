@@ -3,7 +3,7 @@ export interface Tables{
     table_size: number,
     table_status: string,
     current_session: number,
-    assistance: bool 
+    assistance: boolean 
 }
 
 export interface ServerResponse{
