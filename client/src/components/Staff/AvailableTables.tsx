@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import List from '@material-ui/core/List';
 import Restaurant from '@material-ui/icons/Restaurant';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,23 +9,22 @@ import Avatar from '@material-ui/core/Avatar';
 import axios from '../../axios';
 
 //import interfaces
-import {Tables, ServerResponse} from "../../interfaces/table"
+import {ServerResponse} from "../../interfaces/table"
 
-
-export default function AvailableTables(){
-
-	const [free_tables, setFreeTables] = React.useState<Tables | any>([]);
+export default function AvailableTables(props){
+	const {free_tables, setFreeTables} = props
 
 	useEffect(() => {
-        axios.get(`Tables/free`).then(
-            (res: ServerResponse) => {
-                const data = res.data;
-                setFreeTables(data);
-            }
-        )
-    });
-
-		
+		const interval = setInterval(() => {
+			axios.get(`Tables/free`).then(
+	        (res: ServerResponse) => {
+	            const data = res.data;
+	            setFreeTables(data);
+	        })
+	    },1000)
+	    return() => clearInterval(interval)
+	})
+	
 	function mapReactTableList(){
 		return free_tables.map((table) =>(
 			<ListItem key = {table.table_number}>
@@ -58,3 +57,4 @@ export default function AvailableTables(){
 	    </React.Fragment>
 	)
 }
+	

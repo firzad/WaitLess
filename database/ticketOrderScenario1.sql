@@ -1,14 +1,14 @@
 -- Creates a sample order scenario. 
 -- NOTE requires running the insertIntoTables script atul wrote to generate a menu
 -- Create 4 empty tables in the restaurant
-insert into table_details (table_size, table_status) 
-	values (2, 'Empty');
-insert into table_details (table_size, table_status) 
-	values (3, 'Empty');
-insert into table_details (table_size, table_status) 
-	values (2, 'Empty');
-insert into table_details (table_size, table_status) 
-	values (4, 'Empty');
+insert into table_details (table_size, table_status, assistance) 
+	values (2, 'Empty', FALSE);
+insert into table_details (table_size, table_status, assistance) 
+	values (3, 'Empty', FALSE);
+insert into table_details (table_size, table_status, assistance) 
+	values (2, 'Empty', FALSE);
+insert into table_details (table_size, table_status, assistance) 
+	values (4, 'Empty', FALSE);
 
 ---Customer enters and is seated, create a new session (IMPORTANT!! RENAME DATE_ORDER TO DATE_SEATED!! remind james <-)
 insert into summary (table_number, date_order, price)

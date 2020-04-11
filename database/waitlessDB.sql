@@ -1,4 +1,4 @@
-use Waitless;
+---use Waitless;
 -- Create Category Table
 CREATE TABLE category(
 category_id serial NOT NULL UNIQUE, 
@@ -50,6 +50,7 @@ table_number serial NOT NULL UNIQUE,
 table_size integer, 
 table_status varchar(50) NOT NULL,
 current_session bigint,	
+assistance bool,
 PRIMARY KEY(table_number),
 FOREIGN KEY(current_session) REFERENCES summary(session_id));
 -- Create ticket Table

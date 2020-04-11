@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import List from '@material-ui/core/List';
 import Restaurant from '@material-ui/icons/Restaurant';
 import ListItem from '@material-ui/core/ListItem';
@@ -16,10 +16,11 @@ import axios from '../../axios';
 import {Tables, ServerResponse} from "../../interfaces/table"
 
 
-export default function ActiveTables(){
+export default function ActiveTables(props){
+	const setAssistanceTables = props.setAssistanceTables
 
-	function createIcons(){
-		const icons = active_tables.map((table) => {
+	function createIcons(data){
+		const icons = data.map((table) => {
 				switch(table.table_status){
 					case 'Seated':
 						return <Avatar style={{backgroundColor: "darkcyan"}}><MenuBookIcon/></Avatar>
@@ -43,13 +44,25 @@ export default function ActiveTables(){
 	const [table_icons, setTableIcons] = React.useState([<MenuBookIcon />])
 
 	useEffect(() => {
-		axios.get(`Tables/active`).then(
-            (res: ServerResponse) => {
-                const data = res.data;
-                setActiveTables(data);
-                setTableIcons(createIcons())
-            }
-        )
+		const interval = setInterval(()=>{
+			axios.get(`Tables/active`).then(
+	            (res: ServerResponse) => {
+	                const data = res.data;
+	                setTableIcons(createIcons(data))
+
+	                setActiveTables(data);
+
+	                let new_assistance : Tables[] = []
+	                for (let i = 0; i < active_tables.length; i++){
+	                	if (active_tables[i].assistance === true){
+	                		new_assistance.push(active_tables[i])
+	                	}
+	                }
+	                setAssistanceTables(new_assistance)
+	            }
+	        )
+		}, 1000)
+		return () => clearInterval(interval)
 	})
 	
 

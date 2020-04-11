@@ -13,10 +13,17 @@ import { commonStyles } from "../../styles/generalStyles";
 import ActiveTables from './ActiveTables'
 import AvailableTables from './AvailableTables'
 import AssistanceDialogueIcon from './AssistanceDialogue'
+import {Tables} from "../../interfaces/table"
+
 
 
 export function Staff() {
   const classes: any = commonStyles();
+
+  const [assistance_tables, setAssistanceTables] = React.useState<Tables | any>([]);
+  const [free_tables, setFreeTables] = React.useState<Tables | any>([]);
+
+
 
   return (
     <div className={classes.root}>
@@ -27,7 +34,7 @@ export function Staff() {
             Waitless : Staff View
           </Typography>
 
-          <AssistanceDialogueIcon />
+          <AssistanceDialogueIcon assistance_tables={assistance_tables}/>
 
         </Toolbar>
       </AppBar>
@@ -41,14 +48,14 @@ export function Staff() {
               <Paper className={classes.paper}>
     		  <Typography component="h2" variant="h6" color="primary" gutterBottom>Active Tables </Typography>
 
-                <ActiveTables />
+                <ActiveTables assistance_tables={assistance_tables} setAssistanceTables={setAssistanceTables}/>
               </Paper>
             </Grid>
             <Grid item md={6}>
               <Paper className={classes.paper}>
               <Typography component="h2" variant="h6" color="primary" gutterBottom>Available Tables </Typography>
 
-                <AvailableTables />
+                <AvailableTables free_tables={free_tables} setFreeTables={setFreeTables}/>
               </Paper>
             </Grid>
 

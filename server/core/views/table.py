@@ -104,3 +104,11 @@ class TableSession(Resource):
             table.current_session = request.json['session_id']
         db.session.commit()
         return table, 200
+
+class SwitchTableAssistance(Resource):
+    def patch(self, table_number):
+        table = TableDetails.query.get_or_404(table_number)
+        if 'assistance' in request.json:
+            table.current_session = request.json['assistance']
+        db.session.commit()
+        return table, 200

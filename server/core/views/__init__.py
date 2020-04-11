@@ -2,7 +2,7 @@ from flask_restful import Api
 
 from core import app
 from .menu import MenuItems, MenuItemById, MenuItemByCategory
-from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, ClearTable
+from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, ClearTable, SwitchTableAssistance
 from .category import Categories, CategoryById
 from .ticket import Ticket
 from .ticket_item import TicketItem, TicketsBySession, TicketPriceTotal
@@ -31,6 +31,7 @@ api.add_resource(Ticket, '/Ticket/<session_id>')
 api.add_resource(TicketItem, '/Ticket/OrderItems/<ticket_id>')
 api.add_resource(TicketsBySession, '/Ticket/Session/<session_id>')
 api.add_resource(TicketPriceTotal, '/Ticket/Session/Price/<session_id>')
+api.add_resource(SwitchTableAssistance, '/Tables/Assistance/<table_number>')
 
 if __name__ == '__main__':
     app.run()

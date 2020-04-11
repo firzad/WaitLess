@@ -12,47 +12,35 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import axios from '../../axios';
+
 
 function AssistanceDialogue(props) {
-	const { onClose, open, setNumAssistance } = props;
+	const { onClose, open, assistance_tables } = props;
 
 	function handleClose(){
 		onClose(false);
 	};
 
-	//CALL TO THE BACKEND HERE
-	//const [assistanceList, setAssistanceList] = React.useState(backend.getTableAssistanceList());  	
-	const [assistanceList, setAssistanceList] = React.useState(['4','5','7']);
 
-	function removeAssistanceTable(table){
-		/////////////
-		//CALL TO BACKEND
-		//backend.updateAssistance(table)
-		//const new_tables = backend.getTableAssistance()
-		//setAssistanceList(new_tables)
-		///////////
-		const tables = assistanceList.slice()
-		const index = tables.indexOf(table);
-		tables.splice(index,1)
-
-		setAssistanceList(tables)
-        setNumAssistance(tables.length)
+	function removeAssistanceTable(table_number){
+		axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':false})
 	}
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="simple-dialog-title">Requesting Assistance</DialogTitle>
             <List>
-                {assistanceList.map(table => (
-                    <ListItem key={table}>
+                {assistance_tables.map(table => (
+                    <ListItem key={table.table_number}>
                         <ListItemAvatar>
                             <Avatar>
                             <PersonIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={'Table ' + table.toString()} />
+                        <ListItemText primary={'Table ' + table.table_number.toString()} />
                         <ListItemSecondaryAction>
-                        <IconButton edge="end"  onClick={() => removeAssistanceTable(table)} aria-label="More"  >
+                        <IconButton edge="end"  onClick={() => removeAssistanceTable(table.table_number)} aria-label="More"  >
                             <Done />
                         </IconButton>
                         </ListItemSecondaryAction>
@@ -63,9 +51,11 @@ function AssistanceDialogue(props) {
     );
 }
 
-export default function AssistanceDialogueIcon(){
-
+export default function AssistanceDialogueIcon(props){
+	const {assistance_tables} = props
  	const [open, setOpen] = React.useState(false);
+
+
  	function handleClickOpen(){
     	setOpen(true);
   	};
@@ -76,25 +66,17 @@ export default function AssistanceDialogueIcon(){
 
 	//num_assistance = backend.getNumAssistance()
 
-    const [num_assistance, setNumAssistance] = React.useState(3)
-
-    function updateNumAssistance(){
-        //new_num = backend.getnumassistance()
-        //const new_num = 3
-        //setNumAssistance(new_num)
-    }
-
-    setInterval(updateNumAssistance, 5000)
+    //const [num_assistance, setNumAssistance] = React.useState(3)
 
 	return (
 		<div>
         <IconButton color="inherit" onClick={handleClickOpen}>
-            <Badge badgeContent={num_assistance} color="secondary">
+            <Badge badgeContent={assistance_tables.length} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
 
-          <AssistanceDialogue open={open} onClose={handleClose} setNumAssistance={setNumAssistance}/>
+          <AssistanceDialogue open={open} onClose={handleClose} assistance_tables={assistance_tables} />
         </div>
     )
 }
