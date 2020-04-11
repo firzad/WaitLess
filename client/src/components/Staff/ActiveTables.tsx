@@ -22,15 +22,17 @@ export default function ActiveTables(){
 		const icons = active_tables.map((table) => {
 				switch(table.table_status){
 					case 'Seated':
-						return <MenuBookIcon />
+						return <Avatar style={{backgroundColor: "darkcyan"}}><MenuBookIcon/></Avatar>
 					case 'Preparing Order':
-						return <Restaurant />
+						return <Avatar style={{backgroundColor: "moccasin"}}><Restaurant/></Avatar>
 					case 'Ready to Deliver':
-						return <LocalDiningIcon />
+						return <Avatar style={{backgroundColor: "tomato"}}><LocalDiningIcon/></Avatar>
 					case 'Delivered':
-						return <DoneIcon />
+						return <Avatar style={{backgroundColor: "DARKCYAN"}}><DoneIcon/></Avatar>
+					case 'Ordered':
+						return <Avatar style={{backgroundColor: "Thistle"}}><MenuBookIcon /></Avatar>
 					default:
-						return <MenuBookIcon />
+						return <Avatar style={{backgroundColor: "Thistle"}}><MenuBookIcon /></Avatar>
 				}
 		})
 		return icons
@@ -55,9 +57,7 @@ export default function ActiveTables(){
 		return active_tables.map((table, index) =>(
 			<ListItem key = {table.table_number}>
 	          <ListItemAvatar>
-	            <Avatar>
 	            	{table_icons[index]}
-	            </Avatar>
 	          </ListItemAvatar>
 	          <ListItemText
 	            primary={"Table " + table.table_number.toString() + ": " + table.table_status}
@@ -72,7 +72,6 @@ export default function ActiveTables(){
 	}
 
 	const reactTableList = mapReactTableList()
-	//setInterval(updateActiveTables,500000);
 	return(
 		<React.Fragment>
 			<List>

@@ -53,3 +53,11 @@ class TicketsBySession(Resource):
                 ticket_total.append({**ticket_marsh,**ticket_item_marsh, **menu_marsh})
             ticket_json.append(ticket_total)
         return ticket_json, 200
+
+class TicketPriceTotal(Resource):
+    def get(self, session_id):
+        ticket_list = TicketsBySession().get(session_id)
+        total_price = 0
+        for ticket in ticket_list[0]:
+            total_price += sum(item['price'] for item in ticket)
+        return [total_price], 200

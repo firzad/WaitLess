@@ -71,6 +71,19 @@ class FreeTables(Resource):
         return free_tables, 200
 
 
+class ClearTable(Resource):
+    def patch(self, table_number):
+        """Clear a table of a session and reset its status"""
+        table = TableDetails.query.get_or_404(table_number)
+
+        table.current_session = None
+        table.table_status = 'Empty'
+        db.session.commit()
+
+        return 200
+
+
+
 class ActiveTables(Resource):
     @marshal_with(table_resource_fields)
     def get(self):
