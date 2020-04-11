@@ -7,7 +7,7 @@ category_resource_fields = {
     'category_id': fields.Integer,
     'category_name': fields.String,
     'position_in_menu': fields.Integer,
-    'visibility': fields.String    
+    'visibility': fields.Boolean    
 }
 
 parser = reqparse.RequestParser()
