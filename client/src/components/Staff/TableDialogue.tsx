@@ -78,39 +78,39 @@ function TableDetails(props){
         	<Typography>Order History</Typography>
         	</ExpansionPanelSummary>
 
-        	<ExpansionPanelDetails>
-        	<List className={classes.expansionList} >
-
-        		{ticket_list.map((ticket, t_idx) => (
-        			<TableContainer component={Paper}>
-				      <Table className={classes.table} aria-label="Order Table">
-				        <TableHead>
-				          <TableRow>
-				            <TableCell className={classes.tableHead}>Order Table</TableCell>
-				          </TableRow>
-				        </TableHead>
-				        <TableBody>
-      						{ticket.map((order, o_idx) => (
-      							<TableRow><TableCell>{order.item_name}</TableCell></TableRow>
-     						))}
-      				</TableBody>
-      				</Table>
-      				</TableContainer>
-	      		))}
-
-			</List>
-
+        	<ExpansionPanelDetails className={classes.expansionList}>
+    		    <TableContainer component={Paper} className={classes.tableContainer}>
+			      <Table className={classes.table} aria-label="Order Table">
+			        <TableHead className={classes.tableHead}>
+			          <TableRow>
+			            <TableCell className={classes.tableHeadCell}>Order Number</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Item Name</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Remark</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Price</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Status</TableCell>
+			          </TableRow>
+			        </TableHead>
+        			{ticket_list.map((ticket, t_idx) => (
+        				<TableBody className={t_idx%2 ? classes.tableBody0 : classes.tableBody1}>
+  						{ticket.map((order, o_idx) => (
+  							<TableRow>
+								<TableCell>{t_idx + 1}</TableCell>
+  								<TableCell>{order.item_name}</TableCell>
+  								<TableCell>{order.remark}</TableCell>
+  								<TableCell>{'$' + order.price.toString()}</TableCell>
+  								<TableCell>{order.item_status}</TableCell>
+  							</TableRow>
+ 						))}
+ 						</TableBody>
+	      			))}
+      			</Table>
+      			</TableContainer>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
-		<ExpansionPanel expanded={expanded === 'panel2'} onChange={expansionChange('panel2')}>
-      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        	<Typography>Table Settings</Typography>
-        	</ExpansionPanelSummary>
 
-        	<ExpansionPanelDetails>
-     			<Button variant="contained" onClick={finishOrder}>Finish Order</Button>
-        	</ExpansionPanelDetails>
-		</ExpansionPanel>
+		<div className={classes.divFinish}>
+     	<Button variant="contained" onClick={finishOrder}>Finish Order</Button>
+		</div>
 		</div>
 	)
 }

@@ -65,13 +65,13 @@ FOREIGN KEY(session_id) REFERENCES summary(session_id) ON DELETE CASCADE);
 --- Create ticket order item table
 CREATE TABLE ticket_item(
 order_item_id bigserial NOT NULL UNIQUE,
-quantity integer NOT NULL,
 ticket_id bigint NOT NULL,
 menu_id integer NOT NULL,
 ingredients_added varchar(200),
 ingredients_removed varchar(200), 
 remark varchar(200), 
 item_status varchar(20) NOT NULL,
+quantity integer NOT NULL,
 PRIMARY KEY(order_item_id),
 FOREIGN KEY(menu_id) REFERENCES Menu(menu_id) ON DELETE CASCADE,
 FOREIGN KEY(ticket_id) REFERENCES ticket(ticket_id) ON DELETE CASCADE);

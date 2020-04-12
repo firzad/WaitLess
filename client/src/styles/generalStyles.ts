@@ -7,20 +7,44 @@ export const commonStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
     },
-    tablehead: {
-      backgroundColor: 'grey',
+    tableHead: {
+      backgroundColor: 'azure',
       color: theme.palette.common.white,
+    },
+    tableHeadCell: {
+    	fontWeight: 'bold',
+    	fontSize: '16px',
+    },
+    'tableBody0': {
+      backgroundColor: 'whitesmoke',
+    },
+    'tableBody1': {
+      backgroundColor: 'white',
+    },
+    table: {
+      width: '100%',
+      minWidth: 700,
+      alignItems: 'center',
+    },
+    divFinish:{
+      paddingTop: '20px',
+    },
+    toolTitle:{
+      minWidth: 120,
+    },
+    tableContainer: {
+   	  alignItems: 'center',
     },
     expBar: {
       width: '100%',
     },
     expansionList: {
-      width: '90%',
       maxHeight: 400,
       overflow: 'auto',
+      border: '1px solid rgba(0, 0, 0, .125)',
     },
     toolbar: {
-      paddingRight: 24, // keep right padding when drawer closed
+      paddingRight: 24,
     },
     toolbarIcon: {
       display: 'flex',
