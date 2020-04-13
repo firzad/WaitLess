@@ -60,7 +60,7 @@ function TableDetails(props){
     				axios.patch(`Summary/`+table_details.current_session.toString(),{'price':price.data[0]}).then( //update the summary price
     					(res)=>{
     						onClose(false)
-    						axios.patch('Tables/clear/'+tableid.toString()).then((res)=>{ //remove the current session from the table
+    						axios.patch('Tables/status/'+tableid.toString(),{'table_status':'Empty'}).then((res)=>{ //remove the current session from the table
     							onClose(false)
     						})
     					}

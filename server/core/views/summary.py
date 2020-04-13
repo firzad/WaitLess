@@ -26,10 +26,10 @@ class SummaryTable(Resource):
     def post(self):
         """Inserts new session summary into DB."""
         args = parser.parse_args()
-        table = SummaryModel(args.get('table_number'), args.get('date_order'))
-        db.session.add(table)
+        session = SummaryModel(args.get('table_number'), args.get('date_order'))
+        db.session.add(session)
         db.session.commit()
-        return table, 201
+        return session, 201
 
 class SummaryById(Resource):
     @marshal_with(summary_resource_fields)

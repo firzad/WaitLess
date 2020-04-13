@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { Customer } from "./Customer";
 import axios from '../../axios';
+import {Summary} from '../../interfaces/summary'
 
 
 export function CustomerEntry(){
@@ -24,7 +25,18 @@ export function CustomerEntry(){
 	]
 
 	function handleEntryCustomer(){
-		setPage(1)
+		axios.post<Summary>('Summary',{'table_number':table_number,
+										'date_order':new Date().toJSON().slice(0,19).replace('T',' ')})
+		.then(
+			(res)=>{
+				const session = res.data
+				if (table_number != null){
+					axios.patch('Tables/status/'+table_number.toString(),{'table_status':'Seated', 'current_session':session.session_id}).then((res)=>{ //remove the current session from the table
+					setPage(1)
+				})	
+				}
+			}
+		)	
 	}
 
 	function handleExitCustomer(){

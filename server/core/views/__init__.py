@@ -2,7 +2,7 @@ from flask_restful import Api
 
 from core import app
 from .menu import MenuItems, MenuItemById, MenuItemByCategory
-from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, ClearTable, SwitchTableAssistance
+from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
 from .category import Categories, CategoryById
 from .ticket import Ticket, SessionTicket
 from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal
@@ -21,7 +21,7 @@ api.add_resource(SummaryTable, '/Summary')
 api.add_resource(SummaryById, '/Summary/<session_id>')
 api.add_resource(TableDetail, '/Tables')
 api.add_resource(FreeTables, '/Tables/free')
-api.add_resource(ClearTable, '/Tables/clear/<table_number>')
+api.add_resource(TableStatus, '/Tables/status/<table_number>')
 api.add_resource(ActiveTables, '/Tables/active')
 api.add_resource(TableDetailById, '/Tables/<table_number>')
 api.add_resource(Categories, '/Categories')
