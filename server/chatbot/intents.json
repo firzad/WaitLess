@@ -1,0 +1,136 @@
+{"intents": [
+        {"tag": "welcome",
+         "patterns": ["start again", "start over", "another question", "1 more thing", "one more thing"],
+         "responses": ["Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n            Recommendations\n            Oops! Did you make a mistake in the order. I can help you!\n            Do you need staff assistance?","Hi again! How can I help you? \n            Recommendations\n            Oops! Did you make a mistake in the order. I can help you!\n            Do you need staff assistance?\n            Quit"],
+         "context_set": [""]
+        },
+        {"tag": "greeting",
+         "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Hey"],
+         "responses": ["Hello, thanks for visiting. How can I help you? \n            Recommendations\n            Oops! Did you make a mistake in the order. I can help you!\n            Do you need staff assistance?", "Good to see you again, how can I help? \n            Recommendations\n            Oops! Did you make a mistake in the order. I can help you!\n            Do you need staff assistance?\n            Quit"],
+         "context_set": [""]
+        },
+        {"tag": "goodbye",
+         "patterns": ["Bye", "See you later", "Goodbye"],
+         "responses": ["See you later, thanks for visiting", "Have a nice day", "Bye! Come back again soon."]
+        },
+        {"tag": "thanks",
+         "patterns": ["Thanks", "Thank you", "Thankyou","That's helpful", "Thx","Thanx"],
+         "responses": ["Happy to help!", "Any time!", "My pleasure"]
+        },
+        {"tag": "recommendations",
+         "patterns": ["1", "One", "What do you recommend?", "What is the best in your restaurant", "What is Chef's special?",
+                      "What is your speciality?", "What is the best on the Menu?", "recommendations"],
+         "responses": ["Do you have any special dietary requirements?\n            Vegan\n            Vegetarian\n            Lactose Intolerant\n            Gluten Free\n            None\n            Other"]
+        },
+        {"tag": "other",
+         "patterns": ["other", "Staff Assistance", "Call staff", "Need help"],
+         "responses": ["Calling for Staff Assistance. The Staff will assist you shortly!"]
+        },
+        {"tag": "cheese",
+         "patterns": ["Cheese"],
+         "responses": ["Choose your Cheese"],
+          "update_cheese": ["Cheddar", "Parmesan", "Mozzarella"]
+        },
+        {"tag": "burger",
+         "patterns": ["burger"],
+         "responses": ["What changes would you like to make?"],
+          "update_options": ["Patty", "Veggies", "Cheese", "Others"]
+        },
+        {"tag": "patty",
+         "patterns": ["Patty"],
+         "responses": ["Please select a Patty"],
+          "update_patty": ["Veggie Patty", "Beef Patty", "Salmon Patty"]
+        },
+        {"tag": "veggies",
+         "patterns": ["Veggies"],
+         "responses": ["Please add a veggie to your burger"],
+          "update_veggie": ["Tomato", "Onion", "Mushroom", "Lettuce","Broccoli"]
+        },
+        {"tag": "coffee",
+         "patterns": ["coffee", "cold coffee", "hot coffee"],
+         "responses": ["What changes would you like to make?"],
+          "update_options": ["Hot or Cold", "Milk", "Coffee Type", "Other"]
+        },
+        {"tag": "milk",
+         "patterns": ["milk"],
+         "responses": ["Please choose your milk"],
+          "update_milk": ["Full Cream", "Low-Fat", "Skimmed Milk", "Soy Milk"]
+        },
+        {"tag": "coffee_type",
+         "patterns": ["coffee type"],
+         "responses": ["Please choose coffee type"],
+          "update_coffee_type": ["Espresso", "Latte", "Flat White", "Mocha"]
+        },
+        {"tag": "hot_or_cold",
+         "patterns": ["Hot or Cold", "Hot", "Cold"],
+         "responses": ["Please select an option"],
+          "update_temp": ["Hot", "Cold"]
+        },
+        {"tag": "fries",
+         "patterns": ["fries"],
+         "responses": ["Sorry, no modification can be possible for this option"]
+        },
+        {"tag": "pasta",
+         "patterns": ["pasta"],
+         "responses": ["What changes would you like to make?"],
+          "update_options": ["Pasta Sauce", "Pasta Shape", "Cheese", "Veggies","Other"]
+        },
+        {"tag": "sauce",
+         "patterns": ["sauce"],
+         "responses": ["Choose Sauce"],
+          "update_sauce": ["Alfredo", "Arrabiata", "Pesto", "Aglio E Olio", "Mustard", "Tomato", "Thousand Island"]
+        },
+        {"tag": "pasta_shape",
+         "patterns": ["shape", "pasta shape"],
+         "responses": ["Choose Shape"],
+          "update_shape": ["Penne", "Fettucine", "Spaghetti"]
+        },
+        {"tag": "pizza",
+         "patterns": ["pizza"],
+         "responses": ["What changes would you like to make?"],
+          "update_options": ["Pizza Sauce", "Pizza Crust", "Cheese", "Veggies","Other"]
+        },
+        {"tag": "crust",
+         "patterns": ["crust"],
+         "responses": ["Choose Crust"],
+          "update_crust": ["Thin crust", "Garlic crust", "Cheesy crust"]
+        },
+        {"tag": "Vegan",
+         "patterns": ["Vegan", "Yes, I am Vegan", "Vegan only please"],
+         "responses": [],
+          "best_seller": [],
+          "_comment": "update this on runtime"
+        },
+        {"tag": "Vegetarian",
+         "patterns": ["Vegetarian", "Yes, I am Vegetarian", "Vegetarian only please"],
+         "responses": [],
+          "best_seller": [],
+          "_comment": "update this on runtime"
+        },
+        {"tag": "Lactose Intolerant",
+         "patterns": ["Lactose Intolerant", "Yes, I am Lactose Intolerant", "Lactose Intolerant please"],
+         "responses": [],
+          "best_seller": [],
+          "_comment": "update this on runtime"
+        },
+        {"tag": "Gluten Free",
+         "patterns": ["Gluten Free", "Yes, I would like Gluten Free", "Gluten Free please"],
+         "responses": [],
+          "best_seller": [],
+          "_comment": "update this on runtime"
+        },
+        {"tag": "no_special_requirements",
+         "patterns": ["None", "No", "None please","I can eat anything", "Anything", "All", "Any","Whatever"],
+         "responses": [],
+          "best_seller": [],
+          "_comment": "update this on runtime"
+        },
+        {"tag": "mistake",
+         "patterns": ["Mistake", "Change Order", "add", "update order", "I want to update my order", "I want to change something in my order", "I want to add something in my order","Whatever"],
+         "responses": ["Sure, which order would you like to make changes in? Please select item to be updated"],
+          "update_order_list": [],
+          "_comment": "update this on runtime"
+        }
+]
+}
+
