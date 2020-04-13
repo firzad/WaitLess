@@ -1,31 +1,52 @@
-import React from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
+import React, {useEffect} from 'react';
 import { Link } from "react-router-dom";
 import { userStyles } from "../../styles/userStyles";
-import { Grid, Button, AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
-
+import { Grid, Button, AppBar, Toolbar, Typography } from "@material-ui/core";
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
+import FormHelperText from '@material-ui/core/FormHelperText'
+import axios from '../../axios'
+import {Tables} from '../../interfaces/table' 
 
 export function LandingPage() {
     const styleClasses: any = userStyles();
+
+    const [table_number, setTableNumber] = React.useState(0);
+    const [table_list, setTableList] = React.useState<Tables | any>([])
+
+    useEffect(() => {
+        const interval = setInterval(()=>{
+            if (table_number != null){
+                axios.get(`Tables`).then(
+                (res) => {
+                    const data = res.data;
+                    data.sort((a,b) => {return a.table_number-b.table_number})
+                    setTableList(data)
+                })
+            }
+        },1000)
+        return () => clearInterval(interval)
+
+    })
+
+    const handleChange = (event) => {
+        setTableNumber(event.target.value);
+    };
 
 
     return (
         <div className={styleClasses.root}>
             <AppBar position="static" className={styleClasses.appBar}>
                 <Toolbar>
-                    <Link to="/home">
-                        <IconButton edge="start" className={styleClasses.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton>
-                    </Link>
                     <Typography variant="h6" className={styleClasses.title}>
                         WAITLESS
                 </Typography>
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>
-            <Grid container className={styleClasses.gridContainer}>
-                <Grid item xs={12}>
+            <Grid container style={{justifyContent:'center'}} className={styleClasses.gridContainer}>
+                <Grid  justify="center" item>
                     <Grid container justify="center" spacing={3}>
                         <Grid key={'Admin'} item>
                             <Link to="/admin">
@@ -33,9 +54,21 @@ export function LandingPage() {
                             </Link>
                         </Grid>
                         <Grid key={'Customer'} item>
-                            <Link to="/customer">
-                                <Button variant="contained" className={styleClasses.paper}>Customer</Button>
+                            <Box>
+                            <Link to={"/customer/"+table_number.toString()}>
+                                <Button disabled={table_number ? false : true}variant="contained" className={styleClasses.paper}>Customer</Button>
                             </Link>
+                            </Box>
+                                <Select
+                                  value={table_number}
+                                  onChange={handleChange}
+                                  style={{minWidth:'100px',paddingTop:'10px'}}>
+                                    {table_list.map((table, index) => (
+                                        <MenuItem key={index} value={table.table_number}>{table.table_number.toString()}</MenuItem>   
+                                    ))}
+                                </Select>
+                                <FormHelperText>Table Number</FormHelperText>
+
                         </Grid>
                         <Grid key={'Staff'} item>
                             <Link to="/staff">

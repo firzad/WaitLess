@@ -22,7 +22,7 @@ export default function ActiveTables(props){
 
 	function createIcons(data){
 		const icons = data.map((table) => {
-				if (table.assistance == true){
+				if (table.assistance === true){
 					return <Avatar style={{backgroundColor: "indianred"}}><AnnouncementIcon/></Avatar>
 
 				}

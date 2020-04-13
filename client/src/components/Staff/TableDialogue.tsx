@@ -50,17 +50,17 @@ function TableDetails(props){
 
 
 	function finishOrder(){
-		axios.get('Tables/'+tableid.toString())
+		axios.get('Tables/'+tableid.toString()) //get the current table
 	    	.then(
 	            (res) => {
             	const table_details = res.data
-            	axios.get('Ticket/Session/Price/'+table_details.current_session.toString())
+            	axios.get('Ticket/Session/Price/'+table_details.current_session.toString()) //get the total cost of the session
             	.then(
             		(price) => {
-    				axios.patch(`Summary/`+table_details.current_session.toString(),{'price':price.data[0]}).then(
+    				axios.patch(`Summary/`+table_details.current_session.toString(),{'price':price.data[0]}).then( //update the summary price
     					(res)=>{
     						onClose(false)
-    						axios.patch('Tables/clear/'+tableid.toString()).then((res)=>{
+    						axios.patch('Tables/clear/'+tableid.toString()).then((res)=>{ //remove the current session from the table
     							onClose(false)
     						})
     					}
