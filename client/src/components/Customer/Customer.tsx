@@ -184,6 +184,11 @@ export function Customer() {
 
 ////////////////////////////////////
     //const themeValue: any = newTheme();
+//export function Customer(props) {
+    //const {handleEntryCustomer} = props
+    ////SET handleEntryCustomer(0) once the session is done
+
+     
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
     const classes = useStyles();

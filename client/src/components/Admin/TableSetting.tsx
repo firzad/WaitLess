@@ -41,8 +41,9 @@ export default function TableSetting(){
     const newTable : Tables = {
         'table_number': 0,
         'table_size': 2,
-        'table_status': "Avaliable",
-        'current_session': 0
+        'table_status': "Empty",
+        'current_session': 0,
+        'assistance':false
     }
 
     // const handleNewTableChange = (event) => {

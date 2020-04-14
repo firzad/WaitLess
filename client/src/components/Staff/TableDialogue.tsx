@@ -6,15 +6,17 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
+//import Box from '@material-ui/core/Box';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+//import ListItemText from '@material-ui/core/ListItemText';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import { commonStyles } from "../../styles/generalStyles";
 import axios from '../../axios';
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 
 //import interfaces
 import {TicketMenuItemResponse, TicketMenuItem} from "../../interfaces/ticket"
@@ -24,7 +26,7 @@ import {TicketMenuItemResponse, TicketMenuItem} from "../../interfaces/ticket"
 function TableDetails(props){
 	const classes: any = commonStyles();
 
-	const tableid = props.tableid
+	const {onClose, tableid} = props
 	const [expanded, setExpanded] = React.useState('');
 
 	let [ticket_list, setTicketList] = React.useState<TicketMenuItem | any>([]);
@@ -38,16 +40,35 @@ function TableDetails(props){
 	            	axios.get('Ticket/Session/'+table_details.current_session.toString())
 	            	.then(
 	            		(tk: TicketMenuItemResponse) => {
-	            			//const ticket_struct = ParseTickets(tk.data)//parse tickets and get the menu details for each
 	            			setTicketList(tk.data)
 	            		}
 	            	)
 	        })	
 		}
-		
 	    setExpanded(isExpanded ? panel : false);
 	};
 
+
+	function finishOrder(){
+		axios.get('Tables/'+tableid.toString()) //get the current table
+	    	.then(
+	            (res) => {
+            	const table_details = res.data
+            	axios.get('Ticket/Session/Price/'+table_details.current_session.toString()) //get the total cost of the session
+            	.then(
+            		(price) => {
+    				axios.patch(`Summary/`+table_details.current_session.toString(),{'price':price.data[0]}).then( //update the summary price
+    					(res)=>{
+    						onClose(false)
+    						axios.patch('Tables/status/'+tableid.toString(),{'table_status':'Empty'}).then((res)=>{ //remove the current session from the table
+    							onClose(false)
+    						})
+    					}
+    				)
+            		}
+       			)
+	    })	
+	}
 
 
 	return(
@@ -57,37 +78,39 @@ function TableDetails(props){
         	<Typography>Order History</Typography>
         	</ExpansionPanelSummary>
 
-        	<ExpansionPanelDetails>
-        	<List className={classes.expBar}>
-
-        		{ticket_list.map((ticket, t_idx) => (
-        			<div className={classes.expBar}>
-        			<Divider variant="fullWidth" component="div" />
-
-					<Typography component="h3" color="primary">
-					{'Order ' + (t_idx+1).toString() + ' \xa0\xa0\xa0' + ticket[t_idx].ticket_timestamp.toString().slice(0,-5)}</Typography>
-
-      				{ticket.map((order, o_idx) => (
-     					<ListItem key={o_idx+t_idx*ticket_list.length}>
-						<ListItemText primary={order.item_name + ', Remark: ' + order.remark + ', Status: ' + order.item_status + ', Price: $' + order.price.toString()}/>
-						</ListItem>	
-     				))}
-     				</div>
-	      		))}
-
-			</List>
-
+        	<ExpansionPanelDetails className={classes.expansionList}>
+    		    <TableContainer component={Paper} className={classes.tableContainer}>
+			      <Table className={classes.table} aria-label="Order Table">
+			        <TableHead className={classes.tableHead}>
+			          <TableRow>
+			            <TableCell className={classes.tableHeadCell}>Order Number</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Item Name</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Remark</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Price</TableCell>
+			            <TableCell className={classes.tableHeadCell}>Status</TableCell>
+			          </TableRow>
+			        </TableHead>
+        			{ticket_list.map((ticket, t_idx) => (
+        				<TableBody className={t_idx%2 ? classes.tableBody0 : classes.tableBody1}>
+  						{ticket.map((order, o_idx) => (
+  							<TableRow>
+								<TableCell>{t_idx + 1}</TableCell>
+  								<TableCell>{order.item_name}</TableCell>
+  								<TableCell>{order.remark}</TableCell>
+  								<TableCell>{'$' + order.price.toString()}</TableCell>
+  								<TableCell>{order.item_status}</TableCell>
+  							</TableRow>
+ 						))}
+ 						</TableBody>
+	      			))}
+      			</Table>
+      			</TableContainer>
         	</ExpansionPanelDetails>
 		</ExpansionPanel>
-		<ExpansionPanel expanded={expanded === 'panel2'} onChange={expansionChange('panel2')}>
-      		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        	<Typography>Table Settings</Typography>
-        	</ExpansionPanelSummary>
 
-        	<ExpansionPanelDetails>
-     			<Button variant="contained" >Pay Now</Button>
-        	</ExpansionPanelDetails>
-		</ExpansionPanel>
+		<div className={classes.divFinish}>
+     	<Button variant="contained" onClick={finishOrder}>Finish Order</Button>
+		</div>
 		</div>
 	)
 }
@@ -103,11 +126,11 @@ function TableBox(props){
 	//getTableOrder
 
 	return(
-		<Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth={true}>
+		<Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} fullWidth={true} maxWidth={'md'}>
             <DialogTitle id="simple-dialog-title">Table {tableid.toString()}</DialogTitle>
         	<List>
         		<ListItem>
-        			<TableDetails tableid={tableid}/>
+        			<TableDetails onClose={handleClose} tableid={tableid}/>
         		</ListItem>
         	</List>
     	</Dialog>
@@ -136,3 +159,23 @@ export default function TableDialogue(props){
 		</div>
 	)
 }
+
+
+/*
+{ticket_list.map((ticket, t_idx) => (
+        			<div className={classes.expBar}>
+
+					<Typography component="h3" color="primary">
+					{'Order ' + (t_idx+1).toString() + ' \xa0\xa0\xa0' + ticket[t_idx].ticket_timestamp.toString().slice(0,-5)}</Typography>
+
+					<Box border={1} borderRadius="borderRadius" borderColor="primary.main">
+
+      				{ticket.map((order, o_idx) => (
+     					<ListItem key={o_idx+t_idx*ticket_list.length}>
+						<ListItemText primary={order.item_name + ', Remark: ' + order.remark + ', Status: ' + order.item_status + ', Price: $' + order.price.toString()}/>
+						</ListItem>	
+     				))}
+     				</Box>
+     				</div>
+	      		))}
+*/

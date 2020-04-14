@@ -3,7 +3,7 @@ import * as React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { LandingPage } from "./components/LandingPage";
 import { Admin } from "./components/Admin";
-import { Customer } from "./components/Customer";
+import { CustomerEntry } from "./components/Customer";
 import { Kitchen } from "./components/Kitchen";
 import { Staff } from "./components/Staff";
 
@@ -15,12 +15,12 @@ class App extends React.Component {
         return (
             <Router>
                 <div>
-                    <Route exact path="/"> <Redirect to="/home"/> </Route>
-                    <Route exact path="/home" component={LandingPage} />
-                    <Route path="/admin" component={Admin} />
-                    <Route path="/customer" component={Customer} />
-                    <Route path="/kitchen" component={Kitchen} />
-                    <Route path="/staff" component={Staff} />
+                    <Route key="base" exact path="/"> <Redirect to="/home"/> </Route>
+                    <Route key="home" exact path="/home" component={LandingPage} />
+                    <Route key="admin" path="/admin" component={Admin} />
+                    <Route key="customer" path="/customer/:table_number" component={CustomerEntry} />
+                    <Route key="kitchen" path="/kitchen" component={Kitchen} />
+                    <Route key="staff" path="/staff" component={Staff} />
                 </div>
             </Router>
         );

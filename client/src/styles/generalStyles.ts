@@ -1,4 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
+import customerEntryImage from "./waitless_background.jpg";
+
 
 const drawerWidth = 240;
 
@@ -7,11 +9,95 @@ export const commonStyles = makeStyles((theme) =>
     root: {
       display: 'flex',
     },
+    background:{
+      backgroundImage: 'url('+customerEntryImage+')',
+      backgroundSize: 'cover',
+      width:'100%',
+      height:'100%',
+      position: 'fixed',
+    },
+    fillBar:{
+      minHeight: '120px',
+      backgroundColor: 'CORNFLOWERBLUE',
+      opacity: '0.5',
+      flexGrow: 1,
+      verticalAlign: 'middle',
+      alignItems: 'center',
+      color: 'white'
+    },
+    fillBarB:{
+      minHeight: '60px',
+      backgroundColor: 'CORNFLOWERBLUE',
+      marginTop: '85px',
+      opacity:'0.5',
+    },
+    fillBarW:{
+      paddingTop: '20px',
+      minHeight: '120px',
+      flexGrow: 1,
+      verticalAlign: 'middle',
+      alignItems: 'center',
+    },
+    entryButton:{
+      backgroundColor: 'SKYBLUE',
+      minWidth: '200px',
+      minHeight: '100px',
+      '&:hover': {
+          backgroundColor: 'CORNFLOWERBLUE',
+      },
+    },
+    rootCenter:{
+      width: '420px',
+      minHeight: '500px',
+      margin: '0 auto',
+      zIndex: 99,
+      display: 'block',
+      marginTop: '5%',
+      background: 'white',
+      textAlign: 'center',
+      boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)',
+      borderRadius: '.25em .25em .4em .4em',
+      overflow:'hidden',
+      opacity:'0.9',
+    },
+    tableHead: {
+      backgroundColor: 'azure',
+      color: theme.palette.common.white,
+    },
+    tableHeadCell: {
+    	fontWeight: 'bold',
+    	fontSize: '16px',
+    },
+    'tableBody0': {
+      backgroundColor: 'whitesmoke',
+    },
+    'tableBody1': {
+      backgroundColor: 'white',
+    },
+    table: {
+      width: '100%',
+      minWidth: 700,
+      alignItems: 'center',
+    },
+    divFinish:{
+      paddingTop: '20px',
+    },
+    toolTitle:{
+      minWidth: 120,
+    },
+    tableContainer: {
+   	  alignItems: 'center',
+    },
     expBar: {
       width: '100%',
     },
+    expansionList: {
+      maxHeight: 400,
+      overflow: 'auto',
+      border: '1px solid rgba(0, 0, 0, .125)',
+    },
     toolbar: {
-      paddingRight: 24, // keep right padding when drawer closed
+      paddingRight: 24,
     },
     toolbarIcon: {
       display: 'flex',

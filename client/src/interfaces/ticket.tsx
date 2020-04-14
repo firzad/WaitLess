@@ -20,7 +20,8 @@ export interface TicketItem{
     ingredients_added: string,
     ingredients_removed: string,
     remark: string,
-    item_status: string
+    item_status: string,
+    quantity: number
 }
 
 export interface TicketItemResponse{
@@ -41,6 +42,7 @@ export interface TicketMenuItem{
     ingredients_added: string,
     ingredients_removed: string,
     remark: string,
+    quantity: number,
     item_status: string,
     category_id: number,
     item_name: string,

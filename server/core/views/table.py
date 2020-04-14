@@ -8,7 +8,8 @@ table_resource_fields = {
     'table_number': fields.Integer,
     'table_size': fields.Integer,
     'table_status': fields.String,
-    'current_session': fields.Integer 
+    'current_session': fields.Integer,
+    'assistance': fields.Boolean
 }
 
 parser = reqparse.RequestParser()
@@ -71,6 +72,23 @@ class FreeTables(Resource):
         return free_tables, 200
 
 
+class TableStatus(Resource):
+    @marshal_with(table_resource_fields)
+    def patch(self, table_number):
+        """Clear a table of a session and reset its status"""
+        table = TableDetails.query.get_or_404(table_number)
+        if 'table_status' in request.json:
+            table.table_status = request.json['table_status']
+        if 'current_session' in request.json:
+            table.current_session = request.json['current_session']
+        else:
+            table.current_session = None
+        db.session.commit()
+
+        return table, 200
+
+
+
 class ActiveTables(Resource):
     @marshal_with(table_resource_fields)
     def get(self):
@@ -89,5 +107,14 @@ class TableSession(Resource):
 
         if 'session_id' in request.json:
             table.current_session = request.json['session_id']
+        db.session.commit()
+        return table, 200
+
+class SwitchTableAssistance(Resource):
+    @marshal_with(table_resource_fields)
+    def patch(self, table_number):
+        table = TableDetails.query.get_or_404(table_number)
+        if 'assistance' in request.json:
+            table.assistance = request.json['assistance']
         db.session.commit()
         return table, 200
