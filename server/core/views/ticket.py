@@ -24,6 +24,12 @@ class SessionTicket(Resource):
 
 class Ticket(Resource):
     @marshal_with(ticket_resource_fields)
+    def get(self):
+        """get ticket"""
+        ticket = TicketModel.query.all()
+        return ticket, 200
+
+    @marshal_with(ticket_resource_fields)
     def post(self):
         """Adds new ticket"""
         args = parser.parse_args()
