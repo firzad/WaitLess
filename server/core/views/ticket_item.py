@@ -73,9 +73,26 @@ class TicketItemsBySession(Resource):
             ticket_json.append(ticket_total)
         return ticket_json, 200
 
+class AllTicketMenuItems(Resource):
+    def get(self):
+        """get all ticket details for a given table session"""
+        tickets = TicketModel.query.all()
+        ticket_json = []
+        for t in tickets:
+            ticket_items = TicketItemModel.query.filter(TicketItemModel.ticket_id == t.ticket_id).all()
+            ticket_total = []
+            for ticket_item in ticket_items:
+                menu_entry = MenuItemById().get_no_marshal(ticket_item.menu_id)[0]
+                menu_marsh = marshal(menu_entry, menu_resource_fields)
+                ticket_item_marsh = marshal(ticket_item, ticket_item_resource_fields)
+                ticket_marsh = marshal(t, ticket_resource_fields)
+                ticket_total.append({**ticket_marsh,**ticket_item_marsh, **menu_marsh})
+            ticket_json.append(ticket_total)
+        return ticket_json, 200
+
 class TicketPriceTotal(Resource):
     def get(self, session_id):
-        ticket_list = TicketsBySession().get(session_id)
+        ticket_list = TicketItemsBySession().get(session_id)
         total_price = 0
         for ticket in ticket_list[0]:
             total_price += sum(item['price'] for item in ticket)
