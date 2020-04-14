@@ -1,20 +1,27 @@
 import * as React from "react";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+//import clsx from 'clsx';
 import {/*useState, useEffect, */Fragment} from "react"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Box/*, AppBar, Toolbar, IconButton*/, Typography } from "@material-ui/core";
 import { commonStyles } from "../../styles/generalStyles";
-import GridList from '@material-ui/core/GridList';
+//import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import axios from '../../axios';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+//import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 //import interfaces
 import {MenuJson, MenuResponse} from "../../interfaces/menu"
 import {Category, CategoryResponse} from "../../interfaces/category"
+//import { spacing } from '@material-ui/system';
 
 
 interface TabPanelProps {
@@ -62,9 +69,36 @@ interface TabPanelProps {
       //width: ,
       height: 450,
     },
+    cardRoot: {
+        //padding: theme.spacing(1),
+        maxWidth: 255,
+        width: '15vw',
+        height: '35vh',
+    },
+    media: {
+    height: 145,
+      },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
     },
+    cardShift: {
+        width: '10vw',
+        height: '35vh',
+    },
+    typography: {
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+      },
   }),
 );
 export function RenderMenuItems(props){
@@ -122,26 +156,50 @@ export default function Menu(props){
     function renderCategoryItems(){
         return(current_category.map((category,index) => (
             <TabPanel value={value} index={index}>
-                <GridList cellHeight={180} cols={4} className={classes.gridList}>
+                {/* <GridList cellHeight={250} cols={4} spacing={10} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
-                    </GridListTile>
-                    
+                    </GridListTile> */}
+                    <Grid container direction="row" >
                     {
                             menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
                                 return(
-                                
-                            <GridListTile key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
-                                {/* <Typography>{tile.img}</Typography> */}
-                                {/* <img src={imagePath+tile.img} alt={tile.title} /> */}
-                                <GridListTileBar
-                                title={tile.item_name}
-                                subtitle={<span>$ {tile.price}</span>}
-                                />
-                            </GridListTile>
+                                    <Grid item xs={props.open?4:3}>
+                                    <Card raised={true} 
+                                    // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
+                                    className={classes.cardRoot} key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
+                                    <CardActionArea>
+                                      <CardMedia
+                                        className={classes.media}
+                                        //image="/static/images/cards/contemplative-reptile.jpg"
+                                        title={tile.item_name}
+                                      />
+                                      <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h5">
+                                          {tile.item_name}
+                                        </Typography>
+                                        <Typography variant="subtitle1" color="textSecondary" component="p">
+                                          {<span>$ {tile.price}</span>}
+                                        </Typography>
+                                      </CardContent>
+                                    </CardActionArea>
+                                  </Card>
+                                  </Grid>
+                                  
+                            // <GridListTile key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
+                            //     {/* <Typography>{tile.img}</Typography> */}
+                            //     {/* <img src={imagePath+tile.img} alt={tile.title} /> */}
+                            //     <GridListTileBar
+                            //     title={tile.item_name}
+                            //     subtitle={<span>$ {tile.price}</span>}
+                            //     />
+                            // </GridListTile>
                             
-                        )})
+                        );
+                        })
                     }
-                </GridList>
+                {/* </GridList> */}
+                
+                </Grid>
             </TabPanel>
             ))
 

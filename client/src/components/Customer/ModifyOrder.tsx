@@ -65,19 +65,22 @@ export default function ModifyOrder(props){
     })
     console.log(itemDetails)
     var ingredientsList: string[]=[]
-    itemDetails.map((obj, index) => (
+    itemDetails.map((obj) => (
         ingredientsList.push(obj.ingredients)
     ))
     const IL = ingredientsList.join(', ');
     const description = menuD.description
     const [remarksState, setRemarksState] = React.useState("");
     const [orderQuantityState, setOrderQuantityState] = React.useState(0);
-
+    const [ingredientsChecked, setIngredientsChecked]= React.useState<String | any>([])
+    //const ingredientsObject: String[] = []; 
     const handleOnClickOrder =(event) =>{
+        console.log("&&&")
+        console.log(ingredientsChecked);
         props.setBucketValue(
             {
             "item_name":menuD.item_name,
-            //"ingredient":ingredientsState,
+            "ingredient":ingredientsChecked,
             "remarks":remarksState,
             "quantity":orderQuantityState
         }
@@ -94,11 +97,22 @@ export default function ModifyOrder(props){
     
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
-      };
-      
+
+        let ingredientName=event.target.name
+    
+        if(event.target.checked){
+            setIngredientsChecked((ingredientsChecked) => [...ingredientsChecked, ingredientName])
+        }
+        else{
+            setIngredientsChecked(ingredientsChecked => {
+                const ingredientsObject = ingredientsChecked.filter((item,j) => item !== ingredientName);
+                return ingredientsObject
+            });
+        }
+      }; 
     return(
         <div className={classes.root}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} variant="elevation" elevation={12}>
             <Grid container direction="row" justify="space-around" alignItems="center">
             </Grid>
             <Grid container direction="column" spacing={2} align-items="center">
@@ -144,10 +158,10 @@ export default function ModifyOrder(props){
                 </Grid>
                 <Grid item>
                     <Grid container direction="row" justify="center" alignItems="center">
-                        <Typography variant="body2">
+                        {/* <Typography variant="body2">
                         Remarks: 
-                        </Typography>
-                        <TextField id="remarks" label="remarks" variant="outlined" value={remarksState}
+                        </Typography> */}
+                        <TextField id="remarks" label="Remarks" variant="outlined" value={remarksState}
                         onChange={handleRemarks} />
                     </Grid>
                 </Grid>
@@ -162,7 +176,7 @@ export default function ModifyOrder(props){
                     </Grid>
                     <Grid item>
                     <IconButton aria-label="delete" onClick={()=>handleQuantityClick("Delete")}>
-                        <RemoveCircleIcon style={{ fontSize: 30 }}/>
+                        <RemoveCircleIcon style={{ fontSize: 31 }}/>
                     </IconButton>
                     </Grid> 
                 </Grid>

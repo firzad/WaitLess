@@ -7,9 +7,11 @@ import { Customer } from "./components/Customer";
 import { Kitchen } from "./components/Kitchen";
 import { Staff } from "./components/Staff";
 
+
 class App extends React.Component {
 
     render() {
+        
         return (
             <Router>
                 <div>

@@ -6,7 +6,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-//import ListSubheader from '@material-ui/core/ListSubheader';
+//import {Ticket, TicketPostResponse} from "../../interfaces/Ticket"
+//import {TicketItem, TicketItemPostResponse} from "../../interfaces/Ticket"
+//import axios from '../../axios';
+//import {Order, OrderResponse, OrderPostResponse} from "../../interfaces/order"
 import {
     Drawer,
     Divider,
@@ -57,15 +60,92 @@ const useStyles = makeStyles((theme: Theme) =>
           alignItems: 'center',
           alignText: 'center',
           height: '100%'
-      }
+      },
+    margin: {
+        margin: theme.spacing(1),
+      },
+    listGrid: {
+        height: '70vh',
+        overflow: 'auto'
+    },
+    typography: {
+        fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+      },
 })
 );
 
 export default function Bucket(props){
     const classes = useStyles();
-    const itemDetails=props.orderValue
+    const itemList=props.orderValue
+    console.log("------0")
+    console.log(itemList)
     //const itemList = props.itemList
     const theme = useTheme();
+    
+   /* const [order, setOrder] = useState<Order | any>([]);
+    const newOrder : Order = {
+        'item_name': "",
+        'menu_id':0,
+        'ingredients_added': "",
+        'ingredients_removed': "",
+        'remark': "",
+        'order_item_id': 0
+    }
+
+    const addOrder = (table_size: number) => {
+        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
+            (res:OrderPostResponse) => {
+                setOrder((order) => [...order, res.data]);
+            }
+        )
+    }
+    const addOrder = (table_size: number) => {
+        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
+            (res:OrderPostResponse) => {
+                setOrder((order) => [...order, res.data]);
+            }
+        )
+    }
+    const addOrder = (table_size: number) => {
+        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
+            (res:OrderPostResponse) => {
+                setOrder((order) => [...order, res.data]);
+            }
+        )
+    }*/
+    // axios.post<Ticket>(`Ticket`,{'session_id': session_id, 'table_number': table_number}).then(
+    //     (res: TicketServerPostResponse) => {
+    //         ///..... add to previous order list, etc.
+    //         ticket_id = res.data.ticket_id
+    
+    
+    //         ////POST TICKET ITEMS
+    //         //Posts Each individual meal order in the ticket
+    //         //Couldn't figure out how to post in bulk, does it individually
+    //         //bucket_list = useState(...)
+    
+    //         for (const ticket_item in bucket_list){
+    //             axios.post<TicketItem>(`TicketItem`,{'ticket_id': ticket_id,'menu_id': menu_id,
+    //                                  'ingredients_added': ingredients_added, 'ingredients_removed': ingredients_removed, 
+    //                                  'remark': remark, 'item_status': item_status}).then(
+    //             (res: TicketPostResponse) => {
+    //             })
+    //         }
+    //     })
+
+
+
     return(
         <Drawer
         className={classes.drawer}
@@ -74,52 +154,56 @@ export default function Bucket(props){
         open={props.open}
         classes={{
             paper: classes.drawerPaper,
-        }}
-        >
-            <div className={classes.drawerHeader}>
-                <IconButton onClick={props.handleDrawerClose}>
-                {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-                <Typography variant="h5" align="right">
-                    Bucket
-                </Typography>
-            </div>
+        }}>
+        <div className={classes.drawerHeader}>
+            <IconButton onClick={props.handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+            <Typography variant="h4" align="right" className={classes.typography}>
+                Bucket
+            </Typography>
+            <Divider />
+        </div>
             <Divider/>
             <Paper className={classes.paper}>
-             <Grid container spacing={4} direction="column" justify="center">
-             <Grid item container justify="center">
-                <Grid item> 
-                    <Typography variant="h5" align="center">
-                        Item Name
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <List>
-                        {itemDetails?<Fragment>
-                        {itemDetails.map((obj) => (
-                        <ListItem button key={obj.item_name}>
-                            <ListItemText primary={obj.item_name} />
-                            {/* <ListItemText primary={obj.itemPrice} /> */}
-                        </ListItem>
-                         ))}
-                         </Fragment>:<div>"text"</div>} 
-                    </List>
-                    <Divider/>
-                </Grid>
-                <Grid item >
-                    <Button size="medium" color="primary">
-                        PLACE ORDER
-                    </Button>
-                    <Divider/>
-                </Grid>
-                <Grid item>
-                    <Button size="medium" color="primary">
-                        PAY BILL
-                    </Button>
-                    <Divider/>
-                </Grid>
-                </Grid>
+                <Grid container spacing={4} direction="column" justify="center">
+                    <Grid item container justify="flex-start"  className={classes.listGrid}>
+                        <Grid item>
+                            <List>
+                                {itemList?<Fragment>
+                                {itemList.map((obj) => (
+                                <ListItem button key={obj.item_name}>
+                                    <ListItemText primary={obj.item_name} />
+                                    {/* <ListItemText primary={obj.itemPrice} /> */}
+                                </ListItem>
+                                ))}
+                                </Fragment>:<Fragment><Typography variant="h1">"{console.log(itemList)}"</Typography></Fragment>} 
+                            </List>
+                            
+                        </Grid>
+                    </Grid>
+                    <Grid item container direction="column" alignItems="center" justify="flex-end" spacing ={1}>
+                        <Grid item>
+                            <Button size="medium" variant="outlined" color="secondary" className={classes.margin}>
+                                PLACE ORDER
+                            </Button>
+                            </Grid>
+                        <Divider/>
+                    {/* </Grid> */}
+                        <Grid item>
+                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin}>
+                                PAY BILL
+                            </Button>
+                            <Divider/>
+                        </Grid>
+                    </Grid>
             </Grid> 
+            {/* <Button size="medium" color="primary" className={classes.button2} >
+                PLACE ORDER
+            </Button>
+            <Button size="medium" color="primary" className={classes.button1}>
+                PAY BILL
+            </Button> */}
             </Paper>
         </Drawer>
     );
