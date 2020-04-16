@@ -46,7 +46,7 @@ class TicketItem(Resource):
         args = parser.parse_args()
         new_item = TicketItemModel(ticket_id=args.get('ticket_id'), menu_id=args.get('menu_id'),
                                     ingredients_added=args.get('ingredients_added'),ingredients_removed=args.get('ingredients_removed'),
-                                     remark=args.get('remark'), item_status=args.get('item_status'),quantity=args.get('quantity'))
+                                     remark=args.get('remark'),quantity=args.get('quantity'))
         db.session.add(new_item)
         db.session.commit()
         return new_item, 200
