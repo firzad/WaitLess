@@ -31,6 +31,7 @@ parser.add_argument('ingredients_removed')
 parser.add_argument('remark')
 parser.add_argument('item_status')
 parser.add_argument('quantity')
+parser.add_argument('order_item_ids')
 
 class TicketItemByTicket(Resource):
 
@@ -51,23 +52,26 @@ class TicketItem(Resource):
         db.session.commit()
         return new_item, 200
 
-class UpdateTicketItem(Resource):
-    @marshal_with(ticket_item_resource_fields)
-    def patch(self, order_item_id):
-        ticket_item = TicketItemModel.query.get_or_404(order_item_id)
+class UpdateTicketItems(Resource):
+    #@marshal_with(ticket_item_resource_fields)
+    def patch(self):
 
+        print(request.json)
         if 'item_status' in request.json:
-            ticket_item.item_status = request.json['item_status']
-
-        all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
-
+            if 'order_item_ids' in request.json:
+                for order_item_id in request.json['order_item_ids']:
+                    print(order_item_id)
+                    ticket_item = TicketItemModel.query.get_or_404(order_item_id)
+                    ticket_item.item_status = request.json['item_status']
         db.session.commit()
+ 
+        all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
 
         if all(item['item_status'] == 'Complete' for item in all_ticket_items):
             ticket = TicketModel.query.get_or_404(ticket_item.ticket_id);
             ticket.ticket_status = 'Complete'
-            db.session.commit()
-        return ticket_item, 200       
+        db.session.commit()
+        return {}, 200       
 
 
 """Gets tickets for a given table session, including menu database entry"""
