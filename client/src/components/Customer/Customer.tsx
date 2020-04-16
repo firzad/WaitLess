@@ -169,7 +169,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
-export function Customer() { 
+export function Customer(props) { 
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   // const theme = React.useMemo(
@@ -211,7 +211,7 @@ export function Customer() {
     return (
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
-        <div className={styleClasses.root} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
+        <div className={styleClasses.root} style={{height:'100vh',opacity:'0.9', backgroundSize: 'cover', backgroundImage: `url(${Image})`}}>
             <AppBar position="static" className={clsx(classes1.appBar)} color='transparent'
             >
                 <Toolbar>
