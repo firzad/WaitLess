@@ -6,13 +6,14 @@ from core.views.table import TableDetailById
 from core.views.menu import MenuItemById
 from core.models.menu import Menu
 
-from core.views.ticket import ticket_resource_fields
+from core.views.ticket import ticket_resource_fields, TicketById
 from core.views.menu import menu_resource_fields
 
 from core import db
 
 
 ticket_item_resource_fields = {
+    'order_item_id' : fields.Integer,
     'ticket_id': fields.Integer,
     'menu_id': fields.Integer,
     'ingredients_added': fields.String,
@@ -43,7 +44,6 @@ class TicketItem(Resource):
     @marshal_with(ticket_item_resource_fields)
     def post(self):
         args = parser.parse_args()
-        print(args)
         new_item = TicketItemModel(ticket_id=args.get('ticket_id'), menu_id=args.get('menu_id'),
                                     ingredients_added=args.get('ingredients_added'),ingredients_removed=args.get('ingredients_removed'),
                                      remark=args.get('remark'), item_status=args.get('item_status'),quantity=args.get('quantity'))
@@ -51,6 +51,23 @@ class TicketItem(Resource):
         db.session.commit()
         return new_item, 200
 
+class UpdateTicketItem(Resource):
+    @marshal_with(ticket_item_resource_fields)
+    def patch(self, order_item_id):
+        ticket_item = TicketItemModel.query.get_or_404(order_item_id)
+
+        if 'item_status' in request.json:
+            ticket_item.item_status = request.json['item_status']
+
+        all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
+
+        db.session.commit()
+
+        if all(item['item_status'] == 'Complete' for item in all_ticket_items):
+            ticket = TicketModel.query.get_or_404(ticket_item.ticket_id);
+            ticket.ticket_status = 'Complete'
+            db.session.commit()
+        return ticket_item, 200       
 
 
 """Gets tickets for a given table session, including menu database entry"""
@@ -73,10 +90,10 @@ class TicketItemsBySession(Resource):
             ticket_json.append(ticket_total)
         return ticket_json, 200
 
-class AllTicketMenuItems(Resource):
+class ActiveTicketMenuItems(Resource):
     def get(self):
-        """get all ticket details for a given table session"""
-        tickets = TicketModel.query.all()
+        """get all ticket details"""
+        tickets = TicketModel.query.filter(TicketModel.ticket_status == 'Active').all()
         ticket_json = []
         for t in tickets:
             ticket_items = TicketItemModel.query.filter(TicketItemModel.ticket_id == t.ticket_id).all()

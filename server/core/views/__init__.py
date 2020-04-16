@@ -5,7 +5,7 @@ from .menu import MenuItems, MenuItemById, MenuItemByCategory
 from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
 from .category import Categories, CategoryById
 from .ticket import Ticket, SessionTicket
-from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal, AllTicketMenuItems
+from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal, ActiveTicketMenuItems, UpdateTicketItem
 from .ingredients import Ingredients
 from .itemDetails import ItemDetails
 from .summary import SummaryTable, SummaryById
@@ -30,7 +30,8 @@ api.add_resource(CategoryById, '/Categories/<category_id>')
 api.add_resource(SessionTicket, '/Ticket/<session_id>')
 api.add_resource(Ticket, '/Ticket')
 api.add_resource(TicketItem, '/TicketItem')
-api.add_resource(AllTicketMenuItems, '/Ticket/all')
+api.add_resource(UpdateTicketItem, '/TicketItem/Update/<order_item_id>')
+api.add_resource(ActiveTicketMenuItems, '/Ticket/active')
 api.add_resource(TicketItemByTicket, '/Ticket/OrderItems/<ticket_id>')
 api.add_resource(TicketItemsBySession, '/Ticket/Session/<session_id>')
 api.add_resource(TicketPriceTotal, '/Ticket/Session/Price/<session_id>')

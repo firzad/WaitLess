@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MoreVert from '@material-ui/icons/MoreVert';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
@@ -30,6 +30,20 @@ function TableDetails(props){
 	const [expanded, setExpanded] = React.useState('');
 
 	let [ticket_list, setTicketList] = React.useState<TicketMenuItem | any>([]);
+	const [is_paying, setIsPaying] = React.useState(false) //boolean for if the customer has selected to pay
+
+	useEffect(() => {
+		const interval = setInterval(()=>{
+			axios.get(`Tables/`+tableid.toString()).then(
+            (res) => {
+                const data = res.data
+                if (data.table_status === 'Paying'){
+                	setIsPaying(true)
+                }
+        	})
+		return () => clearInterval(interval)
+		},1000)
+	})
 
 	const expansionChange = (panel) => (event, isExpanded) => {
 		if (isExpanded === true){
@@ -109,7 +123,7 @@ function TableDetails(props){
 		</ExpansionPanel>
 
 		<div className={classes.divFinish}>
-     	<Button variant="contained" onClick={finishOrder}>Finish Order</Button>
+     	<Button disabled={!is_paying} variant="contained" onClick={finishOrder}>Finish Order</Button>
 		</div>
 		</div>
 	)
@@ -159,23 +173,3 @@ export default function TableDialogue(props){
 		</div>
 	)
 }
-
-
-/*
-{ticket_list.map((ticket, t_idx) => (
-        			<div className={classes.expBar}>
-
-					<Typography component="h3" color="primary">
-					{'Order ' + (t_idx+1).toString() + ' \xa0\xa0\xa0' + ticket[t_idx].ticket_timestamp.toString().slice(0,-5)}</Typography>
-
-					<Box border={1} borderRadius="borderRadius" borderColor="primary.main">
-
-      				{ticket.map((order, o_idx) => (
-     					<ListItem key={o_idx+t_idx*ticket_list.length}>
-						<ListItemText primary={order.item_name + ', Remark: ' + order.remark + ', Status: ' + order.item_status + ', Price: $' + order.price.toString()}/>
-						</ListItem>	
-     				))}
-     				</Box>
-     				</div>
-	      		))}
-*/
