@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Grid, FormLabel, FormControl, FormGroup, FormControlLabel, TextField, Paper } from '@material-ui/core';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, makeStyles/*, withStyles, WithStyles*/ } from '@material-ui/core/styles';
 //import { userStyles } from "src/styles/userStyles";
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -45,6 +45,40 @@ const useStyles = makeStyles((theme: Theme) =>
       },
   }),
 );
+// const styles = (theme: Theme) =>
+// createStyles({
+// root: {
+//     margin: 0,
+//     padding: theme.spacing(2),
+// },
+// closeButton: {
+//     position: 'absolute',
+//     right: theme.spacing(1),
+//     top: theme.spacing(1),
+//     color: theme.palette.grey[500],
+// },
+// });
+/*export interface GridTitleProps extends WithStyles<typeof styles> {
+    id: string;
+    children: React.ReactNode;
+    onClose: () => void;
+  }
+  
+  const GridTitle = withStyles(styles)((props: GridTitleProps) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <Grid className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+    </Grid>
+     
+    );
+  });*/
+
 export default function ModifyOrder(props){
     const menuD=props.modifyvalue
     const [itemDetails, setitemDetails] = React.useState<ItemDetailsJson | any>([]);
@@ -63,6 +97,7 @@ export default function ModifyOrder(props){
             )
         }
     })
+    console.log("++++++++++")
     console.log(itemDetails)
     var ingredientsList: string[]=[]
     itemDetails.map((obj) => (
@@ -73,6 +108,7 @@ export default function ModifyOrder(props){
     const [remarksState, setRemarksState] = React.useState("");
     const [orderQuantityState, setOrderQuantityState] = React.useState(0);
     const [ingredientsChecked, setIngredientsChecked]= React.useState<String | any>([])
+    //const [ingredientState, setIngredientState]= React.useState(false)
     //const ingredientsObject: String[] = []; 
     const handleOnClickOrder =(event) =>{
         console.log("&&&")
@@ -80,11 +116,17 @@ export default function ModifyOrder(props){
         props.setBucketValue(
             {
             "item_name":menuD.item_name,
+            "menu_id":menuD.menu_id,
             "ingredient":ingredientsChecked,
             "remarks":remarksState,
-            "quantity":orderQuantityState
+            "quantity":orderQuantityState,
+            "ordered":false,
         }
         )
+        // setRemarksState("");
+        // setOrderQuantityState(0);
+        // setIngredientsChecked([]);
+        props.setmodifyValue(null);
     }
     const handleQuantityClick = (event) =>{
         setOrderQuantityState( stateCount => 
@@ -97,6 +139,7 @@ export default function ModifyOrder(props){
     
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
+        //setIngredientState(true);
 
         let ingredientName=event.target.name
     
@@ -109,7 +152,14 @@ export default function ModifyOrder(props){
                 return ingredientsObject
             });
         }
+        //setIngredientState(false);
       }; 
+    //   const [open, setOpen] = React.useState(false);
+
+    //   const handleClose = () => {
+    //     setOpen(false);
+    //   };
+    //const onClose: () => void;
     return(
         <div className={classes.root}>
             <Paper className={classes.paper} variant="elevation" elevation={12}>
@@ -122,15 +172,23 @@ export default function ModifyOrder(props){
                         {menuD.item_name}
                     </Typography>
                     </Grid>
-                    <Grid item>
+                    {/* <Grid item> */}
                     {/* <IconButton aria-label="close" className={classes.closeButton}>
                         <CloseIcon />
-                    </IconButton> */}
-                    </Grid>
+                    </IconButton> 
+                    {onClose ? (
+                    <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                    </IconButton>
+                    ) : null}
+                    {/* <GridTitle onClose={handleClose}>
+                    {menuD.item_name}  
+                    </GridTitle> */}
+                    {/* </Grid> */}
                 </Grid>
                 <Grid item xs={2} sm container>
                     <Grid item xs>
-                        <img className={classes.img} alt="complex" src="assets/Customer/b1.jpg" />
+                        {/* <img className={classes.img} src="assets/Customer/b1.jpg" /> */}
                     </Grid>
                 </Grid>
                 <Grid item>
@@ -149,7 +207,7 @@ export default function ModifyOrder(props){
                         <FormGroup>
                         {itemDetails.map((obj) => (
                             <FormControlLabel
-                                control={<Checkbox onChange={handleChange} name={obj.ingredients} />}
+                                control={<Checkbox /*checked={ingredientState}*/ onChange={handleChange} name={obj.ingredients} />}
                                 label={obj.ingredients} labelPlacement="start"
                             />
                             ))}

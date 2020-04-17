@@ -17,7 +17,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 //import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-
+//import Burrito from './burrito.jpg';
+//import Burrito from './burrito.jpeg';
 //import interfaces
 import {MenuJson, MenuResponse} from "../../interfaces/menu"
 import {Category, CategoryResponse} from "../../interfaces/category"
@@ -74,6 +75,7 @@ interface TabPanelProps {
         maxWidth: 255,
         width: '15vw',
         height: '35vh',
+        //opacity: '0.9'
     },
     media: {
     height: 145,
@@ -133,6 +135,10 @@ export default function Menu(props){
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
+    const onModifyMenu = (tile)=>{
+        props.setmodifyValue(null);
+        props.setmodifyValue(tile);
+    }
     React.useEffect(() => {
         if (current_category.length === 0){
         axios.get('Categories').then(
@@ -166,11 +172,11 @@ export default function Menu(props){
                                     <Grid item xs={props.open?4:3}>
                                     <Card raised={true} 
                                     // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
-                                    className={classes.cardRoot} key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
+                                    className={classes.cardRoot} key={tile.menu_id} onClick={()=>onModifyMenu(tile)}>
                                     <CardActionArea>
                                       <CardMedia
                                         className={classes.media}
-                                        //image="/static/images/cards/contemplative-reptile.jpg"
+                                        image={'/burrito.jpg'}
                                         title={tile.item_name}
                                       />
                                       <CardContent>

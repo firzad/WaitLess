@@ -10,7 +10,7 @@ import { commonStyles } from "../../styles/generalStyles";
 import { fade, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-
+import axios from '../../axios';
 import ModifyOrder from './ModifyOrder';
 import Menu from './Menu'
 import Bucket from './Bucket';
@@ -23,10 +23,12 @@ import {MuiThemeProvider,  createMuiTheme } from '@material-ui/core/styles';
 //import LocationOnIcon from '@material-ui/icons/LocationOn';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import Image from './kitchen.jpeg';
+import Image from './brown.jpeg';
+import Avatar from '@material-ui/core/Avatar';
+import { deepOrange } from '@material-ui/core/colors';
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
-
+//import { ImageBackground, StyleSheet, Text, View } from "react-native";
 const drawerWidth = 240;
 const newTheme = createMuiTheme({
   palette: {
@@ -38,10 +40,11 @@ const newTheme = createMuiTheme({
     },
     secondary: {
       light: '#ff7961',
-      main: '#8d6e63',
+      main: '#3e2723',
       dark: '#ba000d',
-      contrastText: '#000',
+      //contrastText: '#000',
     },
+    contrastThreshold: 3,
   },
 });
 const useStyles = makeStyles((theme: Theme) =>
@@ -52,14 +55,39 @@ const useStyles = makeStyles((theme: Theme) =>
       //width: '100%',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
-      overflow: 'hidden',
+      //overflow: 'hidden',
       backgroundColor: theme.palette.background.paper,
+      //backgroundSize: 'auto'
       
     },
+    typography: {
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    },
+    // container: {
+    //   flex: 1,
+    //   flexDirection: "column"
+    // },
+    // image: {
+    //   flex: 1,
+    //   resizeMode: "cover",
+    //   justifyContent: "center"
+    // },
     paper: {
       padding: theme.spacing(1),
       margin: 'auto',
       width: '100%',
+      opacity:'0.5',
       
       //maxWidth: 250,
     },
@@ -143,7 +171,8 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       marginRight: 0,
-      height:'100%'
+      height:'100%',
+      overflowY: 'auto',
     },
     contentShift: {
       transition: theme.transitions.create('margin', {
@@ -166,10 +195,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     grow:{
       flexGrow: 1, 
-    }
+    },
+    orange: {
+      color: theme.palette.getContrastText(deepOrange[500]),
+      backgroundColor: deepOrange[500],
+    },
   }),
 );
-export function Customer() { 
+export function Customer(props) { 
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   // const theme = React.useMemo(
@@ -185,9 +218,9 @@ export function Customer() {
 ////////////////////////////////////
     //const themeValue: any = newTheme();
 //export function Customer(props) {
-    //const {handleEntryCustomer} = props
-    ////SET handleEntryCustomer(0) once the session is done
-
+    //const {handleExitCustomer} = props
+    ////SET sethandleEntryCustomer(0) once the session is done
+    const {current_session,table_number/*,handleExitCustomer*/}=props
      
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
@@ -195,28 +228,40 @@ export function Customer() {
     const [open, setOpen] = React.useState(false);
     const [/*index, */setIndex] = React.useState(0);
     const [modifyvalue, setmodifyValue] = React.useState(null);
-    const [orderValue, setOrderValue] = React.useState([{a:'b'}]);
+    const [orderValue, setOrderValue] = React.useState<any>([]);
+    const [orderedValue,setOrderedValue] = React.useState<any>([]);
+    //const [tableDetails, setTableDetails]= React.useState();
     //const [bottomValue, setbottonValue] = React.useState(0);
     const handleDrawerOpen = () => {
       setOpen(true);
     };
-
+    const setOrderedBucketValue =(order:any) => {
+      setOrderedValue((orderValue) => [...orderValue, order]);
+    }
     const handleDrawerClose = () => {
         setOpen(false);
     };
     const setBucketValue =(order:any) => {
       setOrderValue((orderValue) => [...orderValue, order]);
     }
+    function addAssistanceTable(){
+      axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':true})
+          //handleClose()
+    }
+    const bucketClear =()=>{
+      setOrderValue([])
+    }
     console.log(orderValue)
     return (
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
-        <div className={styleClasses.root} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
-            <AppBar position="static" className={clsx(classes1.appBar)} color='transparent'
+        <div className={styleClasses.root} >
+            <AppBar position="static" className={clsx(classes1.appBar)} color='secondary'
             >
                 <Toolbar>
-                    <Typography variant="h6" className={styleClasses.title}>
-                        Customer
+                    <Avatar className={classes.orange}>{table_number}</Avatar>
+                    <Typography variant="h4" className={styleClasses.title} align='center'>
+                        WAITLESS
                     </Typography>
                     <div className={classes.search}>
                       <div className={classes.searchIcon}>
@@ -232,28 +277,35 @@ export function Customer() {
                       />
                     </div>
                       <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
-                        color="inherit" 
+                        color="secondary" 
                         aria-label="open drawer" 
                         onClick={handleDrawerOpen}>
-                            <MenuIcon />
+                            <MenuIcon style={{color:"white" }}/>
+                            {/* <MenuIcon color="secondary" /> */}
                       </IconButton>
 
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>
-            <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} open={open} orderValue={orderValue}/>
-            <main className={clsx(classes.content, {[classes.contentShift]: open,})} >
+            <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} 
+            setOrderValue={setOrderValue}
+            bucketClear={bucketClear}
+            orderedValue={orderedValue}
+            setOrderedBucketValue={setOrderedBucketValue}
+            current_session={current_session} table_number={table_number}
+            open={open} orderValue={orderValue}/>
+            <main className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
               {/* <Container className={classes1.container}> */}
                   <Grid container spacing={3}>
                     
                     <Grid item md={9}>
-                    <Paper variant="elevation" elevation={12} className={classes.paper}>
+                    <Paper variant="elevation" elevation={12} className={classes.paper} >
                       <Menu setmodifyValue={setmodifyValue} open={open}/>
                     </Paper>
                     </Grid>
                     
                     <Grid item md={3}>
-                        {modifyvalue?<ModifyOrder setBucketValue={setBucketValue} modifyvalue={modifyvalue}/>:null}
+                        {modifyvalue?<ModifyOrder setBucketValue={setBucketValue} setmodifyValue={setmodifyValue} modifyvalue={modifyvalue}/>:null}
                     </Grid>
                   </Grid>
                   {/* <Bucket /> */}
@@ -271,10 +323,10 @@ export function Customer() {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-            <AppBar position="fixed" color="transparent" className={classes.bottomAppBar}>
-              <Toolbar>
+            <AppBar position="fixed" color="secondary" className={classes.bottomAppBar}>
+              <Toolbar variant="dense">
                 <IconButton edge="start" color="inherit" aria-label="open drawer">
-                  <AssistantIcon />
+                  <AssistantIcon onClick={addAssistanceTable}/>
                 </IconButton>
                 <div className={classes.grow} />
                 <IconButton edge="end" color="inherit">
