@@ -3,22 +3,25 @@ import React, { useState, useEffect } from "react";
 import { orderTicketStyles } from "src/styles/orderTicket";
 import {
     Grid, Card, CardContent, Typography, CardActions, Button, CardHeader, Avatar, IconButton, Checkbox,
-    FormControlLabel, FormGroup, FormControl, // FormLabel,
+    FormControlLabel, FormGroup, FormControl // FormLabel,
 } from "@material-ui/core";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import AccessibilityIcon from "@material-ui/icons/Accessibility";
+import { updateItemToComplete } from "src/services/ticketItem.service";
 
 export function OrderTicket(props: any) {
     const styleClasses = orderTicketStyles();
+    const selectItemList: Array<number> = [];
     // const bull = <span className={styleClasses.bullet}>•</span>;
 
-    const [dateTime, setDateTime] = useState(moment.duration(moment().utc().diff(moment(props.orderItem.orderDate).utc())));
+    const [dateTime, setDateTime] = useState(moment.duration(moment().utc().diff(moment(props.order.ticket_timestamp).utc())));
     const [priorityTheme, setPriorityTheme] = useState({ timeColor: 'default', cardBorderColor: 'default' });
+    const [selectedItems, setSelectedItems] = useState(selectItemList);
+    const [serveButtonDisabled, setServeButtonDisabled] = useState(true);
 
     useEffect(() => {
         const id = setInterval(() => {
-            setDateTime(moment.duration(moment().utc().diff(moment(props.orderItem.orderDate).utc())));
-            // console.log(props.orderItem.orderNo, dateTime.minutes())
+            setDateTime(moment.duration(moment().utc().diff(moment(props.order.ticket_timestamp).utc())));
             if (dateTime.asMinutes() < 10) {
                 setPriorityTheme({ timeColor: styleClasses.timerGreen, cardBorderColor: styleClasses.cardBorderGreen });
             } else if (dateTime.asMinutes() < 15) {
@@ -33,7 +36,36 @@ export function OrderTicket(props: any) {
         // eslint-disable-next-line
     }, [dateTime]);
 
+    const updateItems = (e: any) => {
+        const options = selectedItems;
+        let index;
+        // check if the check box is checked or unchecked
+        if (e.target.checked) {
+            // add the numerical value of the checkbox to options array
+            options.push(+e.target.value);
+            setServeButtonDisabled(false);
+        } else {
+            // or remove the value from the unchecked checkbox from the array
+            index = options.indexOf(+e.target.value);
+            options.splice(index, 1);
+
+            if(options.length == 0){
+                setServeButtonDisabled(true);
+            }
+        }
+        // update the state with the new array of options
+        setSelectedItems(options);
+    }
+
+    const serveItems = () => {
+        updateItemToComplete(selectedItems).then((resp) => {
+            setSelectedItems(selectItemList);
+            props.updateTickets();
+        });
+    }
+
     return (
+
         <Grid key={props.value} item>
             <Card className={`${styleClasses.root} ${priorityTheme.cardBorderColor}`} variant="outlined">
                 <CardHeader
@@ -43,52 +75,46 @@ export function OrderTicket(props: any) {
                             <AccessTimeIcon />
                         </Avatar>
                     }
-                    // action={
-                    // <IconButton aria-label="settings">
-                    //     <MoreVertIcon />
-                    // </IconButton>
-                    // }
-                    title={`Table #${props.orderItem.tabeleNo}     Order #${props.orderItem.orderNo}`}
+                    title={`Table #${props.order.table_number}      Order #${props.order.ticket_id}`}
                     subheader={moment.utc(dateTime.asMilliseconds()).format("HH:mm:ss")}
                 />
                 <CardContent>
                     {/* <Typography variant="h5" component="h2">
                         be{bull}nev{bull}o{bull}lent
                     </Typography> */}
-                    <Typography className={styleClasses.pos} color="textSecondary">
-                        Category
-                    </Typography>
-                    <FormControl component="fieldset" className={styleClasses.formControl}>
-                        {/* <FormLabel component="legend">Category</FormLabel> */}
-                        <FormGroup>
-                            <FormControlLabel className={styleClasses.formControlLabel}
-                                control={<Checkbox value="Test Item #1" inputProps={{ 'aria-label': 'Test Item #1' }} />}
-                                label="Test Item #1" />
-                            <Typography variant="body2" component="p">
-                                {"+ Ingredient #1"}
+                    {Object.keys(props.order.orderItems).map((key, idx) => (
+                        <div id={`${idx}`} key={idx}>
+                            <Typography className={styleClasses.pos} color="textSecondary">
+                                {key}
                             </Typography>
-                            <Typography variant="body2" component="p">
-                                {"+ Ingredient #2"}
-                            </Typography>
-                            <Typography variant="body2" component="p">
-                                {"- Ingredient #3"}
-                            </Typography>
-                            <FormControlLabel className={styleClasses.formControlLabel}
-                                control={<Checkbox value="Test Item #2" inputProps={{ 'aria-label': 'Test Item #2' }} />}
-                                label="Test Item #2" />
-                            <FormControlLabel className={styleClasses.formControlLabel}
-                                control={<Checkbox value="Test Item #3" inputProps={{ 'aria-label': 'Test Item #3' }} />}
-                                label="Test Item #3" />
-                        </FormGroup>
-                        {/* <FormHelperText>Helper Text</FormHelperText> */}
-                    </FormControl>
-                    <Typography variant="body2" component="p">
-                        {" Remarks and Stuff"}
-                    </Typography>
+                            {props.order.orderItems[key].map((item, index) => (
+                                <div id={index} key={index}>
+                                    <FormControl component="fieldset" className={styleClasses.formControl}>
+                                        <FormGroup>
+                                            <FormControlLabel className={styleClasses.formControlLabel}
+                                                control={<Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems} disabled={item.item_status === "Complete"}/>}
+                                                label={item.item_name} />
+                                            {item.ingredients_added &&
+                                                <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
+                                                    {`+ ${item.ingredients_added}`}
+                                                </Typography>
+                                            }
+                                            {item.remark &&
+                                                <Typography variant="body2" component="p">
+                                                    {`${item.remark}`}
+                                                </Typography>
+                                            }
+                                        </FormGroup>
+                                        {/* <FormHelperText>Helper Text</FormHelperText> */}
+                                    </FormControl>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </CardContent>
                 <CardActions>
-                    <Button variant="outlined" size="small">Serve</Button>
-                    <IconButton aria-label="settings">
+                    <Button className={`flex-grow-1`} variant="outlined" size="small" disabled={serveButtonDisabled} onClick={serveItems}>Serve</Button>
+                    <IconButton aria-label="settings" className={`flex-grow-1`} >
                         <AccessibilityIcon />
                     </IconButton>
                 </CardActions>
@@ -96,3 +122,4 @@ export function OrderTicket(props: any) {
         </Grid>
     );
 }
+
