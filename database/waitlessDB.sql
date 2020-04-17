@@ -59,6 +59,7 @@ ticket_id bigserial NOT NULL UNIQUE,
 session_id bigint NOT NULL, 
 ticket_timestamp timestamp,
 table_number integer, 
+ticket_status varchar(50) NOT NULL,
 PRIMARY KEY(ticket_id),
 FOREIGN KEY(table_number) REFERENCES table_details(table_number) ON DELETE CASCADE,
 FOREIGN KEY(session_id) REFERENCES summary(session_id) ON DELETE CASCADE);

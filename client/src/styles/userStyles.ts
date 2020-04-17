@@ -25,5 +25,14 @@ export const userStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             padding: theme.spacing(3),
         },
+        orderTicketFilter: {
+            flexGrow: 1,
+            width: '100%',
+            backgroundColor: theme.palette.background.paper,
+        },
+        noTicket: {
+            marginLeft: '25%',
+            marginTop: '25%',
+        },
     })
 );

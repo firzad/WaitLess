@@ -2,7 +2,8 @@ export interface Ticket{
     ticket_id: number,
     session_id: number,
     ticket_timestamp: string,
-    table_number: number 
+    table_number: number,
+    ticket_status: string
 }
 
 export interface TicketResponse{
@@ -37,6 +38,7 @@ export interface TicketMenuItem{
     session_id: number,
     ticket_timestamp: string,
     table_number: number,
+    ticket_status: string,
     order_item_id: number,
     menu_id: number,
     ingredients_added: string,
