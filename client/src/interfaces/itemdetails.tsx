@@ -4,7 +4,7 @@ export interface ItemDetailsJson{
 	modifiable: boolean,
 	quantity: number,
 	default_ingredient: boolean,
-	ingregient:string
+	ingredient:string
 }
 
 export interface ItemDetailsJsonResponse{
