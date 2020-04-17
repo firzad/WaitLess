@@ -188,7 +188,11 @@ export function Customer(props) {
     //const {handleEntryCustomer} = props
     ////SET handleEntryCustomer(0) once the session is done
 
-     
+    function handleSearchChange(e){
+      setSearchValue(e.target.value)
+    }
+    const [searchValue, setSearchValue] = React.useState('')
+
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
     const classes = useStyles();
@@ -207,7 +211,6 @@ export function Customer(props) {
     const setBucketValue =(order:any) => {
       setOrderValue((orderValue) => [...orderValue, order]);
     }
-    console.log(orderValue)
     return (
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
@@ -229,6 +232,7 @@ export function Customer(props) {
                           input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
+                        onChange={handleSearchChange}
                       />
                     </div>
                       <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
@@ -248,7 +252,7 @@ export function Customer(props) {
                     
                     <Grid item md={9}>
                     <Paper variant="elevation" elevation={12} className={classes.paper}>
-                      <Menu setmodifyValue={setmodifyValue} open={open}/>
+                      <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/>
                     </Paper>
                     </Grid>
                     

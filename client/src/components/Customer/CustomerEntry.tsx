@@ -59,7 +59,6 @@ export function CustomerEntry(){
 	                		setPage(1)
 	                	}
 	                }
-
 	        	})
 			}
 			},1000)
