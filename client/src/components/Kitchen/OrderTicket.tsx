@@ -49,7 +49,7 @@ export function OrderTicket(props: any) {
             index = options.indexOf(+e.target.value);
             options.splice(index, 1);
 
-            if(options.length == 0){
+            if(options.length === 0){
                 setServeButtonDisabled(true);
             }
         }
@@ -61,6 +61,7 @@ export function OrderTicket(props: any) {
         updateItemToComplete(selectedItems).then((resp) => {
             setSelectedItems(selectItemList);
             props.updateTickets();
+            setServeButtonDisabled(true);
         });
     }
 
@@ -79,20 +80,17 @@ export function OrderTicket(props: any) {
                     subheader={moment.utc(dateTime.asMilliseconds()).format("HH:mm:ss")}
                 />
                 <CardContent>
-                    {/* <Typography variant="h5" component="h2">
-                        be{bull}nev{bull}o{bull}lent
-                    </Typography> */}
                     {Object.keys(props.order.orderItems).map((key, idx) => (
                         <div id={`${idx}`} key={idx}>
                             <Typography className={styleClasses.pos} color="textSecondary">
                                 {key}
                             </Typography>
-                            {props.order.orderItems[key].map((item, index) => (
-                                <div id={index} key={index}>
+                            {props.order.orderItems[key].map((item) => (
+                                <div id={item.order_item_id} key={item.order_item_id}>
                                     <FormControl component="fieldset" className={styleClasses.formControl}>
                                         <FormGroup>
                                             <FormControlLabel className={styleClasses.formControlLabel}
-                                                control={<Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems} disabled={item.item_status === "Complete"}/>}
+                                                control={<Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems} disabled={item.item_status === "Complete"} checked={item.item_status === "Complete"}/>}
                                                 label={item.item_name} />
                                             {item.ingredients_added &&
                                                 <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
@@ -105,7 +103,6 @@ export function OrderTicket(props: any) {
                                                 </Typography>
                                             }
                                         </FormGroup>
-                                        {/* <FormHelperText>Helper Text</FormHelperText> */}
                                     </FormControl>
                                 </div>
                             ))}
