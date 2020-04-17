@@ -90,7 +90,10 @@ export function OrderTicket(props: any) {
                                     <FormControl component="fieldset" className={styleClasses.formControl}>
                                         <FormGroup>
                                             <FormControlLabel className={styleClasses.formControlLabel}
-                                                control={<Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems} disabled={item.item_status === "Complete"} checked={item.item_status === "Complete"}/>}
+                                                control={
+                                                <Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems}
+                                                    disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"}/>
+                                                }
                                                 label={item.item_name} />
                                             {item.ingredients_added &&
                                                 <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
