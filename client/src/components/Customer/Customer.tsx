@@ -218,6 +218,12 @@ export function Customer(props) {
 ////////////////////////////////////
     //const themeValue: any = newTheme();
 //export function Customer(props) {
+
+    function handleSearchChange(e){
+      setSearchValue(e.target.value)
+    }
+    const [searchValue, setSearchValue] = React.useState('')
+
     //const {handleExitCustomer} = props
     ////SET sethandleEntryCustomer(0) once the session is done
     const {current_session,table_number/*,handleExitCustomer*/}=props
@@ -244,6 +250,7 @@ export function Customer(props) {
     const setBucketValue =(order:any) => {
       setOrderValue((orderValue) => [...orderValue, order]);
     }
+
     function addAssistanceTable(){
       axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':true})
           //handleClose()
@@ -274,6 +281,7 @@ export function Customer(props) {
                           input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
+                        onChange={handleSearchChange}
                       />
                     </div>
                       <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
@@ -301,7 +309,10 @@ export function Customer(props) {
                     
                     <Grid item md={9}>
                     <Paper variant="elevation" elevation={12} className={classes.paper} style={{opacity:'0.8'}}>
-                      <Menu setmodifyValue={setmodifyValue} open={open}/>
+                      <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/>
+                    {/* <Paper variant="elevation" elevation={12} className={classes.paper}>
+                      <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/> */}
+
                     </Paper>
                     </Grid>
                     

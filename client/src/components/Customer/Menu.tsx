@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useEffect} from "react";
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 //import clsx from 'clsx';
@@ -125,8 +126,50 @@ export function RenderMenuItems(props){
     </Fragment>)
 }
 export default function Menu(props){
-    const [current_category,setCategory] = React.useState<Category | any>([]);
+	const searchValue = props.searchValue
+	const [filtered_menu, setFilteredMenu] = React.useState<MenuJson | any>([])
     const [menu, setMenu] = React.useState<MenuJson | any>([]);
+
+
+	useEffect(() => {
+		//hook called when the search bar is changed
+		if (!/\S/.test(searchValue) || searchValue.length === 0){
+			//empty search string or whitespaces, default to full menu
+			setFilteredMenu(menu)	
+		}
+		else{
+			const tmp_filter: string[] = [] 
+			const split_search = searchValue.split(' ') 
+			//filter the words in the search
+			const key_words: string[] = []
+			for (let i = 0; i < split_search.length; i++){
+				if (split_search[i] !== '' ){
+					key_words.push(split_search[i])
+				}
+			}
+			console.log(key_words)
+
+			for (let menu_idx = 0; menu_idx < menu.length; menu_idx++){
+				let match_flag = true
+				//menu item contains every key word in search bar
+				for (let word_idx = 0; word_idx < key_words.length; word_idx++){
+					if (!menu[menu_idx].item_name.toLowerCase().includes(key_words[word_idx])){ //check if menu item name contains word
+						//menu item does not contain that key word
+						match_flag = false
+						break
+					}
+				}
+				if (match_flag === true){
+					tmp_filter.push(menu[menu_idx]) //menu item contained all keyword
+
+				}
+			}
+			setFilteredMenu(tmp_filter)
+		}
+	}, [searchValue, menu])
+
+
+    const [current_category,setCategory] = React.useState<Category | any>([]);
     const classes1: any = commonStyles();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -152,8 +195,11 @@ export default function Menu(props){
         axios.get('Menu').then(
             (menuItem:MenuResponse)=>{
                 const menuData = menuItem.data
-                console.log(menuData)
+                //console.log(menuData)
                 setMenu(menuData)
+
+                //set the search filtered menu data
+                setFilteredMenu(menuData)
             }
         )
         }
@@ -167,7 +213,7 @@ export default function Menu(props){
                     </GridListTile> */}
                     <Grid container direction="row" >
                     {
-                            menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
+                            filtered_menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
                                 return(
                                     <Grid item xs={props.open?4:3}>
                                     <Card raised={true} 
