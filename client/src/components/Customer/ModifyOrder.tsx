@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       margin: 'auto',
       maxWidth: 500,
+      opacity:'0.8'
     },
     image: {
       width: 128,
@@ -81,6 +82,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ModifyOrder(props){
     const menuD=props.modifyvalue
+    console.log("MenuD")
+    console.log(menuD)
     const [itemDetails, setitemDetails] = React.useState<ItemDetailsJson | any>([]);
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -96,7 +99,9 @@ export default function ModifyOrder(props){
                 }
             )
         }
-    })
+    }, [] 
+    )
+
     console.log("++++++++++")
     console.log(itemDetails)
     var ingredientsList: string[]=[]
@@ -123,9 +128,9 @@ export default function ModifyOrder(props){
             "ordered":false,
         }
         )
-        // setRemarksState("");
-        // setOrderQuantityState(0);
-        // setIngredientsChecked([]);
+        setRemarksState("");
+        setOrderQuantityState(0);
+        //setIngredientsChecked([]);
         props.setmodifyValue(null);
     }
     const handleQuantityClick = (event) =>{

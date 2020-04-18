@@ -293,13 +293,14 @@ export function Customer(props) {
             orderedValue={orderedValue}
             setOrderedBucketValue={setOrderedBucketValue}
             current_session={current_session} table_number={table_number}
-            open={open} orderValue={orderValue}/>
+            open={open} orderValue={orderValue}
+            />
             <main className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
               {/* <Container className={classes1.container}> */}
                   <Grid container spacing={3}>
                     
                     <Grid item md={9}>
-                    <Paper variant="elevation" elevation={12} className={classes.paper} >
+                    <Paper variant="elevation" elevation={12} className={classes.paper} style={{opacity:'0.8'}}>
                       <Menu setmodifyValue={setmodifyValue} open={open}/>
                     </Paper>
                     </Grid>

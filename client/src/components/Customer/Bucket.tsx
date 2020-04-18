@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       drawerPaper: {
         width: drawerWidth,
-        opacity: '0.5'
+        opacity: '0.8'
       },
       drawerHeader: {
         display: 'flex',
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
           alignItems: 'center',
           alignText: 'center',
           height: '100%',
-          opacity: '0.5'
+          opacity: '0.9'
       },
     margin: {
         margin: theme.spacing(1),
@@ -116,38 +116,6 @@ export default function Bucket(props){
     //     'quantity':0
         
     // // }
-/*
-order_item_id: number,
-    ticket_id: number,
-    menu_id: number,
-    ingredients_added: string,
-    ingredients_removed: string,
-    remark: string,
-    item_status: string,
-    quantity: number
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }*/
-
-
 
 
 // Get for status?
@@ -213,6 +181,7 @@ order_item_id: number,
                                 {props.orderedValue.map((obj) => (
                                 <ListItem button key={obj.item_name}>
                                     <ListItemText primary={obj.item_name} />
+                                    
                                 <ListItemIcon><CheckIcon/></ListItemIcon>
                                     {/* <ListItemText primary={obj.itemPrice} /> */}
                                 </ListItem>
@@ -220,6 +189,7 @@ order_item_id: number,
                                 {itemList.map((obj) => (
                                 <ListItem button key={obj.item_name}>
                                     <ListItemText primary={obj.item_name} />
+                                    
                                     {/* <ListItemText primary={obj.itemPrice} /> */}
                                 </ListItem>
                                 ))}
