@@ -12,6 +12,6 @@ class TicketModel(db.Model):
 
     def __init__(self, session_id, table_number):
         self.session_id = session_id
-        self.ticket_timestamp = str(datetime.now())
+        self.ticket_timestamp = datetime.now()
         self.table_number = table_number
         self.ticket_status = 'Active'
