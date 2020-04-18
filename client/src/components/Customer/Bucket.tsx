@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Bucket(props){
     const classes = useStyles();
     const itemList=props.orderValue
-    const {current_session,table_number}=props
+    const {current_session,table_number, handleExitCustomer}=props
     console.log("------0")
     console.log(itemList)
     //const itemList = props.itemList
@@ -207,7 +207,7 @@ export default function Bucket(props){
                         <Divider/>
                     {/* </Grid> */}
                         <Grid item>
-                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin}>
+                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin} onClick={handleExitCustomer}>
                                 PAY BILL
                             </Button>
                             <Divider/>

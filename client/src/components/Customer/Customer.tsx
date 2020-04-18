@@ -226,7 +226,7 @@ export function Customer(props) {
 
     //const {handleExitCustomer} = props
     ////SET sethandleEntryCustomer(0) once the session is done
-    const {current_session,table_number/*,handleExitCustomer*/}=props
+    const {current_session,table_number,handleExitCustomer}=props
      
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
@@ -301,6 +301,7 @@ export function Customer(props) {
             orderedValue={orderedValue}
             setOrderedBucketValue={setOrderedBucketValue}
             current_session={current_session} table_number={table_number}
+            handleExitCustomer={handleExitCustomer}
             open={open} orderValue={orderValue}
             />
             <main className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>

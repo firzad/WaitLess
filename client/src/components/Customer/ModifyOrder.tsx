@@ -99,7 +99,7 @@ export default function ModifyOrder(props){
                 }
             )
         }
-    }, [] 
+    }, [menuD]
     )
 
     console.log("++++++++++")
