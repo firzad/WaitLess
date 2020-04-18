@@ -9,9 +9,9 @@ class IngredientsList(db.Model):
     price = db.Column(db.Integer)
     calorie = db.Column(db.Integer)   
 
-    def __init__(self, ingredient_name, price, calorie):
+    def __init__(self, ingredient_name, calorie):
         self.ingredient_name = ingredient_name
-        self.price = price
+        self.price = 0
         self.calorie = calorie
 
     def __repr__(self):

@@ -4,11 +4,12 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Tab, Tabs
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { commonStyles } from "../../styles/generalStyles";
 // import { userStyles } from "../../styles/userStyles";
-import {Box, Grid, TextField, Button} from "@material-ui/core";
+import {Box, Grid, TextField, Button, Card, CardActions, CardContent} from "@material-ui/core";
 import AddMenuItem from './AddMenuItem';
 import { MenuJson, MenuResponse } from '../../interfaces/menu';
 import { Category, CategoryResponse, CategoryPostResponse } from '../../interfaces/category';
 import axios from '../../axios';
+import { MenuItemDetails } from './MenuItemDetails';
 
 
 function TabPanel(props) {
@@ -16,7 +17,7 @@ function TabPanel(props) {
 
   return (
     <Typography
-      component="div"
+      component="paper"
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -48,27 +49,32 @@ export default function MenuSetting(){
     // Get these from backend
     const [categories, setCategories] = React.useState<Category | any>([]);
     const [menu ,setMenu] = React.useState<MenuJson | any>([]);
-    const [newCategory, setCategory] = React.useState("newCategory")
+    const [newCategory, setCategory] = React.useState("newCategory");
+    const [loading, setLoading] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
       if (menu.length === 0){
           axios.get(`Menu`).then(
               (res: MenuResponse) => {
-                  const data = res.data;
-                  setMenu(data);
-                  // setLoading(false);
+                  const Menudata = res.data;
+                  console.log(Menudata);
+                  setMenu(Menudata);
+                  setLoading(false);
               }
           )
       }
       if (categories.length === 0){
         axios.get(`Categories`).then(
           (res: CategoryResponse) => {
-            const data = res.data;
+            const data = res.data;            
             setCategories(data);
+            setLoading(false);
+            // console.log(data)
           }
         )
       }
-    });
+    }, []);
     
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -78,10 +84,15 @@ export default function MenuSetting(){
     setCategory(event.target.value);
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   const addCategory = () => {
+    const new_position = categories.length ? categories[categories.length-1].position_in_menu+2 : 2
     const newC = {
       category_name: newCategory,
-      position_in_menu: categories[categories.length-1].position_in_menu+2
+      position_in_menu: new_position
     };
     axios.post(`Categories`, newC).then(
       (res:CategoryPostResponse)=>{
@@ -89,8 +100,14 @@ export default function MenuSetting(){
       });
   }
 
+  const addMenu = (newMenu:MenuJson) => {
+    setMenu((menu)=>[...menu, newMenu]);
+  }
+
     return(
             <main className={classes.content}>
+              {loading?<div>LOADING</div>:
+              <React.Fragment>
                 <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="simple tabs example">
                           {categories.map((category, index)=>(
                             <Tab label={category.category_name} {...a11yProps(index)} key={index}/>
@@ -101,49 +118,50 @@ export default function MenuSetting(){
                   <TabPanel value={value} index={cat_in} key={cat_in}>                  
                       {
                         menu.filter((item)=>item.category===cm.category_name).map((item,index)=>(
-                          <Item name={item.item_name} detail={item.description} key={item.menu_id}/>
+                          <Item item={item} key={item.menu_id}/>
                         ))
                       }
                       <ExpansionPanel>
-                        <AddMenuItem />
+                        {/* Add Menu Item */}
+                        <Button onClick={()=>setOpen(true)} fullWidth>Add Menu Item</Button>
+                      <AddMenuItem category_id={cm.category_id} addMenu={addMenu} open={open} handleClose={handleClose}/> 
+                    {/* addMenu={addMenu}/> */}
                       </ExpansionPanel>                      
                   </TabPanel>
                 ))}
-                <TabPanel value={value} index={categories.length}>
-                      <Grid container spacing={3} direction="column">
-                          <Grid item container alignItems="center">
+                <TabPanel value={value} index={categories.length} >
+                  <Card>
+                    <CardContent>
+                          <Grid container alignItems="center">
                             <TextField value={newCategory} label="Category Name" onChange={handleNewCategoryChange}/>
                           </Grid>
-                          <Grid item container alignItems="center">
-                            <Button onClick={addCategory}>Save</Button>
+                     </CardContent>
+                     <CardActions>
+                          <Grid container alignItems="center">
+                            <Button variant="contained" color="primary" onClick={addCategory}>Save</Button>
                           </Grid>
-                      </Grid>
+                     </CardActions>
+                  </Card>
                 </TabPanel>
+              </React.Fragment>}
             </main>
     )
 }
 
-export function ItemDetails(props){
-    return (
-      <Typography>
-        {props.data}
-      </Typography>
-    )
-}
+
 
 export function Item(props){
+  const item = props.item
   return(
     <ExpansionPanel>
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="Item3">
-        <Typography /*className={classes.heading}*/>{props.name}</Typography>
+        <Typography /*className={classes.heading}*/>{item.item_name}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>
-          <ItemDetails data={props.detail}/>
-        </Typography>
+          <MenuItemDetails item={item} isNew={false}/>
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

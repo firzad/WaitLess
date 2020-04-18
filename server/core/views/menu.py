@@ -1,7 +1,12 @@
-from flask_restful import Resource, fields, marshal_with, reqparse
+from flask_restful import Resource, fields, marshal_with, reqparse, url_for
 
 from core.models.menu import Menu
-from core import db
+from core import db, app
+from core.views.image import Image
+
+class ImageURL(fields.Raw):
+    def format(self, value):
+        return app.config['BASE_URL']+url_for('image', file_name=value)
 
 
 menu_resource_fields = {
@@ -15,7 +20,9 @@ menu_resource_fields = {
     'date_added': fields.String,
     'total_calories': fields.Integer,
     'discount': fields.Integer,
-    'category': fields.String
+    'category': fields.String,
+    'file_name': fields.String(attribute='imgfile'),
+    'img_url': ImageURL(attribute='imgfile')
 }
 # category_id, item_name, description, price, position_in_menu
 parser = reqparse.RequestParser()
@@ -24,6 +31,7 @@ parser.add_argument('item_name')
 parser.add_argument('description')
 parser.add_argument('price')
 parser.add_argument('position_in_menu')
+parser.add_argument('imgfile')
 
 
 
@@ -42,7 +50,8 @@ class MenuItems(Resource):
             item_name=args.get('item_name'),
             description=args.get('description'),
             price=args.get('price'),
-            position_in_menu=args.get('position_in_menu')
+            position_in_menu=args.get('position_in_menu'),
+            imgfile=args.get('imgfile')
         )
         db.session.add(new_menu)
         db.session.commit()

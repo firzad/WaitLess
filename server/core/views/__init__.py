@@ -9,6 +9,7 @@ from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, T
 from .ingredients import Ingredients
 from .itemDetails import ItemDetails
 from .summary import SummaryTable, SummaryById
+from .image import Image
 
 api = Api(app)   
 
@@ -35,6 +36,7 @@ api.add_resource(TicketItemByTicket, '/Ticket/OrderItems/<ticket_id>')
 api.add_resource(TicketItemsBySession, '/Ticket/Session/<session_id>')
 api.add_resource(TicketPriceTotal, '/Ticket/Session/Price/<session_id>')
 api.add_resource(SwitchTableAssistance, '/Tables/Assistance/<table_number>')
+api.add_resource(Image, '/Image/<file_name>')
 
 if __name__ == '__main__':
     app.run()

@@ -170,7 +170,7 @@ export default function Menu(props){
                                     <CardActionArea>
                                       <CardMedia
                                         className={classes.media}
-                                        //image="/static/images/cards/contemplative-reptile.jpg"
+                                        image={tile.img_url}
                                         title={tile.item_name}
                                       />
                                       <CardContent>

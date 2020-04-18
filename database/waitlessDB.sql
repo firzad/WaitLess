@@ -8,7 +8,7 @@ position_in_menu integer UNIQUE,
 PRIMARY KEY(category_id));
 -- Create Ingredients Table
 CREATE TABLE ingredients(
-ingredient_id integer NOT NULL,
+ingredient_id serial NOT NULL,
 ingredient_name varchar(30) NOT NULL,  
 price float, 
 calorie float,
@@ -25,6 +25,7 @@ position_in_menu integer,
 date_added timestamp default current_timestamp, 
 total_calories float, 
 discount float,
+imgfile varchar(50) NOT NULL,
 PRIMARY KEY(menu_id),
 FOREIGN KEY(category_id) REFERENCES category(category_id) ON DELETE CASCADE);
 -- Create itemdetails Table
