@@ -1,6 +1,6 @@
 from flask_restful import Api
 
-from core import app
+from core import app, socketio
 from .menu import MenuItems, MenuItemById, MenuItemByCategory
 from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
 from .category import Categories, CategoryById
@@ -40,4 +40,5 @@ api.add_resource(SwitchTableAssistance, '/Tables/Assistance/<table_number>')
 api.add_resource(Chat, '/Chat')
 
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    socketio.run(app)
