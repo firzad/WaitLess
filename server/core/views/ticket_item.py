@@ -1,5 +1,4 @@
 from flask_restful import Resource, fields, marshal_with, reqparse, request, marshal
-from flask_socketio import emit
 
 from core.models.ticket_item import TicketItemModel
 from core.models.ticket import TicketModel
@@ -9,7 +8,9 @@ from core.models.menu import Menu
 
 from core.views.ticket import ticket_resource_fields, TicketById
 from core.views.menu import menu_resource_fields
-from core import db, socketio
+
+from core import db
+
 
 ticket_item_resource_fields = {
     'order_item_id' : fields.Integer,
@@ -67,11 +68,10 @@ class UpdateTicketItems(Resource):
         all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
 
         if all(item['item_status'] == 'Complete' for item in all_ticket_items):
-            ticket = TicketModel.query.get_or_404(ticket_item.ticket_id)
+            ticket = TicketModel.query.get_or_404(ticket_item.ticket_id);
             ticket.ticket_status = 'Complete'
         db.session.commit()
-        # socketio.emit('ticketsUpdated', broadcast=True)
-        return {}, 200
+        return {}, 200       
 
 
 """Gets tickets for a given table session, including menu database entry"""

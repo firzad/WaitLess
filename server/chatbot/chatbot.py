@@ -1,4 +1,5 @@
-from server.chatbot import pre_processing, recommendations, input_processing, get_model
+#from server.chatbot import pre_processing, recommendations, input_processing, get_model
+from . import pre_processing, recommendations, input_processing, get_model
 
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()

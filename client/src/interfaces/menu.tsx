@@ -6,7 +6,7 @@ export interface MenuJson{
 	price: number,
 	visibility: boolean,
 	position_in_menu: number,
-	date_added: string,
+	date_added: Date,
 	total_calories: number,
 	discount: number,
 	category: string

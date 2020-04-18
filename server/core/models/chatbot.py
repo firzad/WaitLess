@@ -4,7 +4,7 @@ from core import db
 
 class ChatbotModel():
 
-    chatbot_response, list_response = chatbot.chat('pizza')
+    #chatbot_response, list_response = chatbot.chat('pizza')
     assistance = db.Column(db.Boolean)
 
     def __init__(self):

@@ -1,7 +1,7 @@
 export interface Ticket{
     ticket_id: number,
     session_id: number,
-    ticket_timestamp: string,
+    ticket_timestamp: Date,
     table_number: number,
     ticket_status: string
 }

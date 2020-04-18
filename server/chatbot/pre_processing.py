@@ -15,7 +15,7 @@ def preprocession(data):
     training = []
     output = []
     try:
-        with open("data.pickle", "rb") as f:
+        with open("./chatbot/data.pickle", "rb") as f:
             words, labels, training, output = pickle.load(f)
             print('training 0 n 1 ',len(training[0]), len(training[1]))
             print(('output 0 n 1 ', len(output[0]), len(output[1])))
@@ -68,7 +68,7 @@ def preprocession(data):
         training = numpy.array(training)
         output = numpy.array(output)
 
-        with open("data.pickle", "wb") as f:
+        with open("./chatbot/data.pickle", "wb") as f:
             pickle.dump((words, labels, training, output), f)
         return create_model(words, labels, training,output)
 
@@ -83,14 +83,14 @@ def create_model(words, labels, training, output):
 
     model = tflearn.DNN(net)
 
-    if os.path.exists("/Users/aarushigera/Downloads/COMP9900/project/capstone-project-masterminds/server/chatbot/model.tflearn" + ".meta"):
-        model.load("/Users/aarushigera/Downloads/COMP9900/project/capstone-project-masterminds/server/chatbot/model.tflearn")
+    if os.path.exists("./chatbot/model.tflearn" + ".meta"):
+        model.load("./chatbot/model.tflearn")
     else:
         model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
         w = model.get_weights(net.W)
         b = model.get_weights(net.b)
 
-        model.save("/Users/aarushigera/Downloads/COMP9900/project/capstone-project-masterminds/server/chatbot/model.tflearn")
+        model.save("./chatbot/model.tflearn")
     return model, words, labels, training, output
 
 

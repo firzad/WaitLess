@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       margin: 'auto',
       width: '100%',
-      opacity:'0.5',
+      opacity:'0.9',
       
       //maxWidth: 250,
     },

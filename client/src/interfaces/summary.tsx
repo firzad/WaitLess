@@ -1,7 +1,7 @@
 export interface Summary{
     session_id: number,
     table_number: number,
-    date_order: string,
+    date_order: Date,
     price: number 
 }
 
