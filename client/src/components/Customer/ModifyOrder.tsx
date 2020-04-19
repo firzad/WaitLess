@@ -264,7 +264,7 @@ export default function ModifyOrder(props){
 
                 <Divider/>
 
-                <Collapse in={expand_ingredients} unmountOnExit>
+                <Collapse in={expand_ingredients}>
                 <List component="div" disablePadding>
                   <ListItem button>
                     <FormControl component="fieldset" className={classes.formControl}>
