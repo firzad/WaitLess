@@ -7,7 +7,7 @@ import {/*useState, useEffect, */Fragment} from "react"
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Box/*, AppBar, Toolbar, IconButton*/, Typography } from "@material-ui/core";
-import { commonStyles } from "../../styles/generalStyles";
+//import { commonStyles } from "../../styles/generalStyles";
 //import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -73,13 +73,16 @@ interface TabPanelProps {
     },
     cardRoot: {
         //padding: theme.spacing(1),
-        maxWidth: 255,
-        width: '15vw',
+        //maxWidth: 190,
+        width: '10vw',
         height: '35vh',
+        paddingTop: theme.spacing(2),
+        marginTop: theme.spacing(2),
+        marginRight:theme.spacing(2),
         //opacity: '0.9'
     },
     media: {
-    height: 145,
+    height: 91,
       },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -87,6 +90,15 @@ interface TabPanelProps {
     cardShift: {
         width: '10vw',
         height: '35vh',
+    },
+    container: {
+      paddingLeft: theme.spacing(0),
+      paddingRight: theme.spacing(0),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+    },
+    cardContent:{
+      padding:theme.spacing(1)
     },
     typography: {
         fontFamily: [
@@ -170,7 +182,7 @@ export default function Menu(props){
 
 
     const [current_category,setCategory] = React.useState<Category | any>([]);
-    const classes1: any = commonStyles();
+    //const classes1: any = commonStyles();
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     
@@ -211,11 +223,11 @@ export default function Menu(props){
                 {/* <GridList cellHeight={250} cols={4} spacing={10} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
                     </GridListTile> */}
-                    <Grid container direction="row" >
+                    <Grid container direction="row" style={{height:'60vh',overflowY:'auto'}}>
                     {
                             filtered_menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
                                 return(
-                                    <Grid item xs={props.open?4:3}>
+                                    <Grid item /*xs={props.open?4:3}*/ >
                                     <Card raised={true} 
                                     // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
                                     className={classes.cardRoot} key={tile.menu_id} onClick={()=>onModifyMenu(tile)}>
@@ -225,8 +237,8 @@ export default function Menu(props){
                                         image={'/burrito.jpg'}
                                         title={tile.item_name}
                                       />
-                                      <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h5">
+                                      <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="body2" component="p" style={{fontSize:'1em',marginBottom:'0 !important'}}>
                                           {tile.item_name}
                                         </Typography>
                                         <Typography variant="subtitle1" color="textSecondary" component="p">
@@ -259,7 +271,7 @@ export default function Menu(props){
     }
     const categoryList = renderCategoryItems()
     return(
-        <Container maxWidth="lg" className={classes1.container}>
+        <Container maxWidth="lg" className={classes.container} >
             <Grid container spacing={3}>
                 <Tabs 
                 value={value} 

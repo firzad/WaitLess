@@ -96,8 +96,7 @@ export default function Bucket(props){
     const itemList=props.orderValue
     const {current_session,table_number, handleExitCustomer}=props
     console.log("------0")
-    console.log(itemList)
-    //const itemList = props.itemList
+
     const theme = useTheme();
     const ingredients_removed=""
     const item_status="Order Placed"
@@ -128,7 +127,7 @@ export default function Bucket(props){
                 console.log(ticket_id)
                 Promise.all(itemList.filter(ticket_item=>!ticket_item.ordered).map((ticket_item)=>(// (const ticket_item of itemList.entries()){
                     axios.post<TicketItem>(`TicketItem`,{'ticket_id': ticket_id,'menu_id': ticket_item.menu_id,
-                                        'ingredients_added': ticket_item.ingredient, 'ingredients_removed': ingredients_removed, 
+                                        'ingredients_added': ticket_item.ingredient.join(','), 'ingredients_removed': ingredients_removed, 
                                         'remark': ticket_item.remarks,'quantity': ticket_item.quantity, 'item_status': item_status}).then(
                     (res: TicketItemPostResponse) => {
                         //setTicketItem((ticketItem)=>[...ticketItem,res.data]);
