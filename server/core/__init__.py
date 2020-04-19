@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
 
 
-
 UPLOAD_FOLDER = 'files/'
 app = Flask(__name__)
 app.config.from_object('config.DevelopmentConfig')
