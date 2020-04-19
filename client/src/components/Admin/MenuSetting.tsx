@@ -102,6 +102,7 @@ export default function MenuSetting(){
 
   const addMenu = (newMenu:MenuJson) => {
     setMenu((menu)=>[...menu, newMenu]);
+    setOpen(false);
   }
 
     return(

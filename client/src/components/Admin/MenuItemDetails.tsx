@@ -39,7 +39,6 @@ export function MenuItemDetails(props){
       if (!isNew){
         axios.get(`ItemDetails/`+String(item.menu_id)).then(
           (res: any)=> {
-            console.log(res['data']);
             setIngredients(res['data']);
           })
         // setIngredients(testingredients);
@@ -68,15 +67,15 @@ export function MenuItemDetails(props){
         (res:MenuResponse)=>{
           const newMD = res.data
           Promise.all(
-            ingredients.map(ingredient=>axios.post(`ItemDetails/`+String(newMD['menu_id']),
-            { 
-              'ingredients':ingredient.ingredient,
-              'calorie':ingredient.calorie,
-              'modifiable':ingredient.modifiable
-            }
-            ))
-          ).then(props.addMenu(newMD))
-          
+            ingredients.map(ingredient=>{
+              let new_item_detail = { 
+                  'ingredient':ingredient.ingredients,
+                  'calorie':ingredient.calorie,
+                  'modifiable':ingredient.modifiable
+                }
+              axios.post(`ItemDetails/`+String(newMD['menu_id']),new_item_detail)
+          })
+          ).then(props.addMenu(newMD))          
         }
       ).catch(err=>console.log(err));
     }
