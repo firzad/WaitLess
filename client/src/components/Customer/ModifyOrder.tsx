@@ -88,21 +88,20 @@ export default function ModifyOrder(props){
       });
   
     React.useEffect(() => {
-        if(itemDetails.length===0){
-            axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
-                (res:ItemDetailsJsonResponse) =>{
-                    const itemDetailsList=res.data
-                    setitemDetails(itemDetailsList)
-                }
-            )
-        }
-    })
-    console.log("++++++++++")
-    console.log(itemDetails)
+        axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
+            (res:ItemDetailsJsonResponse) =>{
+                const itemDetailsList=res.data
+                setitemDetails([])
+                setitemDetails(itemDetailsList)
+            }
+        )
+    }, [menuD])
+
     var ingredientsList: string[]=[]
     itemDetails.map((obj) => (
         ingredientsList.push(obj.ingredients)
     ))
+    
     const IL = ingredientsList.join(', ');
     const description = menuD.description
     const [remarksState, setRemarksState] = React.useState("");
