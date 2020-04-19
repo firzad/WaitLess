@@ -24,7 +24,7 @@ import {MuiThemeProvider,  createMuiTheme } from '@material-ui/core/styles';
 import AssistantIcon from '@material-ui/icons/Assistant';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import Image from './brown.jpeg';
-import Avatar from '@material-ui/core/Avatar';
+//import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
@@ -87,8 +87,8 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       margin: 'auto',
       width: '100%',
-      opacity:'0.9',
-      
+      opacity:'0.5',
+      //overflowY:'auto'
       //maxWidth: 250,
     },
     inputRoot: {
@@ -226,7 +226,7 @@ export function Customer(props) {
 
     //const {handleExitCustomer} = props
     ////SET sethandleEntryCustomer(0) once the session is done
-    const {current_session,table_number/*,handleExitCustomer*/}=props
+    const {current_session,table_number,handleExitCustomer}=props
      
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
@@ -266,9 +266,8 @@ export function Customer(props) {
             <AppBar position="static" className={clsx(classes1.appBar)} color='secondary'
             >
                 <Toolbar>
-                    <Avatar className={classes.orange}>{table_number}</Avatar>
-                    <Typography variant="h4" className={styleClasses.title} align='center'>
-                        WAITLESS
+                  <Typography variant="body1" className={styleClasses.title}>
+                        Table {table_number}
                     </Typography>
                     <div className={classes.search}>
                       <div className={classes.searchIcon}>
@@ -284,6 +283,11 @@ export function Customer(props) {
                         onChange={handleSearchChange}
                       />
                     </div>
+                    {/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
+                    <Typography variant="h4" className={styleClasses.title} align='center'>
+                        WAITLESS
+                    </Typography>
+                    
                       <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
                         color="secondary" 
                         aria-label="open drawer" 
@@ -301,14 +305,18 @@ export function Customer(props) {
             orderedValue={orderedValue}
             setOrderedBucketValue={setOrderedBucketValue}
             current_session={current_session} table_number={table_number}
-            open={open} orderValue={orderValue}/>
+            handleExitCustomer={handleExitCustomer}
+            open={open} orderValue={orderValue}
+            />
             <main className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
               {/* <Container className={classes1.container}> */}
                   <Grid container spacing={3}>
                     
                     <Grid item md={9}>
-                    <Paper variant="elevation" elevation={12} className={classes.paper}>
+                    <Paper variant="elevation" elevation={12} className={classes.paper} style={{opacity:'0.8'}} >
                       <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/>
+                    {/* <Paper variant="elevation" elevation={12} className={classes.paper}>
+                      <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/> */}
 
                     </Paper>
                     </Grid>

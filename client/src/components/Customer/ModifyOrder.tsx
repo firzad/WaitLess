@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, FormLabel, FormControl, FormGroup, FormControlLabel, TextField, Paper } from '@material-ui/core';
+import { Typography, Grid, FormLabel, FormControl, FormGroup, FormControlLabel, TextField, Paper} from '@material-ui/core';
 import { Theme, createStyles, makeStyles/*, withStyles, WithStyles*/ } from '@material-ui/core/styles';
 //import { userStyles } from "src/styles/userStyles";
 import Button from '@material-ui/core/Button';
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       margin: 'auto',
       maxWidth: 500,
+      opacity:'0.8'
     },
     image: {
       width: 128,
@@ -81,6 +82,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ModifyOrder(props){
     const menuD=props.modifyvalue
+    console.log("MenuD")
+    console.log(menuD)
     const [itemDetails, setitemDetails] = React.useState<ItemDetailsJson | any>([]);
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -88,21 +91,20 @@ export default function ModifyOrder(props){
       });
   
     React.useEffect(() => {
-        if(itemDetails.length===0){
-            axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
-                (res:ItemDetailsJsonResponse) =>{
-                    const itemDetailsList=res.data
-                    setitemDetails(itemDetailsList)
-                }
-            )
-        }
-    })
-    console.log("++++++++++")
-    console.log(itemDetails)
+        axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
+            (res:ItemDetailsJsonResponse) =>{
+                const itemDetailsList=res.data
+                setitemDetails([])
+                setitemDetails(itemDetailsList)
+            }
+        )
+    }, [menuD])
+
     var ingredientsList: string[]=[]
     itemDetails.map((obj) => (
         ingredientsList.push(obj.ingredients)
     ))
+    
     const IL = ingredientsList.join(', ');
     const description = menuD.description
     const [remarksState, setRemarksState] = React.useState("");
@@ -123,9 +125,9 @@ export default function ModifyOrder(props){
             "ordered":false,
         }
         )
-        // setRemarksState("");
-        // setOrderQuantityState(0);
-        // setIngredientsChecked([]);
+        setRemarksState("");
+        setOrderQuantityState(0);
+        //setIngredientsChecked([]);
         props.setmodifyValue(null);
     }
     const handleQuantityClick = (event) =>{
@@ -136,7 +138,14 @@ export default function ModifyOrder(props){
     const handleRemarks= (event) => {
         setRemarksState(event.target.value);
     }
-    
+    const checkQuantity = ()=>{
+        if(orderQuantityState>=1){
+            return false
+        }
+        else{
+            return true
+        }
+    }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setState({ ...state, [event.target.name]: event.target.checked });
         //setIngredientState(true);
@@ -225,21 +234,22 @@ export default function ModifyOrder(props){
                 </Grid>
                 <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
                     <Grid item>
-                    <IconButton aria-label="add" onClick={()=>handleQuantityClick("Add")}>
-                        <AddCircleIcon style={{ fontSize: 30 }}/>
+                    <IconButton disabled={checkQuantity()} aria-label="delete" onClick={()=>handleQuantityClick("Delete")}>
+                        <RemoveCircleIcon  style={{ fontSize: 31 }}/>
                     </IconButton>
-                    </Grid>
+                    </Grid> 
+                    
                     <Grid item>
                     <TextField disabled value ={orderQuantityState} id="itemQuantity" variant="outlined" InputProps={{style: {height:40, width:40} }}/>
                     </Grid>
                     <Grid item>
-                    <IconButton aria-label="delete" onClick={()=>handleQuantityClick("Delete")}>
-                        <RemoveCircleIcon style={{ fontSize: 31 }}/>
+                    <IconButton aria-label="add" onClick={()=>handleQuantityClick("Add")}>
+                        <AddCircleIcon style={{ fontSize: 30 }}/>
                     </IconButton>
-                    </Grid> 
+                    </Grid>
                 </Grid>
                 <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
-                    <Button variant="contained" size="medium" color="primary" className={classes.margin} onClick={handleOnClickOrder}>
+                    <Button disabled={checkQuantity()} variant="contained" size="medium" color="primary" className={classes.margin} onClick={handleOnClickOrder}>
                     ADD ORDER
                     </Button>
                 </Grid>

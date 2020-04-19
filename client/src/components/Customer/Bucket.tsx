@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       drawerPaper: {
         width: drawerWidth,
-        opacity: '0.5'
+        opacity: '0.8'
       },
       drawerHeader: {
         display: 'flex',
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
           alignItems: 'center',
           alignText: 'center',
           height: '100%',
-          opacity: '0.5'
+          opacity: '0.9'
       },
     margin: {
         margin: theme.spacing(1),
@@ -94,10 +94,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Bucket(props){
     const classes = useStyles();
     const itemList=props.orderValue
-    const {current_session,table_number}=props
+    const {current_session,table_number, handleExitCustomer}=props
     console.log("------0")
-    console.log(itemList)
-    //const itemList = props.itemList
+
     const theme = useTheme();
     const ingredients_removed=""
     const item_status="Order Placed"
@@ -116,38 +115,6 @@ export default function Bucket(props){
     //     'quantity':0
         
     // // }
-/*
-order_item_id: number,
-    ticket_id: number,
-    menu_id: number,
-    ingredients_added: string,
-    ingredients_removed: string,
-    remark: string,
-    item_status: string,
-    quantity: number
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }
-    const addOrder = (table_size: number) => {
-        axios.post<Order>(`Tables`,{'table_size': table_size}).then(
-            (res:OrderPostResponse) => {
-                setOrder((order) => [...order, res.data]);
-            }
-        )
-    }*/
-
-
 
 
 // Get for status?
@@ -160,7 +127,7 @@ order_item_id: number,
                 console.log(ticket_id)
                 Promise.all(itemList.filter(ticket_item=>!ticket_item.ordered).map((ticket_item)=>(// (const ticket_item of itemList.entries()){
                     axios.post<TicketItem>(`TicketItem`,{'ticket_id': ticket_id,'menu_id': ticket_item.menu_id,
-                                        'ingredients_added': ticket_item.ingredient, 'ingredients_removed': ingredients_removed, 
+                                        'ingredients_added': ticket_item.ingredient.join(','), 'ingredients_removed': ingredients_removed, 
                                         'remark': ticket_item.remarks,'quantity': ticket_item.quantity, 'item_status': item_status}).then(
                     (res: TicketItemPostResponse) => {
                         //setTicketItem((ticketItem)=>[...ticketItem,res.data]);
@@ -213,6 +180,7 @@ order_item_id: number,
                                 {props.orderedValue.map((obj) => (
                                 <ListItem button key={obj.item_name}>
                                     <ListItemText primary={obj.item_name} />
+                                    
                                 <ListItemIcon><CheckIcon/></ListItemIcon>
                                     {/* <ListItemText primary={obj.itemPrice} /> */}
                                 </ListItem>
@@ -220,6 +188,7 @@ order_item_id: number,
                                 {itemList.map((obj) => (
                                 <ListItem button key={obj.item_name}>
                                     <ListItemText primary={obj.item_name} />
+                                    
                                     {/* <ListItemText primary={obj.itemPrice} /> */}
                                 </ListItem>
                                 ))}
@@ -237,7 +206,7 @@ order_item_id: number,
                         <Divider/>
                     {/* </Grid> */}
                         <Grid item>
-                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin}>
+                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin} onClick={handleExitCustomer}>
                                 PAY BILL
                             </Button>
                             <Divider/>
