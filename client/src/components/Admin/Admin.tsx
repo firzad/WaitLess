@@ -7,13 +7,13 @@ import { AppBar, Toolbar, IconButton, Typography, CssBaseline } from "@material-
 
 import MenuIcon from '@material-ui/icons/Menu';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
-import PersonIcon from '@material-ui/icons/Person';
+// import PersonIcon from '@material-ui/icons/Person';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import BarChartIcon from '@material-ui/icons/BarChart';
 
 import MenuSetting from './MenuSetting';
 import TableSetting from './TableSetting';
-import StaffSetting from './StaffSetting';
+// import StaffSetting from './StaffSetting';
 import Analytics from './Analytics';
 
 
@@ -85,11 +85,11 @@ const settings = [
         'icon': <TableChartIcon/>,
         'component': <TableSetting/>
     },
-    {
-        'title': 'Staff',
-        'icon': <PersonIcon/>,
-        'component': <StaffSetting/>
-    },
+    // {
+    //     'title': 'Staff',
+    //     'icon': <PersonIcon/>,
+    //     'component': <StaffSetting/>
+    // },
     {
         'title': 'Analytics',
         'icon': <BarChartIcon/>,

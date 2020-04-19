@@ -6,10 +6,11 @@ from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, Table
 from .category import Categories, CategoryById
 from .ticket import Ticket, SessionTicket
 from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal, ActiveTicketMenuItems, UpdateTicketItems
-from .chatbot import Chat
+# from .chatbot import Chat
 from .ingredients import Ingredients
 from .itemDetails import ItemDetails
 from .summary import SummaryTable, SummaryById
+from .image import Image
 
 api = Api(app)   
 
@@ -37,7 +38,8 @@ api.add_resource(TicketItemByTicket, '/Ticket/OrderItems/<ticket_id>')
 api.add_resource(TicketItemsBySession, '/Ticket/Session/<session_id>')
 api.add_resource(TicketPriceTotal, '/Ticket/Session/Price/<session_id>')
 api.add_resource(SwitchTableAssistance, '/Tables/Assistance/<table_number>')
-api.add_resource(Chat, '/Chat')
+api.add_resource(Image, '/Image/<file_name>')
+# api.add_resource(Chat, '/Chat')
 
 if __name__ == '__main__':
     # app.run()

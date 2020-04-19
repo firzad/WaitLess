@@ -15,8 +15,9 @@ class Menu(db.Model):
     total_calories = db.Column(db.Integer)
     discount = db.Column(db.Integer)
     category = db.relationship('Category')
+    imgfile = db.Column(db.String)
 
-    def __init__(self, category_id, item_name, description, price, position_in_menu):
+    def __init__(self, category_id, item_name, description, price, position_in_menu, imgfile):
         self.category_id = category_id
         self.item_name = item_name
         self.description = description
@@ -25,3 +26,4 @@ class Menu(db.Model):
         self.position_in_menu = position_in_menu
         self.total_calories = 0
         self.discount = 0
+        self.imgfile = imgfile

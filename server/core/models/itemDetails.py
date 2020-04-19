@@ -12,8 +12,10 @@ class ItemDetail(db.Model):
     default_ingredient = db.Column(db.Boolean) 
     ingredients = db.relationship('IngredientsList')  
 
-    def __init__(self):
-        self.modifiable = True
+    def __init__(self, menu_id, ingredient_id, modifiable):
+        self.menu_id = menu_id
+        self.ingredient_id = ingredient_id
+        self.modifiable = modifiable
         self.quantity = 0
         self.default_ingredient = True 
 

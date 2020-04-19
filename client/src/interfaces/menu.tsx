@@ -9,7 +9,8 @@ export interface MenuJson{
 	date_added: Date,
 	total_calories: number,
 	discount: number,
-	category: string
+	category: string,
+	img_url: string
 }
 
 export interface MenuResponse{
