@@ -1,18 +1,18 @@
 from flask_restful import Resource, fields, marshal_with, reqparse, request, marshal
-
 from core.models.ticket_item import TicketItemModel
 from core.models.ticket import TicketModel
 from core.views.table import TableDetailById
 from core.views.menu import MenuItemById
 from core.models.menu import Menu
 
-from core.views.ticket import ticket_resource_fields
+from core.views.ticket import ticket_resource_fields, TicketById
 from core.views.menu import menu_resource_fields
 
-from core import db
+from core import db, socketio
 
 
 ticket_item_resource_fields = {
+    'order_item_id' : fields.Integer,
     'ticket_id': fields.Integer,
     'menu_id': fields.Integer,
     'ingredients_added': fields.String,
@@ -30,6 +30,7 @@ parser.add_argument('ingredients_removed')
 parser.add_argument('remark')
 parser.add_argument('item_status')
 parser.add_argument('quantity')
+parser.add_argument('order_item_ids')
 
 class TicketItemByTicket(Resource):
 
@@ -43,14 +44,34 @@ class TicketItem(Resource):
     @marshal_with(ticket_item_resource_fields)
     def post(self):
         args = parser.parse_args()
-        print(args)
         new_item = TicketItemModel(ticket_id=args.get('ticket_id'), menu_id=args.get('menu_id'),
                                     ingredients_added=args.get('ingredients_added'),ingredients_removed=args.get('ingredients_removed'),
-                                     remark=args.get('remark'), item_status=args.get('item_status'),quantity=args.get('quantity'))
+                                     remark=args.get('remark'),quantity=args.get('quantity'))
         db.session.add(new_item)
         db.session.commit()
+        socketio.emit('ticketsUpdated', broadcast=True)
         return new_item, 200
 
+class UpdateTicketItems(Resource):
+    #@marshal_with(ticket_item_resource_fields)
+    def patch(self):
+
+        print(request.json)
+        if 'item_status' in request.json:
+            if 'order_item_ids' in request.json:
+                for order_item_id in request.json['order_item_ids']:
+                    print(order_item_id)
+                    ticket_item = TicketItemModel.query.get_or_404(order_item_id)
+                    ticket_item.item_status = request.json['item_status']
+        db.session.commit()
+
+        all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
+
+        if all(item['item_status'] == 'Complete' for item in all_ticket_items):
+            ticket = TicketModel.query.get_or_404(ticket_item.ticket_id);
+            ticket.ticket_status = 'Complete'
+        db.session.commit()
+        return {}, 200
 
 
 """Gets tickets for a given table session, including menu database entry"""
@@ -73,10 +94,10 @@ class TicketItemsBySession(Resource):
             ticket_json.append(ticket_total)
         return ticket_json, 200
 
-class AllTicketMenuItems(Resource):
+class ActiveTicketMenuItems(Resource):
     def get(self):
-        """get all ticket details for a given table session"""
-        tickets = TicketModel.query.all()
+        """get all ticket details"""
+        tickets = TicketModel.query.filter(TicketModel.ticket_status == 'Active').all()
         ticket_json = []
         for t in tickets:
             ticket_items = TicketItemModel.query.filter(TicketItemModel.ticket_id == t.ticket_id).all()

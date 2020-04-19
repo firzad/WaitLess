@@ -12,11 +12,11 @@ class TicketItemModel(db.Model):
     item_status = db.Column(db.String)
     quantity = db.Column(db.Integer)
 
-    def __init__(self,ticket_id, menu_id, ingredients_added, ingredients_removed, remark, item_status, quantity):
+    def __init__(self,ticket_id, menu_id, ingredients_added, ingredients_removed, remark, quantity):
         self.ticket_id = ticket_id
         self.menu_id = menu_id
         self.ingredients_added = ingredients_added
         self.ingredients_removed = ingredients_removed
         self.remark = remark
-        self.item_status = item_status
+        self.item_status = 'Order Sent'
         self.quantity = quantity

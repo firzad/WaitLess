@@ -11,6 +11,8 @@ import {Summary} from '../../interfaces/summary'
 
 export function CustomerEntry(){
 	let { table_number } = useParams();
+	const [current_session, updateCurrentSession] = React.useState<number | any>(null)
+
 
 	const classes: any = commonStyles();
 	const [page, setPage] = React.useState(0)
@@ -20,7 +22,7 @@ export function CustomerEntry(){
 			'component': <CustomerEntryPage handleEntryCustomer={handleEntryCustomer}/>
 		},
 		{
-			'component': <Customer handleExitCustomer={handleExitCustomer}/>
+			'component': <Customer current_session={current_session} table_number={table_number} handleExitCustomer={handleExitCustomer}/>
 		}
 	]
 
@@ -45,8 +47,6 @@ export function CustomerEntry(){
 	
 
 	function CustomerEntryPage(props){
-		const [current_session, updateCurrentSession] = React.useState<number | any>(null)
-
 		useEffect(() => {
 			const interval = setInterval(()=>{
 			if (table_number != null){
@@ -59,11 +59,10 @@ export function CustomerEntry(){
 	                		setPage(1)
 	                	}
 	                }
-
 	        	})
 			}
-			return () => clearInterval(interval)
-		},1000)
+			},1000)
+		return () => clearInterval(interval)
 		})
 
 		function EnterBox(){

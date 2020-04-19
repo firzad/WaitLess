@@ -8,8 +8,10 @@ class TicketModel(db.Model):
     session_id = db.Column(db.Integer)
     ticket_timestamp = db.Column(db.DateTime)
     table_number = db.Column(db.Integer)
+    ticket_status = db.Column(db.String)
 
     def __init__(self, session_id, table_number):
         self.session_id = session_id
-        self.ticket_timestamp = str(datetime.now())
+        self.ticket_timestamp = datetime.now()
         self.table_number = table_number
+        self.ticket_status = 'Active'

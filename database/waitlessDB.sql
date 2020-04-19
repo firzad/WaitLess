@@ -22,7 +22,7 @@ description varchar(150),
 price float NOT NULL, 
 visibility bool, 
 position_in_menu integer,  
-date_added timestamp default current_timestamp, 
+date_added timestamptz default current_timestamp, 
 total_calories float, 
 discount float,
 imgfile varchar(50) NOT NULL,
@@ -42,7 +42,7 @@ FOREIGN KEY(ingredient_id) REFERENCES ingredients(ingredient_id) ON DELETE CASCA
 CREATE TABLE summary(
 session_id bigserial NOT NULL UNIQUE, 
 table_number integer NOT NULL,
-date_order timestamp NOT NULL, 
+date_order timestamptz default current_timestamp NOT NULL,  
 price float NOT NULL,
 PRIMARY KEY(session_id));
 -- Create table_details Table
@@ -58,8 +58,9 @@ FOREIGN KEY(current_session) REFERENCES summary(session_id));
 CREATE TABLE ticket(
 ticket_id bigserial NOT NULL UNIQUE, 
 session_id bigint NOT NULL, 
-ticket_timestamp timestamp,
+ticket_timestamp timestamptz default current_timestamp,
 table_number integer, 
+ticket_status varchar(50) NOT NULL,
 PRIMARY KEY(ticket_id),
 FOREIGN KEY(table_number) REFERENCES table_details(table_number) ON DELETE CASCADE,
 FOREIGN KEY(session_id) REFERENCES summary(session_id) ON DELETE CASCADE);

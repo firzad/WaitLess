@@ -36,14 +36,22 @@ createStyles({
     title: {
         fontSize: 14,
     },
+    addIngredient: {
+        marginLeft: theme.spacing(2),
+        color: green[300],
+    },
+    removeIngredient: {
+        marginLeft: theme.spacing(2),
+        color: red[300],
+    },
     pos: {
-        marginBottom: 12,
+        marginBottom: 4,
     },
     formRoot: {
         display: 'flex',
     },
     formControl: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(1),
         marginTop: 0,
     },
     formControlLabel: {

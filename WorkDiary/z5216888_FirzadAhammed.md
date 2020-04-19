@@ -57,3 +57,8 @@ A standalone timer component has been created.
 Working on setting up a push notification system which alerts system regarding updates and changes.
 
 Set up Flask-Socket-IO for asynchronous server messages.
+
+
+## Week 8
+---------
+Integrated with DB and updated function calls. Real-time data updation and realted database schema changes have been made

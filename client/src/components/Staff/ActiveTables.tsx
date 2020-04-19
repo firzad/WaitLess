@@ -24,7 +24,6 @@ export default function ActiveTables(props){
 		const icons = data.map((table) => {
 				if (table.assistance === true){
 					return <Avatar style={{backgroundColor: "indianred"}}><AnnouncementIcon/></Avatar>
-
 				}
 				switch(table.table_status){
 					case 'Seated':

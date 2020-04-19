@@ -14,28 +14,28 @@ INSERT INTO category VALUES(
 	106,'Kids',FALSE,6);
 -- INSERT INTO MENU
 INSERT INTO menu VALUES	(
-	1001,101,'Burrito','With rice, cheese and beans', 14.9, TRUE, 1, '2020-3-26', 206, 0
+	1001,101,'Burrito','With rice, cheese and beans', 14.9, TRUE, 1, current_timestamp, 206, 0
 );
 INSERT INTO menu VALUES	(
-	1002,101,'Burrito Bowl','With rice, cheese and beans', 14.9, TRUE, 2, '2020-3-26', 426, 0
+	1002,101,'Burrito Bowl','With rice, cheese and beans', 14.9, TRUE, 2, current_timestamp, 426, 0
 );
 INSERT INTO menu VALUES	(
-	1003,102,'Three Soft Tacos','Mexican street style salsa in soft flour tortilla', 14.4, TRUE, 1, '2020-3-26', 469, 0
+	1003,102,'Three Soft Tacos','Mexican street style salsa in soft flour tortilla', 14.4, TRUE, 1, current_timestamp, 469, 0
 );
 INSERT INTO menu VALUES	(
-	1004,102,'Two Hard Tacos','Mexican street style salsa in soft flour tortilla', 11.9, TRUE, 2, '2020-3-26', 324, 0
+	1004,102,'Two Hard Tacos','Mexican street style salsa in soft flour tortilla', 11.9, TRUE, 2, current_timestamp, 324, 0
 );
 INSERT INTO menu VALUES	(
-	1005,103,'Mini Cali Burrito','With rice, cheese and beans', 10.3, TRUE, 1, '2020-3-27', 251, 0
+	1005,103,'Mini Cali Burrito','With rice, cheese and beans', 10.3, TRUE, 1, current_timestamp, 251, 0
 );
 INSERT INTO menu VALUES	(
-	1006,103,'Mini Nachos','Corn chips, cheese and beans', 11.9, TRUE, 2, '2020-3-27', 347, 0
+	1006,103,'Mini Nachos','Corn chips, cheese and beans', 11.9, TRUE, 2, current_timestamp, 347, 0
 );
 INSERT INTO menu VALUES	(
-	1007,104,'Guacamole','', 3.8, TRUE, 1, '2020-3-28', 100, 0
+	1007,104,'Guacamole','', 3.8, TRUE, 1, current_timestamp, 100, 0
 );
 INSERT INTO menu VALUES	(
-	1008,105,'Churros','Churros rolled in cinnamon sugar', 3.8, TRUE, 1, '2020-3-28', 264, 0
+	1008,105,'Churros','Churros rolled in cinnamon sugar', 3.8, TRUE, 1, current_timestamp, 264, 0
 );
 -- INSERT INTO INGREDIENTS
 INSERT INTO ingredients VALUES(
