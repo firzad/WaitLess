@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, FormLabel, FormControl, FormGroup, FormControlLabel, TextField, Paper} from '@material-ui/core';
+import { Typography, Grid, FormControl, FormGroup, FormControlLabel, TextField, Paper} from '@material-ui/core';
 import { Theme, createStyles, makeStyles/*, withStyles, WithStyles*/ } from '@material-ui/core/styles';
 //import { userStyles } from "src/styles/userStyles";
 import Button from '@material-ui/core/Button';
@@ -7,6 +7,20 @@ import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import EditIcon from '@material-ui/icons/Edit';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import EcoIcon from '@material-ui/icons/Eco';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
+
+
 //import CloseIcon from '@material-ui/icons/Close';
 import axios from '../../axios';
 import {ItemDetailsJson, ItemDetailsJsonResponse} from "../../interfaces/itemdetails"
@@ -17,13 +31,17 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex'
     },
     formControl: {
-        margin: theme.spacing(3),
+        paddingLeft:'3.2vw',
+        margin: '10px 0 0 2px',
       },
     paper: {
       padding: theme.spacing(1),
       margin: 'auto',
-      maxWidth: 500,
-      opacity:'0.8'
+      width: 500,
+      opacity:'0.95',
+      height: '78vh',
+      overflowY:'auto',
+      overflowX: 'hidden',
     },
     image: {
       width: 128,
@@ -90,7 +108,18 @@ export default function ModifyOrder(props){
         ingredient: true,
       });
   
+    const [expand_ingredients, setExpandIngredients] = React.useState(false);
+    function handleExpClick(){
+        setExpandIngredients(!expand_ingredients)
+    }
+    const [detail_click, setDetailClick] = React.useState(true);
+    function handleDetailClick(){
+        setDetailClick(!detail_click)
+    }
+
     React.useEffect(() => {
+        setExpandIngredients(false)
+        setDetailClick(true)
         axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
             (res:ItemDetailsJsonResponse) =>{
                 const itemDetailsList=res.data
@@ -169,70 +198,99 @@ export default function ModifyOrder(props){
     //     setOpen(false);
     //   };
     //const onClose: () => void;
+
     return(
         <div className={classes.root}>
             <Paper className={classes.paper} variant="elevation" elevation={12}>
-            <Grid container direction="row" justify="space-around" alignItems="center">
-            </Grid>
-            <Grid container direction="column" spacing={2} align-items="center">
-                <Grid item container direction="row">
-                    <Grid item>
-                    <Typography variant="h5" align="center">
+            <List component="nav" aria-label="menu item list">
+                <ListItem>
+                  <ListItemIcon style={{minWidth:'42px'}}>
+                    <RestaurantMenuIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary={<Typography variant="h5" align="left" style={{fontWeight:700}}>
                         {menuD.item_name}
-                    </Typography>
-                    </Grid>
-                    {/* <Grid item> */}
-                    {/* <IconButton aria-label="close" className={classes.closeButton}>
-                        <CloseIcon />
-                    </IconButton> 
-                    {onClose ? (
-                    <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                    <CloseIcon />
-                    </IconButton>
-                    ) : null}
-                    {/* <GridTitle onClose={handleClose}>
-                    {menuD.item_name}  
-                    </GridTitle> */}
-                    {/* </Grid> */}
-                </Grid>
-                <Grid item xs={2} sm container>
-                    <Grid item xs>
-                        {/* <img className={classes.img} src="assets/Customer/b1.jpg" /> */}
-                    </Grid>
-                </Grid>
-                <Grid item>
-                    <Typography variant="body2">
-                    Description: {description}
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography variant="body2">
-                        Ingredients: {IL}
-                    </Typography>
-                </Grid>
-                <Grid item>
+                    </Typography>}/>
+                </ListItem>
+                <ListItem style={{maxHeight: '20px', marginBottom:'15px'}}>
+                  <ListItemIcon style={{minWidth:'20px', minHeight: '20px'}}>
+                    <AttachMoneyIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary={<Typography variant="caption" align="left" style={{fontSize: '1.15em',color:'rgba(0, 0, 0, 0.64)'}}>
+                        {menuD.price}
+                    </Typography>}/>
+                </ListItem>
+              </List>
+              <Divider />
+              <List component="nav" aria-label="secondary mailbox folders">
+                <ListItem style={{maxHeight: '40px'}}>
+                    <ListItemText primary={<Typography variant="body1" align="left">
+                        {description}
+                    </Typography>}/>
+                </ListItem>
+
+                <ListItem disabled={ingredientsList.length===0} button onClick={handleDetailClick} style={{maxHeight: '40px', marginBottom: '4px'}}>
+                    <ListItemIcon style={{minWidth:'30px', minHeight: '20px'}}>
+                        <EcoIcon/>
+                    </ListItemIcon>
+                  <ListItemText primary={<Typography variant="body1" align="left">
+                        Additional Details
+                    </Typography>}/>
+                    {detail_click ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+
+                <Divider/>
+
+                <Collapse in={detail_click} unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem style={{paddingLeft:'3.2vw'}}>
+                    <ListItemText primary={<Typography variant="body2" align="left">
+                        {IL}
+                    </Typography>}/>
+                  </ListItem>
+                </List>
+                </Collapse>
+                <Divider style={{visibility:detail_click ? 'visible' : 'hidden'}}/>
+
+
+                <ListItem disabled={itemDetails.length===0} button onClick={handleExpClick} style={{maxHeight: '40px',marginTop:'4px',marginBottom: '4px'}}>
+                  <ListItemIcon style={{minWidth:'30px', minHeight: '20px'}}>
+                        <EditIcon/>
+                    </ListItemIcon>
+                  <ListItemText primary={<Typography variant="body1" align="left">
+                        Customize
+                    </Typography>}/>
+                    {expand_ingredients ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+
+                <Divider/>
+
+                <Collapse in={expand_ingredients} unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem button>
                     <FormControl component="fieldset" className={classes.formControl}>
-                        <FormLabel component="legend">Add Ingredients</FormLabel>
                         <FormGroup>
                         {itemDetails.map((obj) => (
                             <FormControlLabel
                                 control={<Checkbox /*checked={ingredientState}*/ onChange={handleChange} name={obj.ingredients} />}
-                                label={obj.ingredients} labelPlacement="start"
+                                label={<Typography variant="body2" align="left">{obj.ingredients}</Typography>} labelPlacement="end"
                             />
                             ))}
                         </FormGroup>
                     </FormControl>
-                </Grid>
-                <Grid item>
-                    <Grid container direction="row" justify="center" alignItems="center">
-                        {/* <Typography variant="body2">
-                        Remarks: 
-                        </Typography> */}
-                        <TextField id="remarks" label="Remarks" variant="outlined" value={remarksState}
+
+                  </ListItem>
+                </List>
+                </Collapse>
+                <Divider style={{visibility:expand_ingredients ? 'visible' : 'hidden'}}/>
+
+                <ListItem style={{paddingTop:'6vh'}}>
+                    <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
+                    <TextField id="remarks" label="Remarks" variant="outlined" value={remarksState}
                         onChange={handleRemarks} />
                     </Grid>
-                </Grid>
-                <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
+                </ListItem>
+                <ListItem>
+                    <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
                     <Grid item>
                     <IconButton disabled={checkQuantity()} aria-label="delete" onClick={()=>handleQuantityClick("Delete")}>
                         <RemoveCircleIcon  style={{ fontSize: 31 }}/>
@@ -248,12 +306,15 @@ export default function ModifyOrder(props){
                     </IconButton>
                     </Grid>
                 </Grid>
-                <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
+                </ListItem>
+                <ListItem alignItems='center'>
+                    <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
                     <Button disabled={checkQuantity()} variant="contained" size="medium" color="primary" className={classes.margin} onClick={handleOnClickOrder}>
                     ADD ORDER
                     </Button>
-                </Grid>
-            </Grid>
+                    </Grid>
+                </ListItem>
+              </List>
             </Paper>
         </div>
     )

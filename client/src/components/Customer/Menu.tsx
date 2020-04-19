@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect} from "react";
-import Container from '@material-ui/core/Container';
+//import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 //import clsx from 'clsx';
 import {/*useState, useEffect, */Fragment} from "react"
@@ -75,7 +75,7 @@ interface TabPanelProps {
         //padding: theme.spacing(1),
         //maxWidth: 190,
         width: '10vw',
-        height: '35vh',
+        height: '100%',
         paddingTop: theme.spacing(2),
         marginTop: theme.spacing(2),
         marginRight:theme.spacing(2),
@@ -95,7 +95,7 @@ interface TabPanelProps {
       paddingLeft: theme.spacing(0),
       paddingRight: theme.spacing(0),
       paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingBottom: '-10px',
     },
     cardContent:{
       padding:theme.spacing(1)
@@ -219,34 +219,34 @@ export default function Menu(props){
 
     function renderCategoryItems(){
         return(current_category.map((category,index) => (
-            <TabPanel value={value} index={index}>
+            <TabPanel value={value} key={index} index={index}>
                 {/* <GridList cellHeight={250} cols={4} spacing={10} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
                     </GridListTile> */}
-                    <Grid container direction="row" style={{height:'60vh',overflowY:'auto'}}>
+                    <Grid container direction="row" style={{padding: '0 0 10px 10px',marginLeft:'10px',marginTop:'-10px',height:'68vh',overflowY:'auto'}}>
                     {
                             filtered_menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
                                 return(
-                                    <Grid item /*xs={props.open?4:3}*/ >
-                                    <Card raised={true} 
-                                    // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
-                                    className={classes.cardRoot} key={tile.menu_id} onClick={()=>onModifyMenu(tile)}>
-                                    <CardActionArea>
-                                      <CardMedia
-                                        className={classes.media}
-                                        image={tile.img_url}
-                                        title={tile.item_name}
-                                      />
-                                      <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="body2" component="p" style={{fontSize:'1em',marginBottom:'0 !important'}}>
-                                          {tile.item_name}
-                                        </Typography>
-                                        <Typography variant="subtitle1" color="textSecondary" component="p">
-                                          {<span>$ {tile.price}</span>}
-                                        </Typography>
-                                      </CardContent>
-                                    </CardActionArea>
-                                  </Card>
+                                    <Grid style={{maxHeight:'180px', marginBottom:'10px'}} key={index} item /*xs={props.open?4:3}*/ >
+                                      <Card raised={true} 
+                                      // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
+                                      className={classes.cardRoot} key={tile.menu_id} onClick={()=>onModifyMenu(tile)}>
+                                      <CardActionArea>
+                                        <CardMedia
+                                          className={classes.media}
+                                          image={tile.img_url}
+                                          title={tile.item_name}
+                                        />
+                                        <CardContent className={classes.cardContent}>
+                                          <Typography gutterBottom variant="button" component="p" style={{fontSize:'.75vw',marginBottom:'0 !important'}}>
+                                            {tile.item_name}
+                                          </Typography>
+                                          <Typography variant="subtitle1" color="textSecondary" component="p" style={{fontSize:'.85vw',marginBottom:'0 !important'}}>
+                                            {<span>${tile.price}</span>}
+                                          </Typography>
+                                        </CardContent>
+                                      </CardActionArea>
+                                    </Card>
                                   </Grid>
                                   
                             // <GridListTile key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
@@ -271,7 +271,7 @@ export default function Menu(props){
     }
     const categoryList = renderCategoryItems()
     return(
-        <Container maxWidth="lg" className={classes.container} >
+        <Box maxWidth="lg" className={classes.container} style={{'color':'red'}}>
             <Grid container spacing={3}>
                 <Tabs 
                 value={value} 
@@ -280,16 +280,18 @@ export default function Menu(props){
                 indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
-                scrollButtons="auto">
+                scrollButtons="auto"
+                style={{'paddingLeft': '10px'}}>
                 
                 {current_category.map((category,index) => (
-                <Tab label={category.category_name} {...a11yProps(index)}/>
+                <Tab style={{'paddingLeft': '10px'}} key={index} label={category.category_name} {...a11yProps(index)}/>
                 ))}
                 </Tabs>
-            </Grid>
             {
                 categoryList
             }
-        </Container>
+           </Grid>
+
+        </Box>
     );
 }

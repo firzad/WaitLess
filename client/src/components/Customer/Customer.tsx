@@ -262,9 +262,8 @@ export function Customer(props) {
     return (
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
-        <div className={styleClasses.root} >
-            <AppBar position="static" className={clsx(classes1.appBar)} color='secondary'
-            >
+        <div className={styleClasses.root}>
+            <AppBar position="static" className={clsx(classes1.appBar)} color='secondary'>
                 <Toolbar>
                   <Typography variant="body1" className={styleClasses.title}>
                         Table {table_number}
@@ -308,26 +307,25 @@ export function Customer(props) {
             handleExitCustomer={handleExitCustomer}
             open={open} orderValue={orderValue}
             />
-            <main className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100vh',opacity:'0.9', backgroundImage: `url(${Image})`}}>
-              {/* <Container className={classes1.container}> */}
-                  <Grid container spacing={3}>
-                    
-                    <Grid item md={9}>
-                    <Paper variant="elevation" elevation={12} className={classes.paper} style={{opacity:'0.8'}} >
+            <div className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100%',opacity:'0.9', backgroundImage: `url(${Image})`}}>
+                <Grid container spacing={3} style={{'height': '100%', 'display': 'flex'}}>
+                    <Grid item md={9} >
+                      <Paper variant="elevation" elevation={5} style={{'height':'78vh','padding': '10px 5px 0px 5px','margin': 'auto','width': '100%'}} >
+              
                       <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/>
-                    {/* <Paper variant="elevation" elevation={12} className={classes.paper}>
-                      <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/> */}
 
-                    </Paper>
+
+                      </Paper>
                     </Grid>
                     
                     <Grid item md={3}>
                         {modifyvalue?<ModifyOrder setBucketValue={setBucketValue} setmodifyValue={setmodifyValue} modifyvalue={modifyvalue}/>:null}
                     </Grid>
                   </Grid>
+
                   {/* <Bucket /> */}
               {/* </Container> */}
-            </main>
+            </div>
             {/* <BottomNavigation
               value={bottomValue}
               onChange={(event, newValue) => {
@@ -342,8 +340,8 @@ export function Customer(props) {
             </BottomNavigation> */}
             <AppBar position="fixed" color="secondary" className={classes.bottomAppBar}>
               <Toolbar variant="dense">
-                <IconButton edge="start" color="inherit" aria-label="open drawer">
-                  <AssistantIcon onClick={addAssistanceTable}/>
+                <IconButton onClick={addAssistanceTable} edge="start" color="inherit" aria-label="open drawer">
+                  <AssistantIcon/>
                 </IconButton>
                 <div className={classes.grow} />
                 <IconButton edge="end" color="inherit">
