@@ -22,10 +22,16 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 //import FavoriteIcon from '@material-ui/icons/Favorite';
 //import LocationOnIcon from '@material-ui/icons/LocationOn';
 import HelpIcon from '@material-ui/icons/Help';
-import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+// import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 //import Image from './brown.jpeg';
 //import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
+
+import io from "socket.io-client";
+import { Widget, addResponseMessage } from 'react-chat-widget';
+import 'react-chat-widget/lib/styles.css';
+import { useEffect } from "react";
+
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
 //import { ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -265,67 +271,81 @@ export function Customer(props) {
 	const bucketClear = () => {
 		setOrderValue([])
 	}
+
+	const socket = io.connect('http://localhost:5000');
+	useEffect(() => {
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Oops! Did you make a mistake in the order. I can help you!\n3. Do you need staff assistance?\n4. Quit");
+    }, []);
+
+	const handleNewUserMessage = (message: string) => {
+		socket.emit('chatRequest', message);
+	}
+	socket.on('chatResponse', (data) => {
+        addResponseMessage(data.responseMessage);
+	});
+
 	return (
-		<MuiThemeProvider theme={newTheme}>
-			{/* <ThemeProvider theme={theme}> */}
-			<div className={styleClasses.root}>
-				<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
-					<Toolbar>
-						<Typography style={{ maxWidth: '5.25vw' }} variant="body1" className={styleClasses.title}>
-							Table {table_number}
-						</Typography>
-						<div className={classes.search}>
-							<div className={classes.searchIcon}>
-								<SearchIcon />
+		<div>
+			<MuiThemeProvider theme={newTheme}>
+				{/* <ThemeProvider theme={theme}> */}
+				<div className={styleClasses.root}>
+					<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
+						<Toolbar>
+							<Typography style={{ maxWidth: '5.25vw' }} variant="body1" className={styleClasses.title}>
+								Table {table_number}
+							</Typography>
+							<div className={classes.search}>
+								<div className={classes.searchIcon}>
+									<SearchIcon />
+								</div>
+								<InputBase
+									placeholder="Search…"
+									classes={{
+										root: classes.inputRoot,
+										input: classes.inputInput,
+									}}
+									inputProps={{ 'aria-label': 'search' }}
+									onChange={handleSearchChange}
+								/>
 							</div>
-							<InputBase
-								placeholder="Search…"
-								classes={{
-									root: classes.inputRoot,
-									input: classes.inputInput,
-								}}
-								inputProps={{ 'aria-label': 'search' }}
-								onChange={handleSearchChange}
-							/>
-						</div>
-						{/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
-						<Typography variant="h6" className={styleClasses.title} align='right'>
-							CART
+							{/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
+							<Typography variant="h6" className={styleClasses.title} align='right'>
+								CART
                     </Typography>
 
-						<IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)}
-							color="secondary"
-							aria-label="open drawer"
-							onClick={handleDrawerOpen}>
-							<Badge badgeContent={orderValue.length} color="error">
-								<ShoppingBasketIcon style={{ color: "white" }} />
-							</Badge>
-							{/* <ShoppingBasketIcon style={{ color: "white" }} /> */}
-							{/* <MenuIcon color="secondary" /> */}
-						</IconButton>
+							<IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)}
+								color="secondary"
+								aria-label="open drawer"
+								onClick={handleDrawerOpen}>
+								<Badge badgeContent={orderValue.length} color="error">
+									<ShoppingBasketIcon style={{ color: "white" }} />
+								</Badge>
+								{/* <ShoppingBasketIcon style={{ color: "white" }} /> */}
+								{/* <MenuIcon color="secondary" /> */}
+							</IconButton>
 
-						{/* <Button color="inherit">Login</Button> */}
-					</Toolbar>
-				</AppBar>
+							{/* <Button color="inherit">Login</Button> */}
+						</Toolbar>
+					</AppBar>
 
-				<div className={clsx(classes.content)} style={{ height: '100%', opacity: '0.9', backgroundColor: 'ALICEBLUE' }}>
-					<Grid container spacing={3} style={{ 'height': '100%', 'display': 'flex' }}>
-						<Grid item md={9} >
-							<Paper variant="elevation" elevation={5} style={{ 'height': '78vh', 'padding': '10px 5px 0px 5px', 'margin': 'auto', 'width': '100%' }} >
+					<div className={clsx(classes.content)} style={{ height: '100%', opacity: '0.9', backgroundColor: 'ALICEBLUE' }}>
+						<Grid container spacing={3} style={{ 'height': '100%', 'display': 'flex' }}>
+							<Grid item md={9} >
+								<Paper variant="elevation" elevation={5} style={{ 'height': '78vh', 'padding': '10px 5px 0px 5px', 'margin': 'auto', 'width': '100%' }} >
 
-								<Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue} />
-							</Paper>
+									<Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue} />
+								</Paper>
+							</Grid>
+
+							<Grid item md={3}>
+								{modifyvalue ? <ModifyOrder setBucketValue={setBucketValue} setmodifyValue={setmodifyValue} modifyvalue={modifyvalue} /> : null}
+							</Grid>
 						</Grid>
 
-						<Grid item md={3}>
-							{modifyvalue ? <ModifyOrder setBucketValue={setBucketValue} setmodifyValue={setmodifyValue} modifyvalue={modifyvalue} /> : null}
-						</Grid>
-					</Grid>
-
-					{/* <Bucket /> */}
-					{/* </Container> */}
-				</div>
-				{/* <BottomNavigation
+						{/* <Bucket /> */}
+						{/* </Container> */}
+					</div>
+					{/* <BottomNavigation
               value={bottomValue}
               onChange={(event, newValue) => {
                 setbottonValue(newValue);
@@ -337,32 +357,42 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-				<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
-					<Toolbar variant="dense">
-						<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
-							style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
-							CALL HELP
+					<div>
+						<Widget
+							handleNewUserMessage={handleNewUserMessage}
+							// profileAvatar={logo}
+							title="Waitless"
+							subtitle="Chat Assistance"
+							senderPlaceHolder="Type the message..."
+						/>
+					</div>
+					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
+						<Toolbar variant="dense">
+							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
+								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
+								CALL HELP
                   <HelpIcon />
-						</Button>
-						<div className={classes.grow} />
-						<IconButton edge="end" color="inherit">
-							<ChatBubbleIcon />
-						</IconButton>
-					</Toolbar>
-				</AppBar>
-			</div>
-			<Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose}
-				setOrderValue={setOrderValue}
-				bucketClear={bucketClear}
-				orderedValue={orderedValue}
-				setOrderedBucketValue={setOrderedBucketValue}
-				JGFIXSETBUCKET={JGFIXSETBUCKET}
-				current_session={current_session} table_number={table_number}
-				handleExitCustomer={handleExitCustomer}
-				open={open} orderValue={orderValue}
-			/>
-			{/* </ThemeProvider> */}
-		</MuiThemeProvider>
+							</Button>
+							<div className={classes.grow} />
+							{/* <IconButton edge="end" color="inherit">
+								<ChatBubbleIcon />
+							</IconButton> */}
+						</Toolbar>
+					</AppBar>
+				</div>
+				<Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose}
+					setOrderValue={setOrderValue}
+					bucketClear={bucketClear}
+					orderedValue={orderedValue}
+					setOrderedBucketValue={setOrderedBucketValue}
+					JGFIXSETBUCKET={JGFIXSETBUCKET}
+					current_session={current_session} table_number={table_number}
+					handleExitCustomer={handleExitCustomer}
+					open={open} orderValue={orderValue}
+				/>
+				{/* </ThemeProvider> */}
+			</MuiThemeProvider>
+		</div>
 	);
 }
 
