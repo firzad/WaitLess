@@ -36,3 +36,7 @@ wcwidth==0.1.7
 Werkzeug==1.0.0
 pytest==5.3.5
 flask_socketio==4.2.1
+tflearn==0.3.2
+tensorflow==1.14.0
+numpy==1.16.2
+nltk==3.4

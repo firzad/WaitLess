@@ -52,6 +52,8 @@ class TicketItem(Resource):
         socketio.emit('ticketsUpdated', broadcast=True)
         return new_item, 200
 
+
+# --
 class UpdateTicketItems(Resource):
     #@marshal_with(ticket_item_resource_fields)
     def patch(self):
