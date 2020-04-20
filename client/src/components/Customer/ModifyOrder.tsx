@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 500,
       opacity:'0.95',
       height: '78vh',
-      overflowY:'auto',
+      overflow: 'overlay',
       overflowX: 'hidden',
     },
     image: {
@@ -100,8 +100,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ModifyOrder(props){
     const menuD=props.modifyvalue
-    console.log("MenuD")
-    console.log(menuD)
     const [itemDetails, setitemDetails] = React.useState<ItemDetailsJson | any>([]);
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -112,14 +110,14 @@ export default function ModifyOrder(props){
     function handleExpClick(){
         setExpandIngredients(!expand_ingredients)
     }
-    const [detail_click, setDetailClick] = React.useState(true);
+    const [detail_click, setDetailClick] = React.useState(false);
     function handleDetailClick(){
         setDetailClick(!detail_click)
     }
 
     React.useEffect(() => {
         setExpandIngredients(false)
-        setDetailClick(true)
+        setDetailClick(false)
         axios.get('ItemDetails/'+menuD.menu_id.toString()).then(
             (res:ItemDetailsJsonResponse) =>{
                 const itemDetailsList=res.data
@@ -142,8 +140,6 @@ export default function ModifyOrder(props){
     //const [ingredientState, setIngredientState]= React.useState(false)
     //const ingredientsObject: String[] = []; 
     const handleOnClickOrder =(event) =>{
-        console.log("&&&")
-        console.log(ingredientsChecked);
         props.setBucketValue(
             {
             "item_name":menuD.item_name,
@@ -244,7 +240,7 @@ export default function ModifyOrder(props){
                 <List component="div" disablePadding>
                   <ListItem style={{paddingLeft:'3.2vw'}}>
                     <ListItemText primary={<Typography variant="body2" align="left">
-                        {IL}
+                        Ingredients: {IL}
                     </Typography>}/>
                   </ListItem>
                 </List>
@@ -269,8 +265,8 @@ export default function ModifyOrder(props){
                   <ListItem button>
                     <FormControl component="fieldset" className={classes.formControl}>
                         <FormGroup>
-                        {itemDetails.map((obj) => (
-                            <FormControlLabel
+                        {itemDetails.map((obj, index) => (
+                            <FormControlLabel key={index} 
                                 control={<Checkbox /*checked={ingredientState}*/ onChange={handleChange} name={obj.ingredients} />}
                                 label={<Typography variant="body2" align="left">{obj.ingredients}</Typography>} labelPlacement="end"
                             />
@@ -310,7 +306,7 @@ export default function ModifyOrder(props){
                 <ListItem alignItems='center'>
                     <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
                     <Button disabled={checkQuantity()} variant="contained" size="medium" color="primary" className={classes.margin} onClick={handleOnClickOrder}>
-                    ADD ORDER
+                    ADD TO CART
                     </Button>
                     </Grid>
                 </ListItem>

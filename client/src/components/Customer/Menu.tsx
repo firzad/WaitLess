@@ -122,7 +122,6 @@ export function RenderMenuItems(props){
     return(<Fragment>
         {
             tileData.map((tile,index) => {
-                console.log(tile)
                 return(
                 
             <GridListTile key={tile.menu_id} onClick={props.setModify}>
@@ -159,7 +158,6 @@ export default function Menu(props){
 					key_words.push(split_search[i])
 				}
 			}
-			console.log(key_words)
 
 			for (let menu_idx = 0; menu_idx < menu.length; menu_idx++){
 				let match_flag = true
@@ -207,7 +205,6 @@ export default function Menu(props){
         axios.get('Menu').then(
             (menuItem:MenuResponse)=>{
                 const menuData = menuItem.data
-                //console.log(menuData)
                 setMenu(menuData)
 
                 //set the search filtered menu data

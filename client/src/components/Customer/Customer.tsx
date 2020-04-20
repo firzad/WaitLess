@@ -3,9 +3,9 @@ import clsx from 'clsx';
 //import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 //import Paper from '@material-ui/core/Paper';
-import MenuIcon from '@material-ui/icons/Menu';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { userStyles } from "src/styles/userStyles";
-import { AppBar, Toolbar, IconButton, Typography, Paper} from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Button, Typography, Paper} from "@material-ui/core";
 import { commonStyles } from "../../styles/generalStyles";
 import { fade, Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -21,9 +21,9 @@ import {MuiThemeProvider,  createMuiTheme } from '@material-ui/core/styles';
 //import RestoreIcon from '@material-ui/icons/Restore';
 //import FavoriteIcon from '@material-ui/icons/Favorite';
 //import LocationOnIcon from '@material-ui/icons/LocationOn';
-import AssistantIcon from '@material-ui/icons/Assistant';
+import HelpIcon from '@material-ui/icons/Help';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
-import Image from './brown.jpeg';
+//import Image from './brown.jpeg';
 //import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 //import Image2 from './spices_bottom.jpg';
@@ -227,6 +227,7 @@ export function Customer(props) {
     //const {handleExitCustomer} = props
     ////SET sethandleEntryCustomer(0) once the session is done
     const {current_session,table_number,handleExitCustomer}=props
+    const [assistance_click, setAssistanceClick] = React.useState(false)
      
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
@@ -252,7 +253,9 @@ export function Customer(props) {
     }
 
     function addAssistanceTable(){
-      axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':true})
+      axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':!assistance_click})
+      setAssistanceClick(!assistance_click)
+
           //handleClose()
     }
     const bucketClear =()=>{
@@ -263,9 +266,9 @@ export function Customer(props) {
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
         <div className={styleClasses.root}>
-            <AppBar position="static" className={clsx(classes1.appBar)} color='secondary'>
+            <AppBar position="static" className={clsx(classes1.appBar)} style={{backgroundColor:'STEELBLUE'}}>
                 <Toolbar>
-                  <Typography variant="body1" className={styleClasses.title}>
+                  <Typography style={{maxWidth: '5.25vw'}} variant="body1" className={styleClasses.title}>
                         Table {table_number}
                     </Typography>
                     <div className={classes.search}>
@@ -283,15 +286,15 @@ export function Customer(props) {
                       />
                     </div>
                     {/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
-                    <Typography variant="h4" className={styleClasses.title} align='center'>
-                        WAITLESS
+                    <Typography variant="h6" className={styleClasses.title} align='right'>
+                        CART
                     </Typography>
                     
                       <IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)} 
                         color="secondary" 
                         aria-label="open drawer" 
                         onClick={handleDrawerOpen}>
-                            <MenuIcon style={{color:"white" }}/>
+                            <ShoppingBasketIcon style={{color:"white" }}/>
                             {/* <MenuIcon color="secondary" /> */}
                       </IconButton>
 
@@ -307,7 +310,7 @@ export function Customer(props) {
             handleExitCustomer={handleExitCustomer}
             open={open} orderValue={orderValue}
             />
-            <div className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100%',opacity:'0.9', backgroundImage: `url(${Image})`}}>
+            <div className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100%',opacity:'0.9', backgroundColor:'ALICEBLUE'}}>
                 <Grid container spacing={3} style={{'height': '100%', 'display': 'flex'}}>
                     <Grid item md={9} >
                       <Paper variant="elevation" elevation={5} style={{'height':'78vh','padding': '10px 5px 0px 5px','margin': 'auto','width': '100%'}} >
@@ -338,11 +341,13 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-            <AppBar position="fixed" color="secondary" className={classes.bottomAppBar}>
+            <AppBar position="fixed" style={{backgroundColor:'STEELBLUE'}} className={classes.bottomAppBar}>
               <Toolbar variant="dense">
-                <IconButton onClick={addAssistanceTable} edge="start" color="inherit" aria-label="open drawer">
-                  <AssistantIcon/>
-                </IconButton>
+                <Button onClick={addAssistanceTable} variant='contained'  aria-label="call help"
+                      style={{backgroundColor:assistance_click ? 'INDIANRED': 'POWDERBLUE'}}>
+                  CALL HELP 
+                  <HelpIcon/>
+                </Button>
                 <div className={classes.grow} />
                 <IconButton edge="end" color="inherit">
                   <ChatBubbleIcon />
