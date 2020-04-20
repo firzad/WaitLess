@@ -8,10 +8,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import {Ticket, TicketPostResponse} from "../../interfaces/ticket"
 import {TicketItem, TicketItemPostResponse} from "../../interfaces/ticket"
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import DoneIcon from '@material-ui/icons/Done';
 import axios from '../../axios';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 //import {useState/*, useEffect, Fragment*/} from "react"
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import CheckIcon from '@material-ui/icons/Check';
 //import {Order, OrderResponse, OrderPostResponse} from "../../interfaces/order"
 import {
     Drawer,
@@ -20,6 +23,10 @@ import {
   } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,8 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
         //opacity: '0.5'
       },
       drawerPaper: {
-        width: drawerWidth,
-        opacity: '0.8'
+        width: '23vw',
       },
       drawerHeader: {
         display: 'flex',
@@ -95,12 +101,16 @@ export default function Bucket(props){
     const classes = useStyles();
     const itemList=props.orderValue
     const {current_session,table_number, handleExitCustomer}=props
-    console.log("------0")
 
     const theme = useTheme();
     const ingredients_removed=""
     const item_status="Order Placed"
     
+    const [prevorder_click, setPrevOrderClick] = React.useState(false);
+    function handlePrevOrderClick(){
+        setPrevOrderClick(!prevorder_click)
+    }
+
    //const [ticketItem, setTicketItem] = useState<TicketItem | any>([]);
 
 
@@ -123,8 +133,6 @@ export default function Bucket(props){
         axios.post<Ticket>(`Ticket`,{'session_id': current_session, 'table_number': table_number}).then(
             (res: TicketPostResponse) => {
                 const ticket_id = res.data.ticket_id
-                console.log("***")
-                console.log(ticket_id)
                 Promise.all(itemList.filter(ticket_item=>!ticket_item.ordered).map((ticket_item)=>(// (const ticket_item of itemList.entries()){
                     axios.post<TicketItem>(`TicketItem`,{'ticket_id': ticket_id,'menu_id': ticket_item.menu_id,
                                         'ingredients_added': ticket_item.ingredient.join(','), 'ingredients_removed': ingredients_removed, 
@@ -139,7 +147,7 @@ export default function Bucket(props){
                     //ticket_item.ordered=true;
                     //console.log(ticket_item[1].ordered)
                 
-            ).then(()=>{console.log(itemList); 
+            ).then(()=>{ 
                 //props.setOrderValue(itemList)})
                 props.bucketClear()})
             
@@ -148,77 +156,106 @@ export default function Bucket(props){
             // console.log("Item List--------")
             //console.log(itemList)
             // props.setOrderValue(itemList)
-        }
-    )
-}
+            }
+        )
+    }
 
+    const removeItemFromCart = itemindex => e => {
+      let clonearr = itemList.slice()
+      clonearr.splice(itemindex,1)
+      props.JGFIXSETBUCKET(clonearr)
+    }
 
     return(
         <Drawer
-        className={classes.drawer}
-        variant="persistent"
         anchor="right"
         open={props.open}
         classes={{
             paper: classes.drawerPaper,
-        }}>
+        }}
+        >
+        
         <div className={classes.drawerHeader}>
             <IconButton onClick={props.handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
-            <Typography variant="h4" align="right" className={classes.typography}>
-                Bucket
+            <Typography variant="h6" align="right" className={classes.typography}>
+                Hide
             </Typography>
             <Divider />
         </div>
             <Divider/>
             <Paper className={classes.paper}>
-                <Grid container spacing={4} direction="column" justify="center">
-                    <Grid item container justify="flex-start"  className={classes.listGrid}>
-                        <Grid item>
-                            <List>
-                                {props.orderedValue.map((obj) => (
-                                <ListItem button key={obj.item_name}>
-                                    <ListItemText primary={obj.item_name} />
-                                    
-                                <ListItemIcon><CheckIcon/></ListItemIcon>
-                                    {/* <ListItemText primary={obj.itemPrice} /> */}
-                                </ListItem>
-                                ))}
-                                {itemList.map((obj) => (
-                                <ListItem button key={obj.item_name}>
-                                    <ListItemText primary={obj.item_name} />
-                                    
-                                    {/* <ListItemText primary={obj.itemPrice} /> */}
-                                </ListItem>
-                                ))}
-                                
-                            </List>
-                            
-                        </Grid>
-                    </Grid>
-                    <Grid item container direction="column" alignItems="center" justify="flex-end" spacing ={1}>
-                        <Grid item>
-                            <Button size="medium" variant="outlined" color="secondary" className={classes.margin} onClick={onOrderClick}>
-                                PLACE ORDER
-                            </Button>
-                            </Grid>
-                        <Divider/>
-                    {/* </Grid> */}
-                        <Grid item>
-                            <Button size="medium" variant="outlined" color="secondary"className={classes.margin} onClick={handleExitCustomer}>
-                                PAY BILL
-                            </Button>
-                            <Divider/>
-                        </Grid>
-                    </Grid>
-            </Grid> 
-            {/* <Button size="medium" color="primary" className={classes.button2} >
-                PLACE ORDER
-            </Button>
-            <Button size="medium" color="primary" className={classes.button1}>
-                PAY BILL
-            </Button> */}
+            <List component="nav" aria-label="menu item list">
+              <ListItem disabled={itemList.length === 0 ? true : false} button >
+                <ListItemIcon style={{minWidth:'42px'}}>
+                  <ShoppingBasketIcon/>
+                </ListItemIcon>
+                <ListItemText primary={<Typography variant="h5" align="left" style={{fontWeight:700}}>
+                  {itemList.length === 0 ? 'Basket Empty' : 'Current Items'}
+                </Typography>}/>
+              </ListItem>
+              <Divider/>
+              </List>
+              <List style={{visibility:itemList.length===0?'hidden':'visible'}} component="nav">
+                  {itemList.map((obj, index) => (
+                  <ListItem key={index} style={{paddingLeft:'2.4vw'}}>
+                    <ListItemIcon style={{minWidth:'30px', minHeight: '20px'}}>
+                      <IconButton value={obj} onClick={removeItemFromCart(index)}>
+                      <DeleteOutlineIcon/>
+                      </IconButton>
+                    </ListItemIcon>  
+                    <ListItemText primary={obj.item_name + (obj.quantity>1 ? '  x'+obj.quantity : '')} />
+                    <ListItemText primary={'$' + obj.price*obj.quantity}/>
+                  </ListItem>
+                ))}
+              </List>
+              <Divider style={{visibility:props.orderedValue.length===0 ? 'visible' : 'hidden'}}/>
+              <ListItem 
+                  disabled={props.orderedValue.length === 0 ? true : false} button 
+                  onClick={handlePrevOrderClick}>
+                <ListItemIcon style={{minWidth:'42px'}}>
+                  <AttachMoneyIcon/>
+                </ListItemIcon>
+                <ListItemText primary={<Typography variant="h5" align="left" style={{fontWeight:700}}>
+                  Previous Orders
+                </Typography>}/>
+                {prevorder_click ? <ExpandLess /> : <ExpandMore />}
+
+              </ListItem>
+
+              <Divider/>
+              <Collapse in={prevorder_click} unmountOnExit>
+              <List component="nav">
+                  {props.orderedValue.map((obj, index) => (
+                  <ListItem key={index} style={{paddingLeft:'2.4vw'}}>
+                    <ListItemIcon style={{minWidth:'30px', minHeight: '20px'}}>
+                      <DoneIcon/>
+                    </ListItemIcon>  
+                    <ListItemText primary={obj.item_name + (obj.quantity>1 ? '  x'+obj.quantity : '')} />
+                    <ListItemText primary={'$' + obj.price*obj.quantity}/>
+                  </ListItem>
+                ))}
+              </List>
+              </Collapse>
+              <List>
+              <ListItem alignItems='center'>
+                <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
+                <Button size="medium" variant="outlined" color="secondary" 
+                        className={classes.margin} onClick={onOrderClick}
+                        disabled={itemList.length === 0?true:false}>
+                    PLACE ORDER
+                </Button>
+                </Grid>
+              </ListItem>
+              <ListItem alignItems='center'>
+                <Grid item container direction="row" align-item="center" justify="center" spacing ={1}>
+                <Button size="medium" variant="outlined" color="secondary"className={classes.margin} onClick={handleExitCustomer}>
+                  PAY BILL
+                </Button>
+                </Grid>
+              </ListItem>
+              </List>
             </Paper>
         </Drawer>
     );

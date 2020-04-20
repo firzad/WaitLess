@@ -147,6 +147,7 @@ export default function ModifyOrder(props){
             "ingredient":ingredientsChecked,
             "remarks":remarksState,
             "quantity":orderQuantityState,
+            "price":menuD.price,
             "ordered":false,
         }
         )
@@ -217,7 +218,7 @@ export default function ModifyOrder(props){
                 </ListItem>
               </List>
               <Divider />
-              <List component="nav" aria-label="secondary mailbox folders">
+              <List component="nav" aria-label="description">
                 <ListItem style={{maxHeight: '40px'}}>
                     <ListItemText primary={<Typography variant="body1" align="left">
                         {description}

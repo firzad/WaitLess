@@ -251,6 +251,10 @@ export function Customer(props) {
     const setBucketValue =(order:any) => {
       setOrderValue((orderValue) => [...orderValue, order]);
     }
+    function JGFIXSETBUCKET(bucket_list){
+      //idk why the other functions were there. cant figure it out, wrote this
+      setOrderValue(bucket_list)
+    }
 
     function addAssistanceTable(){
       axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':!assistance_click})
@@ -261,7 +265,6 @@ export function Customer(props) {
     const bucketClear =()=>{
       setOrderValue([])
     }
-    console.log(orderValue)
     return (
       <MuiThemeProvider theme={newTheme}>
        {/* <ThemeProvider theme={theme}> */}
@@ -301,23 +304,13 @@ export function Customer(props) {
                     {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
             </AppBar>
-            <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} 
-            setOrderValue={setOrderValue}
-            bucketClear={bucketClear}
-            orderedValue={orderedValue}
-            setOrderedBucketValue={setOrderedBucketValue}
-            current_session={current_session} table_number={table_number}
-            handleExitCustomer={handleExitCustomer}
-            open={open} orderValue={orderValue}
-            />
-            <div className={clsx(classes.content, {[classes.contentShift]: open,})} style={{height:'100%',opacity:'0.9', backgroundColor:'ALICEBLUE'}}>
+            
+            <div className={clsx(classes.content)} style={{height:'100%',opacity:'0.9', backgroundColor:'ALICEBLUE'}}>
                 <Grid container spacing={3} style={{'height': '100%', 'display': 'flex'}}>
                     <Grid item md={9} >
                       <Paper variant="elevation" elevation={5} style={{'height':'78vh','padding': '10px 5px 0px 5px','margin': 'auto','width': '100%'}} >
               
                       <Menu setmodifyValue={setmodifyValue} open={open} searchValue={searchValue}/>
-
-
                       </Paper>
                     </Grid>
                     
@@ -355,6 +348,16 @@ export function Customer(props) {
               </Toolbar>
             </AppBar>
         </div>
+        <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} 
+            setOrderValue={setOrderValue}
+            bucketClear={bucketClear}
+            orderedValue={orderedValue}
+            setOrderedBucketValue={setOrderedBucketValue}
+            JGFIXSETBUCKET={JGFIXSETBUCKET}
+            current_session={current_session} table_number={table_number}
+            handleExitCustomer={handleExitCustomer}
+            open={open} orderValue={orderValue}
+            />
        {/* </ThemeProvider> */}
        </MuiThemeProvider>
     );
