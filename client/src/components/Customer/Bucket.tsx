@@ -130,6 +130,7 @@ export default function Bucket(props){
 // Get for status?
 
     const onOrderClick = () =>{
+      console.log(current_session)
         axios.post<Ticket>(`Ticket`,{'session_id': current_session, 'table_number': table_number}).then(
             (res: TicketPostResponse) => {
                 const ticket_id = res.data.ticket_id

@@ -2,7 +2,7 @@ from flask_restful import Api
 
 from core import app, socketio
 from .menu import MenuItems, MenuItemById, MenuItemByCategory
-from .table import TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
+from .table import TableItemDelivered, TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
 from .category import Categories, CategoryById
 from .ticket import Ticket, SessionTicket
 from .ticket_item import TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal, ActiveTicketMenuItems, UpdateTicketItems
@@ -25,6 +25,7 @@ api.add_resource(TableDetail, '/Tables')
 api.add_resource(FreeTables, '/Tables/free')
 api.add_resource(TableStatus, '/Tables/status/<table_number>')
 api.add_resource(ActiveTables, '/Tables/active')
+api.add_resource(TableItemDelivered, '/Tables/Delivered/<table_number>')
 api.add_resource(TableDetailById, '/Tables/<table_number>')
 api.add_resource(Categories, '/Categories')
 api.add_resource(ItemDetails, '/ItemDetails/<menu_id>')

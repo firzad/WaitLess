@@ -1,5 +1,6 @@
 from flask_restful import Resource, fields, marshal_with, reqparse, request
 
+from core.views.ticket_item import TicketItemsBySession
 from core.models.table import TableDetails
 from core import db
 
@@ -30,6 +31,19 @@ class TableDetail(Resource):
         db.session.add(table)
         db.session.commit()
         return table, 201
+
+class TableItemDelivered(Resource):
+    def patch(self, table_number):
+        table = TableDetails.query.get_or_404(table_number)
+
+        ticket_items = TicketItemsBySession().get(table.current_session)[0]
+        print(ticket_items[0][0])
+        if ticket_items[0][0]['ticket_status'] == 'Active':
+            table.table_status = 'Seated'
+        else:
+            table.table_status = 'Ordered'
+
+        db.session.commit()
 
 class TableDetailById(Resource):
     

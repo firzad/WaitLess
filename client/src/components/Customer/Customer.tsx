@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useEffect} from "react";
 import clsx from 'clsx';
 //import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -215,6 +216,7 @@ export function Customer(props) {
   //   [prefersDarkMode],
   // );
 
+
 ////////////////////////////////////
     //const themeValue: any = newTheme();
 //export function Customer(props) {
@@ -228,7 +230,18 @@ export function Customer(props) {
     ////SET sethandleEntryCustomer(0) once the session is done
     const {current_session,table_number,handleExitCustomer}=props
     const [assistance_click, setAssistanceClick] = React.useState(false)
-     
+    useEffect(() => {
+    const interval = setInterval(()=>{
+      axios.get(`Tables/`+table_number.toString()).then(
+        (res) => {
+            if (res.assistance !== assistance_click){
+              setAssistanceClick(res.assistance)
+            }
+        }
+    )
+    }, 1000)
+    return () => clearInterval(interval)
+    })
     const styleClasses: any = userStyles();
     const classes1: any = commonStyles();
     const classes = useStyles();
@@ -337,7 +350,7 @@ export function Customer(props) {
             <AppBar position="fixed" style={{backgroundColor:'STEELBLUE'}} className={classes.bottomAppBar}>
               <Toolbar variant="dense">
                 <Button onClick={addAssistanceTable} variant='contained'  aria-label="call help"
-                      style={{backgroundColor:assistance_click ? 'INDIANRED': 'POWDERBLUE'}}>
+                      style={{backgroundColor:assistance_click ? 'FIREBRICK': 'POWDERBLUE'}}>
                   CALL HELP 
                   <HelpIcon/>
                 </Button>

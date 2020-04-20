@@ -1,7 +1,7 @@
 from flask_restful import Resource, fields, marshal_with, reqparse, request, marshal
 from core.models.ticket_item import TicketItemModel
 from core.models.ticket import TicketModel
-from core.views.table import TableDetailById
+from core.models.table import TableDetails
 from core.views.menu import MenuItemById
 from core.models.menu import Menu
 
@@ -64,6 +64,11 @@ class UpdateTicketItems(Resource):
                     ticket_item = TicketItemModel.query.get_or_404(order_item_id)
                     ticket_item.item_status = request.json['item_status']
         db.session.commit()
+
+        #update staff table view
+        ticket = TicketModel.query.get_or_404(ticket_item.ticket_id)
+        table = TableDetails.query.get_or_404(ticket.table_number)
+        table.table_status = 'Ready To Deliver'
 
         all_ticket_items = TicketItemByTicket().get(ticket_item.ticket_id)[0]
 
