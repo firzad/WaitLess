@@ -52,12 +52,7 @@ class TicketItem(Resource):
         socketio.emit('ticketsUpdated', broadcast=True)
         return new_item, 200
 
-# SAMPLE CHATBOT  -------------------------------------------------------------------
-@socketio.on('chatRequest')
-def handle_message(message):
-    print('received message: ' + message)
-    socketio.emit('chatResponse', {'responseMessage': "REPLYYYY"}, broadcast=True)
-# SAMPLE CHATBOT  -------------------------------------------------------------------
+
 # --
 class UpdateTicketItems(Resource):
     #@marshal_with(ticket_item_resource_fields)

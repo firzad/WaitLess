@@ -1,7 +1,8 @@
 from flask_restful import Resource, fields, marshal_with, reqparse, request
 
 from core.models.table import TableDetails
-from core import db
+from core import db, socketio
+from core.chatbot import chatbot
 
 
 table_resource_fields = {
@@ -118,3 +119,13 @@ class SwitchTableAssistance(Resource):
             table.assistance = request.json['assistance']
         db.session.commit()
         return table, 200
+
+# SAMPLE CHATBOT  -------------------------------------------------------------------
+@socketio.on('chatRequest')
+def handle_message(message):
+    chatbot_response, list_response = chatbot.chat(message)
+    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=True)
+    
+    #if list_response:
+    #        socketio.emit('chatResponse', {'responseMessage': list_response}, broadcast=True)
+# SAMPLE CHATBOT  -------------------------------------------------------------------
