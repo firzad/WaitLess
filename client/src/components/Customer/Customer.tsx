@@ -272,7 +272,7 @@ export function Customer(props) {
             <AppBar position="static" className={clsx(classes1.appBar)} style={{backgroundColor:'STEELBLUE'}}>
                 <Toolbar>
                   <Typography style={{maxWidth: '5.25vw'}} variant="body1" className={styleClasses.title}>
-                        Table {table_number}
+                        TABLE {table_number}
                     </Typography>
                     <div className={classes.search}>
                       <div className={classes.searchIcon}>
@@ -322,18 +322,6 @@ export function Customer(props) {
                   {/* <Bucket /> */}
               {/* </Container> */}
             </div>
-            {/* <BottomNavigation
-              value={bottomValue}
-              onChange={(event, newValue) => {
-                setbottonValue(newValue);
-              }}
-              showLabels
-              style={{position: 'fixed'}}
-              className={classes.bottomnavigation}
-            >
-              <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
-              <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
-            </BottomNavigation> */}
             <AppBar position="fixed" style={{backgroundColor:'STEELBLUE'}} className={classes.bottomAppBar}>
               <Toolbar variant="dense">
                 <Button onClick={addAssistanceTable} variant='contained'  aria-label="call help"
