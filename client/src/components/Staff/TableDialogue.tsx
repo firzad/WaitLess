@@ -41,12 +41,13 @@ function TableDetails(props){
                 	setIsPaying(true)
                 }
         	})
-		return () => clearInterval(interval)
 		},1000)
+		return () => clearInterval(interval)
 	})
 
 	const expansionChange = (panel) => (event, isExpanded) => {
 		if (isExpanded === true){
+			console.log('*')
 			axios.get('Tables/'+tableid.toString())
 	    	.then(
 	            (res) => {

@@ -5,11 +5,11 @@ import json
 import pickle
 
 def model():
-    with open("./chatbot/intents.json") as file:
+    with open("core/chatbot/intents.json") as file:
         data = json.load(file)
 
     try:
-        with open("./chatbot/data.pickle", "rb") as f:
+        with open("core/chatbot/data.pickle", "rb") as f:
             words, labels, training, output = pickle.load(f)
             model, words, labels, training, output = pre_processing.create_model(words, labels, training, output)
     except:

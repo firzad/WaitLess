@@ -94,11 +94,12 @@ export function OrderTicket(props: any) {
                                                 <Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems}
                                                     disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"}/>
                                                 }
-                                                label={item.item_name} />
-                                            {item.ingredients_added &&
+                                                label={`${item.quantity} x ${item.item_name}`} />
+                                            {item.ingredients_added && item.ingredients_added.split(",").map((ingredient) => (
                                                 <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
-                                                    {`+ ${item.ingredients_added}`}
+                                                    {`+ ${ingredient}`}
                                                 </Typography>
+                                            ))
                                             }
                                             {item.remark &&
                                                 <Typography variant="body2" component="p">

@@ -11,8 +11,8 @@ import {Summary} from '../../interfaces/summary'
 
 export function CustomerEntry(){
 	let { table_number } = useParams();
-	const [current_session, updateCurrentSession] = React.useState<number | any>(null)
-
+	const [current_session, updateCurrentSession] = React.useState<number | any>(0)
+	const [paying, updateCurrentlyPaying] = React.useState(false)
 
 	const classes: any = commonStyles();
 	const [page, setPage] = React.useState(0)
@@ -32,6 +32,7 @@ export function CustomerEntry(){
 		.then(
 			(res)=>{
 				const session = res.data
+				updateCurrentSession(session.session_id)
 				if (table_number != null){
 					axios.patch('Tables/status/'+table_number.toString(),{'table_status':'Seated', 'current_session':session.session_id}).then((res)=>{ //remove the current session from the table
 					setPage(1)
@@ -42,6 +43,13 @@ export function CustomerEntry(){
 	}
 
 	function handleExitCustomer(){
+		if (table_number != null){
+			axios.patch('Tables/status/'+table_number.toString(),{'table_status':'Paying', 'current_session':current_session})
+			.then((res) => {
+				updateCurrentSession(0)
+			})	
+		}
+		updateCurrentlyPaying(true)
 		setPage(0)
 	}
 	
@@ -53,9 +61,10 @@ export function CustomerEntry(){
 				axios.get(`Tables/`+table_number.toString()).then(
 	            (res) => {
 	                const data = res.data;
+	                if (data.table_status !== 'Paying'){updateCurrentlyPaying(false)}
 	                if (data.current_session !== 0 || current_session == null){
-	                	updateCurrentSession(data.current_session)
-	                	if (data.table_status !== 'Paying' && data.current_session !== 0){//customer is already in session and page was refreshed. go back into session
+	                	if (data.table_status !== 'Paying'){//customer is already in session and page was refreshed. go back into session
+		                	updateCurrentSession(data.current_session)
 	                		setPage(1)
 	                	}
 	                }
@@ -71,14 +80,14 @@ export function CustomerEntry(){
 					<Button disabled={true} className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Loading </Button>
 				)
 			}
-			else if (current_session === 0){
+			else if (paying == true){
 				return(
-					<Button className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Start Order </Button>
+					<Button disabled={true} className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Paying... </Button>
 				)
 			}
 			else{
 				return(
-					<Button disabled={true} className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Paying... </Button>
+					<Button className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Start Order </Button>
 				)
 			}
 		}
