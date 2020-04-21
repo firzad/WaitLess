@@ -48,5 +48,5 @@ def chat(inp):
                 continue
 
         else:
-            return 'I didn\'t get that. Please try again!'
+            return 'I didn\'t get that. Please try again!',[]
 

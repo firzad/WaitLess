@@ -300,8 +300,12 @@ export function Customer(props) {
 	}
 	socket.on('chatResponse', (data) => {
 		addResponseMessage(data.responseMessage);
-		if (data.responseMessage.includes('Staff')){
-			addAssistanceTable()
+		if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+			if(!assistance_click){
+				addAssistanceTable()
+				socket.removeAllListeners();
+				console.log(assistance_click)
+			}
 		}
 	});
 

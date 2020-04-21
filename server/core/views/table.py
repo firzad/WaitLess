@@ -138,7 +138,7 @@ class SwitchTableAssistance(Resource):
 @socketio.on('chatRequest')
 def handle_message(message):
     chatbot_response, list_response = chatbot.chat(message)
-    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=True)
+    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=False)
     if list_response:
         return_list = ""
         for e in list_response:
