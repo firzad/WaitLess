@@ -278,7 +278,7 @@ export default function Menu(props){
                 textColor="primary"
                 variant="scrollable"
                 scrollButtons="auto"
-                style={{'paddingLeft': '10px'}}>
+                style={{'paddingLeft': '10px', minWidth:'72vw'}}>
                 
                 {current_category.map((category,index) => (
                 <Tab style={{'paddingLeft': '10px'}} key={index} label={category.category_name} {...a11yProps(index)}/>
