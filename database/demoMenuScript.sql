@@ -358,9 +358,6 @@ INSERT INTO itemdetails VALUES(
 INSERT INTO itemdetails VALUES(
 	13,14,TRUE,1,FALSE
 );
-INSERT INTO itemdetails VALUES(
-	13,14,TRUE,1,FALSE
-);
 --scallops
 INSERT INTO itemdetails VALUES(
 	14,14,TRUE,1,FALSE
@@ -430,3 +427,8 @@ INSERT INTO itemdetails VALUES(
 INSERT INTO itemdetails VALUES(
 	25,6,TRUE,1,FALSE
 );
+
+--setting sequences
+ALter sequence category_category_id_seq restart with 6;
+ALter sequence public.menu_menu_id_seq restart with 26;
+ALter sequence public.ingredients_ingredient_id_seq restart with 26;
