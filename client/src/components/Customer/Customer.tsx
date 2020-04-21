@@ -242,7 +242,7 @@ export function Customer(props) {
 		const interval = setInterval(() => {
 			axios.get(`Tables/` + table_number.toString()).then(
 				(res) => {
-					if (res.assistance !== assistance_click) {
+					if (res.data.assistance !== assistance_click) {
 						setAssistanceClick(res.assistance)
 					}
 				}
@@ -373,15 +373,7 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-					<div>
-						<Widget
-							handleNewUserMessage={handleNewUserMessage}
-							// profileAvatar={logo}
-							title="Waitless"
-							subtitle="Chat Assistance"
-							senderPlaceHolder="Type the message..."
-						/>
-					</div>
+
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
@@ -390,6 +382,13 @@ export function Customer(props) {
                   				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
+							<Widget
+							handleNewUserMessage={handleNewUserMessage}
+							// profileAvatar={logo}
+							title="Waitless"
+							subtitle="Chat Assistance"
+							senderPlaceHolder="Type the message..."
+							/>
 						</Toolbar>
 					</AppBar>
 				</div>
