@@ -238,6 +238,7 @@ export function Customer(props) {
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
+	const [checkEmit, setCheckEmit] = React.useState(false)
 	console.log("Current Session")
 	console.log(current_session)
 	useEffect(() => {
@@ -311,17 +312,26 @@ export function Customer(props) {
 
 
 	const handleNewUserMessage = (message: string) => {
+		setCheckEmit(true);
+		console.log('got it')
+		console.log(checkEmit);
 		socket.emit('chatRequest', message);
 	}
 	socket.on('chatResponse', (data) => {
-		addResponseMessage(data.responseMessage);
-		if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
-			if(!assistance_click){
-				addAssistanceTable()
-				socket.removeAllListeners();
-				console.log(assistance_click)
-			}
+		console.log('what happened')
+		console.log(checkEmit)
+		if(checkEmit){
+		console.log('printing log')
+		console.log(checkEmit)
+			addResponseMessage(data.responseMessage);
+			if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+				if(!assistance_click){
+					addAssistanceTable()
+					socket.removeAllListeners();
+				}
+			}	
 		}
+		setCheckEmit(false);
 	});
 
 	return (
