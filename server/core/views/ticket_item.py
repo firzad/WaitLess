@@ -5,6 +5,7 @@ from core.models.table import TableDetails
 from core.views.menu import MenuItemById
 from core.models.menu import Menu
 
+from sqlalchemy import func
 from core.views.ticket import ticket_resource_fields, TicketById
 from core.views.menu import menu_resource_fields
 
@@ -125,3 +126,18 @@ class TicketPriceTotal(Resource):
         for ticket in ticket_list[0]:
             total_price += sum(item['price'] for item in ticket)
         return [total_price], 200
+
+class TicketSummary(Resource):
+    def get(self):
+        rows = TicketItemModel.query.all()
+        dishes_count = TicketItemModel.query.with_entities(TicketItemModel.menu_id, func.count(TicketItemModel.menu_id)).group_by(TicketItemModel.menu_id).all()
+        dishes_count.sort(key = lambda s: -1*s[1])
+        n = min(10, len(dishes_count))
+        result = []
+        for menu_id, count in dishes_count[:n]:
+            menu_entry = MenuItemById().get_no_marshal(menu_id)[0]
+            menu_marsh = marshal(menu_entry, menu_resource_fields)
+            menu_marsh["number_of_dishes"] = count
+            menu_marsh["sale"] = count*menu_entry.price
+            result.append(menu_marsh)
+        return {'total_dishes':len(rows), 'top_10':result}, 200

@@ -47,3 +47,12 @@ class SummaryById(Resource):
         db.session.commit()
         return summary, 200
 
+class SummaryForDay(Resource):
+
+    def get(self):
+        rows = SummaryModel.query.all()
+        return {'total_customers': len(rows), 'total_sale': sum(row.price for row in rows)}, 200
+
+
+
+

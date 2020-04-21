@@ -1,7 +1,7 @@
 import * as React from "react";
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import {/* Card, CardContent,*/ Grid, Typography, Avatar, Paper } from '@material-ui/core';
+import { Grid, Typography, Avatar, Paper } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import PersonIcon from '@material-ui/icons/Person';
@@ -13,15 +13,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
 
 import { userStyles } from "../../styles/userStyles";
+import axios from 'src/axios';
 
-const bestSellers = [
-    {"item_name":"Onion Rings", "sale": 200, "id":1, "number_of_dishes":20},
-    {"item_name":"Burger", "sale": 150, "id":2, "number_of_dishes":10},
-    {"item_name":"Pasta", "sale": 100, "id":3, "number_of_dishes":23},
-    {"item_name":"Coffee", "sale": 97, "id":4, "number_of_dishes":60},
-    {"item_name":"Something", "sale": 90, "id":5, "number_of_dishes":13},
-
-]
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,9 +30,6 @@ const useStyles = makeStyles((theme) => ({
       seeMore: {
         marginTop: theme.spacing(3),
       },
-      fixedHeight: {
-        height: "30vh",
-      },
       avatar: {
         width: theme.spacing(10),
         height: theme.spacing(10),
@@ -52,18 +42,32 @@ const useStyles = makeStyles((theme) => ({
 export default function Analytics(){
     const styleClasses: any = userStyles();
     const classes: any = useStyles();
-    const dataSale = "200";
-    const dataMeal = 30;
-    const dataCust = 12;
+    const [dataSale, setSale] = React.useState(0);
+    const [dataMeal, setMeal] = React.useState(0);
+    const [dataCust, setCust] = React.useState(0);
+    const [bestSellers, setBestSellers] = React.useState<any>([])
+
+    React.useEffect(()=>{
+      axios.get(`Summary/Day`).then(
+        (res:any) => {
+          const summary = res['data'];
+          setSale(summary['total_sale'])
+          setCust(summary['total_customers'])
+        }
+      )
+      axios.get(`DishSummary`).then(
+        (res:any) => {
+          const summary = res['data'];
+          setMeal(summary['total_dishes'])
+          setBestSellers(summary['top_10'])
+        }
+      )
+    },[])
+
     return(
         <div className={styleClasses.root}>
             <Grid container direction="column" spacing={6}>
                 <Grid item container spacing={2}>
-                    {/* <Grid item xs>
-                        <Typography variant="h5" color="inherit">Last</Typography>
-                        <Typography variant="h1" color="primary">24 hr</Typography>
-                    </Grid> */}
-                    <Grid item xs><DailySummary metric="Last" value={24} icon={<Typography className={classes.icon}>hr</Typography>} acolor="#6573c3" elevate={0}/></Grid>
                     <Grid item xs><DailySummary metric="Total Sale" value={dataSale} icon={<AttachMoneyIcon className={classes.icon}/>} acolor="#ef5350" elevate={1}/></Grid>
                     <Grid item xs><DailySummary metric="Customers served" value={dataCust} icon={<PersonIcon className={classes.icon}/>} acolor="#3f51b5" elevate={1}/></Grid>
                     <Grid item xs><DailySummary metric="Dishes Cooked" value={dataMeal} icon={<LocalDiningIcon className={classes.icon}/>} acolor="#ff9800" elevate={1}/></Grid>
@@ -88,13 +92,12 @@ export default function Analytics(){
 
 export function DailySummary(props){
     const classes: any = useStyles();
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     const {metric, value, icon, acolor, elevate, ...others} = props;
 
     console.log(others);
     return(
-        <Paper className={fixedHeightPaper} elevation={elevate}>
+        <Paper className={classes.paper} elevation={elevate}>
             <Grid item container className={classes.root}>  
                 <Grid item container justify="center">
                     <Typography component="h5" variant="body1" color="primary" gutterBottom>
@@ -127,20 +130,14 @@ export function BestSellers(props){
           <TableRow>
             <TableCell >Item Name</TableCell>
             <TableCell align="right">Sale</TableCell>
-            {/* <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell> */}
             <TableCell align="right">Sale Amount</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {props.data.map((row) => (
-            <TableRow key={row.id}>
-              {/* <TableCell>{row.date}</TableCell> */}
+            <TableRow key={row["menu_id"]}>
               <TableCell >{row.item_name}</TableCell>
               <TableCell align="right">{row.number_of_dishes}</TableCell>
-              {/* <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell> */}
               <TableCell align="right">{row.sale}</TableCell>
             </TableRow>
           ))}
