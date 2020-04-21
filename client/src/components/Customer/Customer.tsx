@@ -300,6 +300,9 @@ export function Customer(props) {
 	}
 	socket.on('chatResponse', (data) => {
 		addResponseMessage(data.responseMessage);
+		if (data.responseMessage.includes('Staff')){
+			addAssistanceTable()
+		}
 	});
 
 	return (

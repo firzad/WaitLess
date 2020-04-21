@@ -1,12 +1,13 @@
 
 def get_recommendations(tag, data):
+    for i in range(len(data["intents"])):
+        if data["intents"][i]['tag'] == 'no_special_requirements':
+            data["intents"][i]["best_seller"]='Chicken Burger'
+            response = 'Our best-sellers is '+ data["intents"][i]["best_seller"]
+            return()
 
-    if tag == 'no_special_requirements':
-        data["intents"][21]["best_seller"]='Chicken Burger'
-        return('Our best-sellers is '+ data["intents"][21]["best_seller"])
-
-    elif tag == "Vegan" or tag == "Vegetarian" or tag == "Lactose Intolerant" or tag == "Gluten Free":
-        data["intents"][21]["best_seller"]='falafel wrap'
-        response = 'Our '+ tag +'  best-sellers is '+ data["intents"][21]["best_seller"]
-        return response
+        elif data["intents"][i]['tag'] == "Vegan" or data["intents"][i]['tag'] == "Vegetarian" or data["intents"][i]['tag'] == "Lactose Intolerant" or data["intents"][i]['tag'] == "Gluten Free":
+            data["intents"][i]["best_seller"]='falafel wrap'
+            response = 'Our '+ tag +'  best-sellers is '+ data["intents"][i]["best_seller"]
+            return response
 
