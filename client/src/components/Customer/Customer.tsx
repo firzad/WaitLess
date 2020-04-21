@@ -228,48 +228,12 @@ export function Customer(props) {
 	//const themeValue: any = newTheme();
 	//export function Customer(props) {
 
-<<<<<<< Updated upstream
 	function handleSearchChange(e) {
 		setSearchValue(e.target.value)
 	}
 	const [searchValue, setSearchValue] = React.useState('')
-=======
-    //const {handleExitCustomer} = props
-    ////SET sethandleEntryCustomer(0) once the session is done
-    const {current_session,table_number,handleExitCustomer}=props
-    const [assistance_click, setAssistanceClick] = React.useState(false)
-     
-    const styleClasses: any = userStyles();
-    const classes1: any = commonStyles();
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [state, setState] = React.useState(false);
-    const [/*index, */setIndex] = React.useState(0);
-    const [modifyvalue, setmodifyValue] = React.useState(null);
-    const [orderValue, setOrderValue] = React.useState<any>([]);
-    const [orderedValue,setOrderedValue] = React.useState<any>([]);
-    //const [tableDetails, setTableDetails]= React.useState();
-    //const [bottomValue, setbottonValue] = React.useState(0);
-    const handleDrawerOpen = () => {
-      setOpen(true);
-    };
-    const setOrderedBucketValue =(order:any) => {
-      setOrderedValue((orderValue) => [...orderValue, order]);
-    }
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-    const setBucketValue =(order:any) => {
-      setOrderValue((orderValue) => [...orderValue, order]);
-    }
-    function JGFIXSETBUCKET(bucket_list){
-      //idk why the other functions were there. cant figure it out, wrote this
-      setOrderValue(bucket_list)
-    }
->>>>>>> Stashed changes
 
 
-<<<<<<< Updated upstream
 	//const {handleExitCustomer} = props
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
@@ -387,45 +351,6 @@ export function Customer(props) {
 							{/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
 							<Typography variant="h6" className={styleClasses.title} align='right'>
 								CART
-=======
-          //handleClose()
-    }
-    
-    toggle = () => {
-    let { toggle } = this.state;
-
-    this.setState({ state: !this.state.open });
-    };
-    const bucketClear =()=>{
-      setOrderValue([])
-    }
-    return (
-      <MuiThemeProvider theme={newTheme}>
-       {/* <ThemeProvider theme={theme}> */}
-        <div className={styleClasses.root}>
-            <AppBar position="static" className={clsx(classes1.appBar)} style={{backgroundColor:'STEELBLUE'}}>
-                <Toolbar>
-                  <Typography style={{maxWidth: '5.25vw'}} variant="body1" className={styleClasses.title}>
-                        Table {table_number}
-                    </Typography>
-                    <div className={classes.search}>
-                      <div className={classes.searchIcon}>
-                        <SearchIcon />
-                      </div>
-                      <InputBase
-                        placeholder="Search…"
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={handleSearchChange}
-                      />
-                    </div>
-                    {/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
-                    <Typography variant="h6" className={styleClasses.title} align='right'>
-                        CART
->>>>>>> Stashed changes
                     </Typography>
 
 							<IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)}
@@ -472,7 +397,6 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-<<<<<<< Updated upstream
 
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
@@ -508,34 +432,5 @@ export function Customer(props) {
 
 		</div>
 	);
-=======
-            <AppBar position="fixed" style={{backgroundColor:'STEELBLUE'}} className={classes.bottomAppBar}>
-              <Toolbar variant="dense">
-                <Button onClick={addAssistanceTable} variant='contained'  aria-label="call help"
-                      style={{backgroundColor:assistance_click ? 'INDIANRED': 'POWDERBLUE'}}>
-                  CALL HELP 
-                  <HelpIcon/>
-                </Button>
-                <div className={classes.grow} />
-                <IconButton edge="end" color="inherit" onClick = {this.toggle}>
-                  <ChatBubbleIcon />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-        </div>
-        <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} 
-            setOrderValue={setOrderValue}
-            bucketClear={bucketClear}
-            orderedValue={orderedValue}
-            setOrderedBucketValue={setOrderedBucketValue}
-            JGFIXSETBUCKET={JGFIXSETBUCKET}
-            current_session={current_session} table_number={table_number}
-            handleExitCustomer={handleExitCustomer}
-            open={open} orderValue={orderValue}
-            />
-       {/* </ThemeProvider> */}
-       </MuiThemeProvider>
-    );
->>>>>>> Stashed changes
 }
 
