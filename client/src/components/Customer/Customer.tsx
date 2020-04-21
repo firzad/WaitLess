@@ -250,7 +250,7 @@ export function Customer(props) {
 					}
 				}
 			)
-		}, 1000)
+		}, 30000)
 		return () => clearInterval(interval)		
 	}
 	)
@@ -275,6 +275,7 @@ export function Customer(props) {
 	const [modifyvalue, setmodifyValue] = React.useState(null);
 	const [orderValue, setOrderValue] = React.useState<any>([]);
 	const [orderedValue, setOrderedValue] = React.useState<any>([]);
+	const [bestSellers, setBestSellers] = React.useState<any>([])
 	//const [tableDetails, setTableDetails]= React.useState();
 	//const [bottomValue, setbottonValue] = React.useState(0);
 	const handleDrawerOpen = () => {
@@ -300,6 +301,20 @@ export function Customer(props) {
 
 		//handleClose()
 	}
+	function bestSeller(){
+      axios.get(`DishSummary`).then(
+        (res:any) => {
+          const summary = res['data'];
+          setBestSellers(summary['top_10'])
+        }
+      )
+      	console.log('*********************************************')
+	}
+
+	const stringData = bestSellers.reduce((element) => {
+  				return `${element.item_name}, |`
+			}, "")
+	
 	const bucketClear = () => {
 		setOrderValue([])
 	}
@@ -312,22 +327,22 @@ export function Customer(props) {
 
 	const handleNewUserMessage = (message: string) => {
 		setCheckEmit(true);
-		console.log('got it')
-		console.log(checkEmit);
 		socket.emit('chatRequest', message);
 	}
 	socket.on('chatResponse', (data) => {
-		console.log('what happened')
-		console.log(checkEmit)
 		if(checkEmit){
-		console.log('printing log')
-		console.log(checkEmit)
 			addResponseMessage(data.responseMessage);
 			if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
 				if(!assistance_click){
 					addAssistanceTable()
 					socket.removeAllListeners();
 				}
+			}
+			if (data.responseMessage.includes('dietary')){
+			console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+				bestSeller()
+				console.log('&&&&&&&&&&&')
+				console.log(stringData)
 			}	
 		}
 		setCheckEmit(false);
