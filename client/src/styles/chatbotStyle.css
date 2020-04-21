@@ -14,6 +14,9 @@
   max-width: 290px;
   background-color: #9dafc1;
 }
+.hidden{
+	height:0px;
+}
 
 @media screen and (max-width: 800px) {
   .rcw-launcher {
@@ -26,6 +29,7 @@
   .rcw-conversation-container .rcw-close-button {
     background-color: #3f7aab;
   }
+
 }
 
 .rcw-conversation-container .rcw-header {

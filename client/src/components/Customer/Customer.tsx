@@ -30,8 +30,9 @@ import { deepOrange } from '@material-ui/core/colors';
 
 import io from "socket.io-client";
 import { Widget, addResponseMessage } from 'react-chat-widget';
-import 'react-chat-widget/lib/styles.css';
+
 import '../../styles/chatbotStyle.css';
+import 'react-chat-widget/lib/styles.css';
 
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
