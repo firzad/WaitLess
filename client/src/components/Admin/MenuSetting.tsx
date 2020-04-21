@@ -4,8 +4,6 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Tab, Tabs
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { commonStyles } from "../../styles/generalStyles";
-// import { userStyles } from "../../styles/userStyles";
 import {Box, Grid, TextField, Button, Card, CardActions, CardContent} from "@material-ui/core";
 import AddMenuItem from './AddMenuItem';
 import { MenuJson, MenuResponse } from '../../interfaces/menu';
@@ -46,10 +44,7 @@ function a11yProps(index) {
 }
 
 export default function MenuSetting(){
-    /*const styleClasses: any = userStyles();*/
-    const classes: any = commonStyles();
     const [value, setValue] = React.useState(0);
-    // Get these from backend
     const [categories, setCategories] = React.useState<Category | any>([]);
     const [menu ,setMenu] = React.useState<MenuJson | any>([]);
     const [newCategory, setCategory] = React.useState("newCategory");
@@ -131,7 +126,7 @@ export default function MenuSetting(){
   }
 
     return(
-            <main className={classes.content}>
+            <main style={{flexGrow:1}}>
               {loading?<div>LOADING</div>:
               <React.Fragment>
                 <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="simple tabs example">

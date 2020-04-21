@@ -10,7 +10,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Link from '@material-ui/core/Link';
 
 import { userStyles } from "../../styles/userStyles";
 import axios from 'src/axios';
@@ -78,11 +77,6 @@ export default function Analytics(){
                             Top 10 Best sellers
                         </Typography>
                         <BestSellers data={bestSellers}/>
-                        <div className={classes.seeMore}>
-                            <Link color="primary">
-                            See more orders
-                            </Link>
-                        </div>                    
                     </Paper>
                 </Grid>
             </Grid>
