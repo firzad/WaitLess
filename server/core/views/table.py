@@ -4,7 +4,7 @@ from core.views.ticket_item import TicketItemsBySession
 from core.models.table import TableDetails
 from core import db, socketio
 from core.chatbot import chatbot
-
+from core.views.ticket_item import TicketSummary
 
 table_resource_fields = {
     'table_number': fields.Integer,
@@ -137,6 +137,7 @@ class SwitchTableAssistance(Resource):
 # CHATBOT  -------------------------------------------------------------------
 @socketio.on('chatRequest')
 def handle_message(message):
+    response_str = ""
     chatbot_response, list_response = chatbot.chat(message)
     socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=False)
     if list_response:
@@ -144,4 +145,10 @@ def handle_message(message):
         for e in list_response:
             return_list = return_list+e+',\n'
         socketio.emit('chatResponse', {'responseMessage': return_list}, broadcast=False)
-         
+    if 'Our Best Sellers are' in chatbot_response:
+        best_seller,_= TicketSummary.get('DishSummary')
+        
+        for i in range(len(best_seller['top_10'])):
+            print(best_seller['top_10'][i]['category'])
+            response_str= response_str+best_seller['top_10'][i]['item_name']+' : '+ best_seller['top_10'][i]['category']+ ',\n'
+        socketio.emit('chatResponse', {'responseMessage': response_str}, broadcast=False)

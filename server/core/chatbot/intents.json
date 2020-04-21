@@ -18,9 +18,9 @@
          "responses": ["Happy to help!", "Any time!", "My pleasure"]
         },
         {"tag": "recommendations",
-         "patterns": ["1", "One", "What do you recommend?", "What is the best in your restaurant", "What is Chef's special?",
-                      "What is your speciality?", "What is the best on the Menu?", "recommendations"],
-         "responses": ["Do you have any special dietary requirements?\n            Vegan\n            Vegetarian\n            Lactose Intolerant\n            Gluten Free\n            None\n            Other"]
+         "patterns": ["What do you recommend?", "What is the best in your restaurant", "What is Chef's special?",
+                      "What is your speciality?", "What is the best on the Menu?", "recommendations", "best seller", "best-seller"],
+         "responses": ["Our Best Sellers are : "]
         },
         {"tag": "other",
          "patterns": ["other", "Staff Assistance", "Call staff", "Need help"],

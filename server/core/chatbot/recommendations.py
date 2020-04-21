@@ -3,7 +3,6 @@ def get_recommendations(tag, data):
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ', tag)
     for i in range(len(data["intents"])):
         if data["intents"][i]['tag'] == 'no_special_requirements' and tag == 'no_special_requirements':
-            print('66666666666666666666666666666666666666666666666')
             data["intents"][i]["best_seller"]='Chicken Burger'
             response = 'Our best-sellers is '+ data["intents"][i]["best_seller"]
             return response

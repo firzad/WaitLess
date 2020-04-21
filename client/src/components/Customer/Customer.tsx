@@ -250,7 +250,7 @@ export function Customer(props) {
 					}
 				}
 			)
-		}, 3000)
+		}, 60000)
 		return () => clearInterval(interval)		
 	}
 	)
@@ -275,7 +275,6 @@ export function Customer(props) {
 	const [modifyvalue, setmodifyValue] = React.useState(null);
 	const [orderValue, setOrderValue] = React.useState<any>([]);
 	const [orderedValue, setOrderedValue] = React.useState<any>([]);
-	const [bestSellers, setBestSellers] = React.useState<any>([])
 	//const [tableDetails, setTableDetails]= React.useState();
 	//const [bottomValue, setbottonValue] = React.useState(0);
 	const handleDrawerOpen = () => {
@@ -301,19 +300,6 @@ export function Customer(props) {
 
 		//handleClose()
 	}
-	function bestSeller(){
-      axios.get(`DishSummary`).then(
-        (res:any) => {
-          const summary = res['data'];
-          setBestSellers(summary['top_10'])
-        }
-      )
-      	console.log('*********************************************')
-	}
-
-	const stringData = bestSellers.reduce((element) => {
-  				return `${element.item_name}, |`
-			}, "")
 	
 	const bucketClear = () => {
 		setOrderValue([])
@@ -321,7 +307,7 @@ export function Customer(props) {
 
 	const socket = io.connect('http://localhost:5000');
 	useEffect(() => {
-		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?");
     }, []);
 
 
@@ -338,12 +324,6 @@ export function Customer(props) {
 					socket.removeAllListeners();
 				}
 			}
-			if (data.responseMessage.includes('dietary')){
-			console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-				bestSeller()
-				console.log('&&&&&&&&&&&')
-				console.log(stringData)
-			}	
 		}
 		setCheckEmit(false);
 	});
