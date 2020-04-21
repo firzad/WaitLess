@@ -177,6 +177,7 @@ export default function ModifyOrder(props){
         //setIngredientState(true);
 
         let ingredientName=event.target.name
+        console.log(itemDetails)
     
         if(event.target.checked){
             setIngredientsChecked((ingredientsChecked) => [...ingredientsChecked, ingredientName])
@@ -219,7 +220,7 @@ export default function ModifyOrder(props){
               </List>
               <Divider />
               <List component="nav" aria-label="description">
-                <ListItem style={{maxHeight: '40px'}}>
+                <ListItem style={{paddingBottom: '5px'}}>
                     <ListItemText primary={<Typography variant="body1" align="left">
                         {description}
                     </Typography>}/>
@@ -241,7 +242,7 @@ export default function ModifyOrder(props){
                 <List component="div" disablePadding>
                   <ListItem style={{paddingLeft:'3.2vw'}}>
                     <ListItemText primary={<Typography variant="body2" align="left">
-                        Ingredients: {IL}
+                        Contains: {IL}
                     </Typography>}/>
                   </ListItem>
                 </List>
