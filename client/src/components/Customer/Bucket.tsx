@@ -111,24 +111,6 @@ export default function Bucket(props) {
 		setPrevOrderClick(!prevorder_click)
 	}
 
-	//const [ticketItem, setTicketItem] = useState<TicketItem | any>([]);
-
-
-	// const newTicketItem : TicketItem = {
-	//     'order_item_id': 0,
-	//     'ticket_id': 0,
-	//     'menu_id':0,
-	//     'ingredients_added': "",
-	//     'ingredients_removed': "",
-	//     'remark': "",
-	//     'item_status':"",
-	//     'quantity':0
-
-	// // }
-  
-
-	// Get for status?
-
 	const onOrderClick = () => {
 		axios.post<Ticket>(`Ticket`, { 'session_id': current_session, 'table_number': table_number }).then(
 			(res: TicketPostResponse) => {
@@ -142,7 +124,7 @@ export default function Bucket(props) {
 						(res: TicketItemPostResponse) => {
 							//setTicketItem((ticketItem)=>[...ticketItem,res.data]);
 							//ticket_item.ordered=true;
-							props.setOrderedBucketValue(ticket_item)
+							props.setOrderedBucketValue([ticket_item])
 						}).catch(error => console.log(error))
 				))
 
@@ -230,7 +212,9 @@ export default function Bucket(props) {
 				<Divider />
 				<Collapse in={prevorder_click} unmountOnExit>
 					<List component="nav">
-						{props.orderedValue.map((obj, index) => (
+						{props.orderedValue.map((ticket, index) => (
+							<React.Fragment>
+							{ticket.map((obj,o_index)=>(
 							<ListItem key={index} style={{ paddingLeft: '2.4vw' }}>
 								<ListItemIcon style={{ minWidth: '30px', minHeight: '20px' }}>
 									<DoneIcon />
@@ -238,6 +222,8 @@ export default function Bucket(props) {
 								<ListItemText primary={obj.item_name + (obj.quantity > 1 ? '  x' + obj.quantity : '')} />
 								<ListItemText primary={'$' + obj.price * obj.quantity} />
 							</ListItem>
+						))}
+						</React.Fragment>
 						))}
 					</List>
 				</Collapse>
@@ -254,7 +240,7 @@ export default function Bucket(props) {
 					<ListItem alignItems='center'>
 						<Grid item container direction="row" align-item="center" justify="center" spacing={1}>
 							<Button size="medium" variant="outlined" color="secondary" className={classes.margin}
-								onClick={handleExitCustomer} disabled={props.orderedValue.length === 0}>
+								onClick={handleExitCustomer}>
 								PAY BILL
                 </Button>
 						</Grid>

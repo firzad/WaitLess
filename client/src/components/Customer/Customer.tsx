@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect} from "react";
+import { useEffect } from "react";
 import clsx from 'clsx';
 //import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -30,8 +30,10 @@ import { deepOrange } from '@material-ui/core/colors';
 
 import io from "socket.io-client";
 import { Widget, addResponseMessage } from 'react-chat-widget';
-import 'react-chat-widget/lib/styles.css';
 
+import 'react-chat-widget/lib/styles.css';
+import '../../styles/chatbotStyle.css';
+import {TicketMenuItemResponse} from "../../interfaces/ticket"
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
 //import { ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -226,29 +228,80 @@ export function Customer(props) {
 	//const themeValue: any = newTheme();
 	//export function Customer(props) {
 
+<<<<<<< Updated upstream
 	function handleSearchChange(e) {
 		setSearchValue(e.target.value)
 	}
 	const [searchValue, setSearchValue] = React.useState('')
+=======
+    //const {handleExitCustomer} = props
+    ////SET sethandleEntryCustomer(0) once the session is done
+    const {current_session,table_number,handleExitCustomer}=props
+    const [assistance_click, setAssistanceClick] = React.useState(false)
+     
+    const styleClasses: any = userStyles();
+    const classes1: any = commonStyles();
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [state, setState] = React.useState(false);
+    const [/*index, */setIndex] = React.useState(0);
+    const [modifyvalue, setmodifyValue] = React.useState(null);
+    const [orderValue, setOrderValue] = React.useState<any>([]);
+    const [orderedValue,setOrderedValue] = React.useState<any>([]);
+    //const [tableDetails, setTableDetails]= React.useState();
+    //const [bottomValue, setbottonValue] = React.useState(0);
+    const handleDrawerOpen = () => {
+      setOpen(true);
+    };
+    const setOrderedBucketValue =(order:any) => {
+      setOrderedValue((orderValue) => [...orderValue, order]);
+    }
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+    const setBucketValue =(order:any) => {
+      setOrderValue((orderValue) => [...orderValue, order]);
+    }
+    function JGFIXSETBUCKET(bucket_list){
+      //idk why the other functions were there. cant figure it out, wrote this
+      setOrderValue(bucket_list)
+    }
+>>>>>>> Stashed changes
 
 
+<<<<<<< Updated upstream
 	//const {handleExitCustomer} = props
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
-
-  useEffect(() => {
-    const interval = setInterval(()=>{
-      axios.get(`Tables/`+table_number.toString()).then(
-        (res) => {
-            if (res.assistance !== assistance_click){
-              setAssistanceClick(res.assistance)
-            }
-        }
-    )
-    }, 1000)
-    return () => clearInterval(interval)
-    })
+	console.log("Current Session")
+	console.log(current_session)
+	useEffect(() => {
+		const interval = setInterval(() => {
+			axios.get(`Tables/` + table_number.toString()).then(
+				(res) => {
+					if (res.data.assistance !== assistance_click) {
+						setAssistanceClick(res.assistance)
+					}
+				}
+			)
+		}, 1000)
+		return () => clearInterval(interval)
+		
+	}
+	)
+	useEffect(()=>{
+		axios.get('Ticket/Session/'+current_session.toString())
+	            	.then(
+	            		(tk: TicketMenuItemResponse) => {
+							// let temp = []
+							// tk.data.map((t,key)=>temp.concat(t))
+							setOrderedValue(tk.data)
+							console.log("Item Details")
+							console.log(tk.data)
+	            		}
+	            	)
+	},[])
 
 	const styleClasses: any = userStyles();
 	const classes1: any = commonStyles();
@@ -289,14 +342,22 @@ export function Customer(props) {
 
 	const socket = io.connect('http://localhost:5000');
 	useEffect(() => {
-		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Do you need staff assistance?\n3. Quit");
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
     }, []);
+
 
 	const handleNewUserMessage = (message: string) => {
 		socket.emit('chatRequest', message);
 	}
 	socket.on('chatResponse', (data) => {
-        addResponseMessage(data.responseMessage);
+		addResponseMessage(data.responseMessage);
+		if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+			if(!assistance_click){
+				addAssistanceTable()
+				socket.removeAllListeners();
+				console.log(assistance_click)
+			}
+		}
 	});
 
 	return (
@@ -306,7 +367,7 @@ export function Customer(props) {
 				<div className={styleClasses.root}>
 					<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
 						<Toolbar>
-							<Typography style={{ maxWidth: '5.25vw' }} variant="body1" className={styleClasses.title}>
+							<Typography style={{ maxWidth: '9.25vw' }} variant="body1" className={styleClasses.title}>
 								Table {table_number}
 							</Typography>
 							<div className={classes.search}>
@@ -326,6 +387,45 @@ export function Customer(props) {
 							{/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
 							<Typography variant="h6" className={styleClasses.title} align='right'>
 								CART
+=======
+          //handleClose()
+    }
+    
+    toggle = () => {
+    let { toggle } = this.state;
+
+    this.setState({ state: !this.state.open });
+    };
+    const bucketClear =()=>{
+      setOrderValue([])
+    }
+    return (
+      <MuiThemeProvider theme={newTheme}>
+       {/* <ThemeProvider theme={theme}> */}
+        <div className={styleClasses.root}>
+            <AppBar position="static" className={clsx(classes1.appBar)} style={{backgroundColor:'STEELBLUE'}}>
+                <Toolbar>
+                  <Typography style={{maxWidth: '5.25vw'}} variant="body1" className={styleClasses.title}>
+                        Table {table_number}
+                    </Typography>
+                    <div className={classes.search}>
+                      <div className={classes.searchIcon}>
+                        <SearchIcon />
+                      </div>
+                      <InputBase
+                        placeholder="Search…"
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                        onChange={handleSearchChange}
+                      />
+                    </div>
+                    {/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
+                    <Typography variant="h6" className={styleClasses.title} align='right'>
+                        CART
+>>>>>>> Stashed changes
                     </Typography>
 
 							<IconButton edge="end" className={clsx(classes.menuButton, open && classes.hide)}
@@ -372,27 +472,25 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-					<div>
-						<Widget
-							handleNewUserMessage={handleNewUserMessage}
-							// profileAvatar={logo}
-							title="Waitless"
-							subtitle="Chat Assistance"
-							senderPlaceHolder="Type the message..."
-						/>
-					</div>
-					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
+<<<<<<< Updated upstream
+
+					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
 								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
 								CALL HELP
-                  <HelpIcon />
+                  				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
-							{/* <IconButton edge="end" color="inherit">
-								<ChatBubbleIcon />
-							</IconButton> */}
+							<Widget
+								handleNewUserMessage={handleNewUserMessage}
+								// profileAvatar={logo}
+								title="Waitless"
+								subtitle="Chat Assistance"
+								senderPlaceHolder="Type the message..."
+							/>
 						</Toolbar>
+
 					</AppBar>
 				</div>
 				<Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose}
@@ -407,7 +505,37 @@ export function Customer(props) {
 				/>
 				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
+
 		</div>
 	);
+=======
+            <AppBar position="fixed" style={{backgroundColor:'STEELBLUE'}} className={classes.bottomAppBar}>
+              <Toolbar variant="dense">
+                <Button onClick={addAssistanceTable} variant='contained'  aria-label="call help"
+                      style={{backgroundColor:assistance_click ? 'INDIANRED': 'POWDERBLUE'}}>
+                  CALL HELP 
+                  <HelpIcon/>
+                </Button>
+                <div className={classes.grow} />
+                <IconButton edge="end" color="inherit" onClick = {this.toggle}>
+                  <ChatBubbleIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+        </div>
+        <Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose} 
+            setOrderValue={setOrderValue}
+            bucketClear={bucketClear}
+            orderedValue={orderedValue}
+            setOrderedBucketValue={setOrderedBucketValue}
+            JGFIXSETBUCKET={JGFIXSETBUCKET}
+            current_session={current_session} table_number={table_number}
+            handleExitCustomer={handleExitCustomer}
+            open={open} orderValue={orderValue}
+            />
+       {/* </ThemeProvider> */}
+       </MuiThemeProvider>
+    );
+>>>>>>> Stashed changes
 }
 

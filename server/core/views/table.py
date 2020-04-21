@@ -134,12 +134,14 @@ class SwitchTableAssistance(Resource):
         db.session.commit()
         return table, 200
 
-# SAMPLE CHATBOT  -------------------------------------------------------------------
+# CHATBOT  -------------------------------------------------------------------
 @socketio.on('chatRequest')
 def handle_message(message):
     chatbot_response, list_response = chatbot.chat(message)
-    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=True)
-    
-    #if list_response:
-    #        socketio.emit('chatResponse', {'responseMessage': list_response}, broadcast=True)
-# SAMPLE CHATBOT  -------------------------------------------------------------------
+    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=False)
+    if list_response:
+        return_list = ""
+        for e in list_response:
+            return_list = return_list+e+',\n'
+        socketio.emit('chatResponse', {'responseMessage': return_list}, broadcast=False)
+         

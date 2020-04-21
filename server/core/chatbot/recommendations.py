@@ -1,12 +1,14 @@
 
 def get_recommendations(tag, data):
-    for tg in data["intents"]:
-        if tag == 'no_special_requirements':
-            tg['best_seller']='Chicken Burger'
-            print('Our best-sellers is ', tg['best_seller'])
-            break
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ', tag)
+    for i in range(len(data["intents"])):
+        if data["intents"][i]['tag'] == 'no_special_requirements' and tag == 'no_special_requirements':
+            print('66666666666666666666666666666666666666666666666')
+            data["intents"][i]["best_seller"]='Chicken Burger'
+            response = 'Our best-sellers is '+ data["intents"][i]["best_seller"]
+            return response
+        elif (data["intents"][i]['tag'] == "Vegan" and tag == "Vegan") or (data["intents"][i]['tag'] == "Vegetarian" and tag == "Vegetarian") or (data["intents"][i]['tag'] == "Lactose Intolerant" and tag == "Lactose Intolerant") or (data["intents"][i]['tag'] == "Gluten Free" and tag == "Gluten Free"):
+            data["intents"][i]["best_seller"]='falafel wrap'
+            response = 'Our '+ tag +'  best-sellers is '+ data["intents"][i]["best_seller"]
+            return response
 
-        elif tag == "Vegan" or tag == "Vegetarian" or tag == "Lactose Intolerant" or tag == "Gluten Free":
-            tg['best_seller']='falafel wrap'
-            print('Our', tag, 'best-sellers is ', tg['best_seller'])
-            break

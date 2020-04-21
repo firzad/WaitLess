@@ -5,7 +5,6 @@ stemmer = LancasterStemmer()
 import numpy
 import tflearn
 import tensorflow
-import json
 import pickle
 import os
 
@@ -66,6 +65,7 @@ def preprocession(data):
 
         with open("core/chatbot/data.pickle", "wb") as f:
             pickle.dump((words, labels, training, output), f)
+            print('pickle file generated')
         return create_model(words, labels, training,output)
 
 def create_model(words, labels, training, output):

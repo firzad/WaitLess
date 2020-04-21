@@ -1,0 +1,43 @@
+/* CSS file to override the react chat widget styling */
+
+.rcw-widget-container {
+  margin: 0 20px 1px 0;
+}
+.rcw-launcher {
+  background-color: #3f7aab;
+  width: 53px;
+  height: 53px;
+  box-shadow:none;
+}
+
+.rcw-response .rcw-message-text {
+  max-width: 295px;
+  background-color: #395e8c;
+}
+
+.rcw-client .rcw-message-text {
+  max-width: 290px;
+  background-color: #9dafc1;
+}
+.rcw-conversation-container.hidden{
+	height: 0px;
+	transition: height .3s ease;
+}
+
+@media screen and (max-width: 800px) {
+  .rcw-launcher {
+    margin: 20px 20px 52px 20px;
+  }
+  .rcw-widget-container {
+    height: 93vh;
+    width: 96%;
+  }
+  .rcw-conversation-container .rcw-close-button {
+    background-color: #3f7aab;
+  }
+
+}
+
+.rcw-conversation-container .rcw-header {
+  background-color: #3f7aab;
+}
