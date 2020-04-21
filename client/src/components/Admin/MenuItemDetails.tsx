@@ -85,7 +85,7 @@ export function MenuItemDetails(props){
       const newIngredient = {
         'ingredients': new_ingredient_name,
         'calorie': new_in_calorie,
-        'modifiable': new_in_modi
+        'modifiable': new_in_modi? "True": "False"
       } 
       if(!isNew){
         console.log("Axios Call")
@@ -171,16 +171,16 @@ export function MenuItemDetails(props){
           </Grid>
            </CardContent>
           <CardActions>
-              <Grid container justify="flex-end">
-                <Grid item>
+              <Grid container>
+                <Grid item container justify="flex-end">
                 {isNew?
-                <Button variant="contained" color="primary" onClick={addMenu}>Add</Button>:
-                // <Grid item container spacing={2} xs={3}>
-                 <React.Fragment> 
-                <Button variant="contained" color="primary" onClick={saveMenu}>Save</Button>
-                <Button variant="contained" color="primary" onClick={deleteMenu}>Delete</Button>
-                 </React.Fragment> 
-              //  </Grid>
+                <Grid item>
+                  <Button variant="contained" color="primary" onClick={addMenu}>Add</Button>
+                </Grid>:
+                <Grid item container spacing={2} justify="flex-end">
+                  <Grid item><Button variant="contained" color="primary" onClick={saveMenu}>Save</Button></Grid>
+                  <Grid item><Button variant="contained" color="primary" onClick={deleteMenu}>Delete</Button></Grid>
+               </Grid>
                 }
                 </Grid>
               </Grid>
