@@ -38,11 +38,14 @@ export function Kitchen() {
     const [filterValue, setFilterValue] = React.useState(categoryList[0]);
     const [orderTicketsData, setOrderTicketsData] = React.useState(orderTickets);
     const [filteredData, setFilteredData] = React.useState(orderTickets);
+
+    // Socket registered to listen to new tickets added to the system
     socket.on('ticketsUpdated', () => {
         console.log('Tickets Updated');
         updateTickets();
     })
 
+    // update the active tickets data
     const setTickets = (ticketResp: any) => {
         const orderTicketList = ticketResp.data.sort((a, b) => (a.ticket_timestamp > b.ticket_timestamp) ? 1 : ((b.ticket_timestamp > a.ticket_timestamp) ? -1 : 0));
         const orderTickets: Array<any> = [];
@@ -86,6 +89,7 @@ export function Kitchen() {
         setFilteredData(orderTicketsData);
     }
 
+    // On component-mount, get required category and ticket data
     useEffect(() => {
         Promise.all([getCategories(), getActiveTickets()]).then(([resp1, resp2]) => {
             setTickets(resp2);
@@ -121,6 +125,7 @@ export function Kitchen() {
         // eslint-disable-next-line
     }, [filterValue]);
 
+    // set filtered data when active tickets change
     useEffect(() => {
         setFilteredData(orderTicketsData);
     }, [orderTicketsData]);

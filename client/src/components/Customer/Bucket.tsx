@@ -125,7 +125,7 @@ export default function Bucket(props) {
 	//     'quantity':0
 
 	// // }
-
+  
 
 	// Get for status?
 
@@ -254,7 +254,7 @@ export default function Bucket(props) {
 					<ListItem alignItems='center'>
 						<Grid item container direction="row" align-item="center" justify="center" spacing={1}>
 							<Button size="medium" variant="outlined" color="secondary" className={classes.margin}
-								onClick={handleExitCustomer} disabled={props.orderedValue.length === 0}>
+								onClick={handleExitCustomer}>
 								PAY BILL
                 </Button>
 						</Grid>

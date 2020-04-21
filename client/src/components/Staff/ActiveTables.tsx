@@ -1,17 +1,19 @@
 import React, {useEffect} from 'react';
 import List from '@material-ui/core/List';
-import Restaurant from '@material-ui/icons/Restaurant';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DoneIcon from '@material-ui/icons/Done';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import TableDialogue from './TableDialogue'
 import axios from '../../axios';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 //import interfaces
 import {Tables, ServerResponse} from "../../interfaces/table"
@@ -23,19 +25,19 @@ export default function ActiveTables(props){
 	function createIcons(data){
 		const icons = data.map((table) => {
 				if (table.assistance === true){
-					return <Avatar style={{backgroundColor: "indianred"}}><AnnouncementIcon/></Avatar>
+					return <Avatar style={{backgroundColor: "FIREBRICK"}}><AnnouncementIcon/></Avatar>
 				}
 				switch(table.table_status){
 					case 'Seated':
-						return <Avatar style={{backgroundColor: "darkcyan"}}><MenuBookIcon/></Avatar>
-					case 'Preparing Order':
-						return <Avatar style={{backgroundColor: "moccasin"}}><Restaurant/></Avatar>
-					case 'Ready to Deliver':
-						return <Avatar style={{backgroundColor: "tomato"}}><LocalDiningIcon/></Avatar>
+						return <Avatar style={{backgroundColor: "Thistle"}}><MenuBookIcon/></Avatar>
+					case 'Paying':
+						return <Avatar style={{backgroundColor: "PALETURQUOISE"}}><AttachMoneyIcon/></Avatar>
+					case 'Ready To Deliver':
+						return <Avatar style={{backgroundColor: "FIREBRICK"}}><LocalDiningIcon/></Avatar>
 					case 'Delivered':
 						return <Avatar style={{backgroundColor: "DARKCYAN"}}><DoneIcon/></Avatar>
 					case 'Ordered':
-						return <Avatar style={{backgroundColor: "Thistle"}}><MenuBookIcon /></Avatar>
+						return <Avatar style={{backgroundColor: "darkcyan"}}><MenuBookIcon /></Avatar>
 					default:
 						return <Avatar style={{backgroundColor: "Thistle"}}><MenuBookIcon /></Avatar>
 				}
@@ -69,6 +71,9 @@ export default function ActiveTables(props){
 		return () => clearInterval(interval)
 	})
 	
+	const handleDeliverFood = table_number => e =>{
+		axios.patch('Tables/Delivered/' + table_number.toString())
+	}
 
 	function mapReactTableList(){
 		return active_tables.map((table, index) =>(
@@ -79,10 +84,15 @@ export default function ActiveTables(props){
 	          <ListItemText
 	            primary={"Table " + table.table_number.toString() + ": " + table.table_status}
 	          />
+	          <Button onClick={handleDeliverFood(table.table_number)} variant='contained'  aria-label="Deliver Food"
+                      style={{backgroundColor:'POWDERBLUE', 
+                      		  visibility:table.table_status === 'Ready To Deliver'?'visible':'hidden'}}>
+                   Delivered 
+              	<CheckCircleOutlineIcon/>
+              </Button>
+
 	          <ListItemSecondaryAction>
-	            
-	          <TableDialogue table={table.table_number}/>
-	          
+	          	<TableDialogue table={table.table_number}/>
 	          </ListItemSecondaryAction>
 	        </ListItem>
 		))
