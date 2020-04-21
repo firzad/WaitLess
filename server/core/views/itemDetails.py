@@ -38,7 +38,8 @@ class ItemDetails(Resource):
             ingredient_id = new_ingredient.ingredient_id
         else:
             ingredient_id = args.get('ingredient_id')
-        item_detail = ItemDetail(menu_id, ingredient_id, modifiable=bool(args.get('modifiable')))
+        modifiable = 0 if args.get('modifiable') == "False" else 1
+        item_detail = ItemDetail(menu_id, ingredient_id, modifiable=modifiable)
         db.session.add(item_detail)
         db.session.commit()
         return item_detail, 201
