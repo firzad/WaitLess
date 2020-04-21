@@ -373,26 +373,25 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-					<div>
-						<Widget
+					
+					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
+						<Toolbar variant="dense">
+							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
+								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
+								CALL HELP
+                  				<HelpIcon />
+							</Button>
+							<div className={classes.grow} />
+							{/* <IconButton edge="end" color="inherit">
+								<ChatBubbleIcon />
+							</IconButton> */}
+								<Widget
 							handleNewUserMessage={handleNewUserMessage}
 							// profileAvatar={logo}
 							title="Waitless"
 							subtitle="Chat Assistance"
 							senderPlaceHolder="Type the message..."
 						/>
-					</div>
-					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
-						<Toolbar variant="dense">
-							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
-								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
-								CALL HELP
-                  <HelpIcon />
-							</Button>
-							<div className={classes.grow} />
-							{/* <IconButton edge="end" color="inherit">
-								<ChatBubbleIcon />
-							</IconButton> */}
 						</Toolbar>
 					</AppBar>
 				</div>
