@@ -274,7 +274,7 @@ export function Customer(props) {
 
 	const socket = io.connect('http://localhost:5000');
 	useEffect(() => {
-		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Do you need staff assistance?\n3. Quit");
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
     }, []);
 
 	const handleNewUserMessage = (message: string) => {
