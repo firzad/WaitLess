@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect} from "react";
+import { useEffect } from "react";
 import clsx from 'clsx';
 //import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -30,7 +30,9 @@ import { deepOrange } from '@material-ui/core/colors';
 
 import io from "socket.io-client";
 import { Widget, addResponseMessage } from 'react-chat-widget';
+
 import 'react-chat-widget/lib/styles.css';
+import '../../styles/chatbotStyle.css';
 
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
@@ -237,18 +239,18 @@ export function Customer(props) {
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
 
-  useEffect(() => {
-    const interval = setInterval(()=>{
-      axios.get(`Tables/`+table_number.toString()).then(
-        (res) => {
-            if (res.assistance !== assistance_click){
-              setAssistanceClick(res.assistance)
-            }
-        }
-    )
-    }, 1000)
-    return () => clearInterval(interval)
-    })
+	useEffect(() => {
+		const interval = setInterval(() => {
+			axios.get(`Tables/` + table_number.toString()).then(
+				(res) => {
+					if (res.data.assistance !== assistance_click) {
+						setAssistanceClick(res.assistance)
+					}
+				}
+			)
+		}, 1000)
+		return () => clearInterval(interval)
+	})
 
 	const styleClasses: any = userStyles();
 	const classes1: any = commonStyles();
@@ -289,14 +291,15 @@ export function Customer(props) {
 
 	const socket = io.connect('http://localhost:5000');
 	useEffect(() => {
-		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Do you need staff assistance?\n3. Quit");
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
     }, []);
+
 
 	const handleNewUserMessage = (message: string) => {
 		socket.emit('chatRequest', message);
 	}
 	socket.on('chatResponse', (data) => {
-        addResponseMessage(data.responseMessage);
+		addResponseMessage(data.responseMessage);
 	});
 
 	return (
@@ -306,7 +309,7 @@ export function Customer(props) {
 				<div className={styleClasses.root}>
 					<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
 						<Toolbar>
-							<Typography style={{ maxWidth: '5.25vw' }} variant="body1" className={styleClasses.title}>
+							<Typography style={{ maxWidth: '9.25vw' }} variant="body1" className={styleClasses.title}>
 								Table {table_number}
 							</Typography>
 							<div className={classes.search}>
@@ -372,26 +375,15 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
-					<div>
-						<Widget
-							handleNewUserMessage={handleNewUserMessage}
-							// profileAvatar={logo}
-							title="Waitless"
-							subtitle="Chat Assistance"
-							senderPlaceHolder="Type the message..."
-						/>
-					</div>
+
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
 								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
 								CALL HELP
-                  <HelpIcon />
+                  				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
-							{/* <IconButton edge="end" color="inherit">
-								<ChatBubbleIcon />
-							</IconButton> */}
 						</Toolbar>
 					</AppBar>
 				</div>
@@ -407,6 +399,13 @@ export function Customer(props) {
 				/>
 				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
+			<Widget
+				handleNewUserMessage={handleNewUserMessage}
+				// profileAvatar={logo}
+				title="Waitless"
+				subtitle="Chat Assistance"
+				senderPlaceHolder="Type the message..."
+			/>
 		</div>
 	);
 }

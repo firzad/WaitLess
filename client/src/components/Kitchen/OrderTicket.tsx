@@ -2,17 +2,16 @@ import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { orderTicketStyles } from "src/styles/orderTicket";
 import {
-    Grid, Card, CardContent, Typography, CardActions, Button, CardHeader, Avatar, IconButton, Checkbox,
-    FormControlLabel, FormGroup, FormControl // FormLabel,
+    Grid, Card, CardContent, Typography, CardActions, Button, CardHeader, Avatar, Checkbox,
+    FormControlLabel, FormGroup, FormControl // IconButton, FormLabel,
 } from "@material-ui/core";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
-import AccessibilityIcon from "@material-ui/icons/Accessibility";
+// import AccessibilityIcon from "@material-ui/icons/Accessibility";
 import { updateItemToComplete } from "src/services/ticketItem.service";
 
 export function OrderTicket(props: any) {
     const styleClasses = orderTicketStyles();
     const selectItemList: Array<number> = [];
-    // const bull = <span className={styleClasses.bullet}>•</span>;
 
     const [dateTime, setDateTime] = useState(moment.duration(moment().utc().diff(moment(props.order.ticket_timestamp).utc())));
     const [priorityTheme, setPriorityTheme] = useState({ timeColor: 'default', cardBorderColor: 'default' });
@@ -36,6 +35,7 @@ export function OrderTicket(props: any) {
         // eslint-disable-next-line
     }, [dateTime]);
 
+    // Update the items to be delivered for the order ticket
     const updateItems = (e: any) => {
         const options = selectedItems;
         let index;
@@ -57,6 +57,7 @@ export function OrderTicket(props: any) {
         setSelectedItems(options);
     }
 
+    // Mark selected items as ready to be served
     const serveItems = () => {
         updateItemToComplete(selectedItems).then((resp) => {
             setSelectedItems(selectItemList);
@@ -95,8 +96,8 @@ export function OrderTicket(props: any) {
                                                     disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"}/>
                                                 }
                                                 label={`${item.quantity} x ${item.item_name}`} />
-                                            {item.ingredients_added && item.ingredients_added.split(",").map((ingredient) => (
-                                                <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
+                                            {item.ingredients_added && item.ingredients_added.split(",").map((ingredient, idx) => (
+                                                <Typography key={`${idx}${ingredient}`} variant="body2" component="p" className={styleClasses.addIngredient}>
                                                     {`+ ${ingredient}`}
                                                 </Typography>
                                             ))
@@ -115,9 +116,9 @@ export function OrderTicket(props: any) {
                 </CardContent>
                 <CardActions>
                     <Button className={`flex-grow-1`} variant="outlined" size="small" disabled={serveButtonDisabled} onClick={serveItems}>Serve</Button>
-                    <IconButton aria-label="settings" className={`flex-grow-1`} >
+                    {/* <IconButton aria-label="settings" className={`flex-grow-1`} >
                         <AccessibilityIcon />
-                    </IconButton>
+                    </IconButton> */}
                 </CardActions>
             </Card>
         </Grid>
