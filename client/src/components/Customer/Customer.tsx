@@ -33,7 +33,7 @@ import { Widget, addResponseMessage } from 'react-chat-widget';
 
 import 'react-chat-widget/lib/styles.css';
 import '../../styles/chatbotStyle.css';
-
+import {TicketMenuItemResponse} from "../../interfaces/ticket"
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
 //import { ImageBackground, StyleSheet, Text, View } from "react-native";
@@ -238,7 +238,8 @@ export function Customer(props) {
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
-
+	console.log("Current Session")
+	console.log(current_session)
 	useEffect(() => {
 		const interval = setInterval(() => {
 			axios.get(`Tables/` + table_number.toString()).then(
@@ -250,7 +251,21 @@ export function Customer(props) {
 			)
 		}, 1000)
 		return () => clearInterval(interval)
-	})
+		
+	}
+	)
+	useEffect(()=>{
+		axios.get('Ticket/Session/'+current_session.toString())
+	            	.then(
+	            		(tk: TicketMenuItemResponse) => {
+							// let temp = []
+							// tk.data.map((t,key)=>temp.concat(t))
+							setOrderedValue(tk.data)
+							console.log("Item Details")
+							console.log(tk.data)
+	            		}
+	            	)
+	},[])
 
 	const styleClasses: any = userStyles();
 	const classes1: any = commonStyles();
@@ -383,7 +398,7 @@ export function Customer(props) {
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
 
-					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
+					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
 								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
@@ -391,7 +406,15 @@ export function Customer(props) {
                   				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
+							<Widget
+								handleNewUserMessage={handleNewUserMessage}
+								// profileAvatar={logo}
+								title="Waitless"
+								subtitle="Chat Assistance"
+								senderPlaceHolder="Type the message..."
+							/>
 						</Toolbar>
+
 					</AppBar>
 				</div>
 				<Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose}
@@ -406,13 +429,7 @@ export function Customer(props) {
 				/>
 				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
-			<Widget
-				handleNewUserMessage={handleNewUserMessage}
-				// profileAvatar={logo}
-				title="Waitless"
-				subtitle="Chat Assistance"
-				senderPlaceHolder="Type the message..."
-			/>
+
 		</div>
 	);
 }

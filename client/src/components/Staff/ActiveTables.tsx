@@ -85,10 +85,10 @@ export default function ActiveTables(props){
 	            primary={"Table " + table.table_number.toString() + ": " + table.table_status}
 	          />
 	          <Button onClick={handleDeliverFood(table.table_number)} variant='contained'  aria-label="Deliver Food"
-                      style={{backgroundColor:'POWDERBLUE', 
+                      style={{backgroundColor:'POWDERBLUE', marginRight:'10px', color:'rgba(0, 0, 0, 0.6)',
                       		  visibility:table.table_status === 'Ready To Deliver'?'visible':'hidden'}}>
                    Delivered 
-              	<CheckCircleOutlineIcon/>
+              	<CheckCircleOutlineIcon style={{fill:'CADETBLUE',marginLeft:'5px'}}/>
               </Button>
 
 	          <ListItemSecondaryAction>

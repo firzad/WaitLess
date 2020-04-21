@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-
 
 import { commonStyles } from "../../styles/generalStyles"
 
@@ -16,20 +14,12 @@ import ActiveTables from './ActiveTables'
 import AvailableTables from './AvailableTables'
 import AssistanceDialogueIcon from './AssistanceDialogue'
 import {Tables} from "../../interfaces/table"
-import axios from '../../axios';
-
 
 export function Staff() {
   const classes: any = commonStyles();
 
   const [assistance_tables, setAssistanceTables] = React.useState<Tables | any>([]);
   const [free_tables, setFreeTables] = React.useState<Tables | any>([]);
-
-  function testItemPatch(){
-    const order_item_ids = [2]
-    axios.patch('TicketItem/Update', {'item_status':'Complete', 'order_item_ids': order_item_ids}).then()
-  }
-
 
   return (
     <div className={classes.root}>
@@ -39,7 +29,6 @@ export function Staff() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Waitless : Staff View
           </Typography>
-          <Button onClick={testItemPatch}> x </Button>
           <AssistanceDialogueIcon assistance_tables={assistance_tables}/>
 
         </Toolbar>

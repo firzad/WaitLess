@@ -123,16 +123,20 @@ export default function ModifyOrder(props){
                 const itemDetailsList=res.data
                 setitemDetails([])
                 setitemDetails(itemDetailsList)
+                console.log("ID")
+                console.log(itemDetailsList)
             }
         )
     }, [menuD])
-
+   
     var ingredientsList: string[]=[]
     itemDetails.map((obj) => (
         ingredientsList.push(obj.ingredients)
     ))
     
-    const IL = ingredientsList.join(', ');
+    //const IL = ingredientsList.join(', ');
+    const IL = itemDetails.filter(obj=>obj.modifiable!=='True').map((obj) => (obj.ingredients)).join(', ')
+
     const description = menuD.description
     const [remarksState, setRemarksState] = React.useState("");
     const [orderQuantityState, setOrderQuantityState] = React.useState(0);
@@ -267,7 +271,7 @@ export default function ModifyOrder(props){
                   <ListItem button>
                     <FormControl component="fieldset" className={classes.formControl}>
                         <FormGroup>
-                        {itemDetails.map((obj, index) => (
+                        {itemDetails.filter(obj=>obj.modifiable==='True').map((obj, index) => (
                             <FormControlLabel key={index} 
                                 control={<Checkbox /*checked={ingredientState}*/ onChange={handleChange} name={obj.ingredients} />}
                                 label={<Typography variant="body2" align="left">{obj.ingredients}</Typography>} labelPlacement="end"
