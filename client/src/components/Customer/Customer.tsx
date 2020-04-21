@@ -401,9 +401,9 @@ export function Customer(props) {
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
-								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
-								CALL HELP
-                  				<HelpIcon />
+								style={{ opacity:'0.9',color:'white',backgroundColor: assistance_click ? 'FIREBRICK' : 'STEELBLUE' }}>
+								CALL HELP 
+                  				<HelpIcon style={{marginLeft:'5px'}}/>
 							</Button>
 							<div className={classes.grow} />
 							<Widget
