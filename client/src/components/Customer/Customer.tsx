@@ -233,10 +233,12 @@ export function Customer(props) {
 	}
 	const [searchValue, setSearchValue] = React.useState('')
 
+
 	//const {handleExitCustomer} = props
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
+	const [checkEmit, setCheckEmit] = React.useState(false)
 	console.log("Current Session")
 	console.log(current_session)
 	useEffect(() => {
@@ -249,8 +251,7 @@ export function Customer(props) {
 				}
 			)
 		}, 1000)
-		return () => clearInterval(interval)
-		
+		return () => clearInterval(interval)		
 	}
 	)
 	useEffect(()=>{
@@ -310,17 +311,26 @@ export function Customer(props) {
 
 
 	const handleNewUserMessage = (message: string) => {
+		setCheckEmit(true);
+		console.log('got it')
+		console.log(checkEmit);
 		socket.emit('chatRequest', message);
 	}
 	socket.on('chatResponse', (data) => {
-		addResponseMessage(data.responseMessage);
-		if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
-			if(!assistance_click){
-				addAssistanceTable()
-				socket.removeAllListeners();
-				console.log(assistance_click)
-			}
+		console.log('what happened')
+		console.log(checkEmit)
+		if(checkEmit){
+		console.log('printing log')
+		console.log(checkEmit)
+			addResponseMessage(data.responseMessage);
+			if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+				if(!assistance_click){
+					addAssistanceTable()
+					socket.removeAllListeners();
+				}
+			}	
 		}
+		setCheckEmit(false);
 	});
 
 	return (
@@ -397,6 +407,7 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
+					<div className={classes.grow} style={{backgroundColor: 'ALICEBLUE', height:'5vh'}}/>
 
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
