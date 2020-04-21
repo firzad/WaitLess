@@ -134,7 +134,9 @@ export default function ModifyOrder(props){
         ingredientsList.push(obj.ingredients)
     ))
     
-    const IL = ingredientsList.join(', ');
+    //const IL = ingredientsList.join(', ');
+    const IL = itemDetails.filter(obj=>obj.modifiable!=='True').map((obj) => (obj.ingredients)).join(', ')
+
     const description = menuD.description
     const [remarksState, setRemarksState] = React.useState("");
     const [orderQuantityState, setOrderQuantityState] = React.useState(0);

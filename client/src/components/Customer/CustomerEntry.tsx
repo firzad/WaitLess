@@ -80,7 +80,7 @@ export function CustomerEntry(){
 					<Button disabled={true} className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Loading </Button>
 				)
 			}
-			else if (paying == true){
+			else if (paying === true){
 				return(
 					<Button disabled={true} className={classes.entryButton} size='large' variant="contained" onClick={handleEntryCustomer}> Paying... </Button>
 				)
