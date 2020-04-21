@@ -95,8 +95,8 @@ export function OrderTicket(props: any) {
                                                     disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"}/>
                                                 }
                                                 label={`${item.quantity} x ${item.item_name}`} />
-                                            {item.ingredients_added && item.ingredients_added.split(",").map((ingredient) => (
-                                                <Typography variant="body2" component="p" className={styleClasses.addIngredient}>
+                                            {item.ingredients_added && item.ingredients_added.split(",").map((ingredient, idx) => (
+                                                <Typography key={`${idx}${ingredient}`} variant="body2" component="p" className={styleClasses.addIngredient}>
                                                     {`+ ${ingredient}`}
                                                 </Typography>
                                             ))
