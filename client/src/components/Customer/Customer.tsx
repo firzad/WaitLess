@@ -250,7 +250,7 @@ export function Customer(props) {
 					}
 				}
 			)
-		}, 30000)
+		}, 3000)
 		return () => clearInterval(interval)		
 	}
 	)
