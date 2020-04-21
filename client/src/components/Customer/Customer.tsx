@@ -394,7 +394,7 @@ export function Customer(props) {
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
 
-					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE' }} className={classes.bottomAppBar}>
+					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
 								style={{ backgroundColor: assistance_click ? 'INDIANRED' : 'POWDERBLUE' }}>
@@ -402,7 +402,15 @@ export function Customer(props) {
                   				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
+							<Widget
+								handleNewUserMessage={handleNewUserMessage}
+								// profileAvatar={logo}
+								title="Waitless"
+								subtitle="Chat Assistance"
+								senderPlaceHolder="Type the message..."
+							/>
 						</Toolbar>
+
 					</AppBar>
 				</div>
 				<Bucket setIndex={setIndex} handleDrawerClose={handleDrawerClose}
@@ -417,13 +425,7 @@ export function Customer(props) {
 				/>
 				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
-			<Widget
-				handleNewUserMessage={handleNewUserMessage}
-				// profileAvatar={logo}
-				title="Waitless"
-				subtitle="Chat Assistance"
-				senderPlaceHolder="Type the message..."
-			/>
+
 		</div>
 	);
 }
