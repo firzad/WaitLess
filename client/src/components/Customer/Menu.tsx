@@ -235,12 +235,12 @@ export default function Menu(props){
                                           title={tile.item_name}
                                         />
                                         <CardContent className={classes.cardContent}>
-                                          <Typography variant="button" component="p" 
-                                            style={{fontSize:'.75vw',marginBottom:'0 !important', minHeight:'5.5vh'}}>
-                                            {tile.item_name}
-                                          </Typography>
                                           <Typography variant="subtitle1" color="textSecondary" component="p" style={{fontSize:'.85vw',marginBottom:'0 !important'}}>
                                             {<span>${tile.price}</span>}
+                                          </Typography>
+                                          <Typography variant="button" component="p" 
+                                            style={{fontSize:'.75vw',marginBottom:'0 !important'}}>
+                                            {tile.item_name}
                                           </Typography>
                                         </CardContent>
                                       </CardActionArea>

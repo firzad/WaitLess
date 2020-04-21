@@ -251,8 +251,7 @@ export function Customer(props) {
 				}
 			)
 		}, 1000)
-		return () => clearInterval(interval)
-		
+		return () => clearInterval(interval)		
 	}
 	)
 	useEffect(()=>{
@@ -408,6 +407,7 @@ export function Customer(props) {
               <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> */}
+					<div className={classes.grow} style={{backgroundColor: 'ALICEBLUE', height:'5vh'}}/>
 
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
 						<Toolbar variant="dense">
