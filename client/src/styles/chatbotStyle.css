@@ -1,0 +1,27 @@
+.rcw-widget-container {
+  margin: 0 20px 52px 0;
+}
+.rcw-launcher {
+  background-color: #3f7aab;
+}
+
+.rcw-response .rcw-message-text {
+  max-width: 295px;
+}
+
+@media screen and (max-width: 800px) {
+  .rcw-launcher {
+    margin: 20px 20px 52px 20px;
+  }
+  .rcw-widget-container {
+    height: 93vh;
+    width: 96%;
+  }
+  .rcw-conversation-container .rcw-close-button {
+    background-color: #3f7aab;
+  }
+}
+
+.rcw-conversation-container .rcw-header {
+  background-color: #3f7aab;
+}

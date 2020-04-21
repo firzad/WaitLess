@@ -31,6 +31,7 @@ import { deepOrange } from '@material-ui/core/colors';
 import io from "socket.io-client";
 import { Widget, addResponseMessage } from 'react-chat-widget';
 import 'react-chat-widget/lib/styles.css';
+import '../../styles/chatbotStyle.css';
 
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
@@ -306,7 +307,7 @@ export function Customer(props) {
 				<div className={styleClasses.root}>
 					<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
 						<Toolbar>
-							<Typography style={{ maxWidth: '5.25vw' }} variant="body1" className={styleClasses.title}>
+							<Typography style={{ maxWidth: '9.25vw' }} variant="body1" className={styleClasses.title}>
 								Table {table_number}
 							</Typography>
 							<div className={classes.search}>
