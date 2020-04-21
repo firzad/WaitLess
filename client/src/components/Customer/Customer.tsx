@@ -31,8 +31,8 @@ import { deepOrange } from '@material-ui/core/colors';
 import io from "socket.io-client";
 import { Widget, addResponseMessage } from 'react-chat-widget';
 
-import '../../styles/chatbotStyle.css';
 import 'react-chat-widget/lib/styles.css';
+import '../../styles/chatbotStyle.css';
 
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
@@ -383,13 +383,6 @@ export function Customer(props) {
                   				<HelpIcon />
 							</Button>
 							<div className={classes.grow} />
-							<Widget
-							handleNewUserMessage={handleNewUserMessage}
-							// profileAvatar={logo}
-							title="Waitless"
-							subtitle="Chat Assistance"
-							senderPlaceHolder="Type the message..."
-							/>
 						</Toolbar>
 					</AppBar>
 				</div>
@@ -405,6 +398,13 @@ export function Customer(props) {
 				/>
 				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
+			<Widget
+				handleNewUserMessage={handleNewUserMessage}
+				// profileAvatar={logo}
+				title="Waitless"
+				subtitle="Chat Assistance"
+				senderPlaceHolder="Type the message..."
+			/>
 		</div>
 	);
 }

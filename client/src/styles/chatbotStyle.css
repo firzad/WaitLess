@@ -14,8 +14,9 @@
   max-width: 290px;
   background-color: #9dafc1;
 }
-.hidden{
-	height:0px;
+.rcw-conversation-container.hidden{
+	height: 0px;
+	transition: height .3s ease;
 }
 
 @media screen and (max-width: 800px) {
