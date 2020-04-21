@@ -21,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import UploadImage from './UploadImage';
 import axios from 'src/axios';
 import { MenuResponse } from 'src/interfaces/menu';
+import { ItemDetailsJson, ItemDetailsJsonResponse } from 'src/interfaces/itemdetails';
 
 
 export function MenuItemDetails(props){
@@ -38,15 +39,15 @@ export function MenuItemDetails(props){
     React.useEffect(()=>{
       if (!isNew){
         axios.get(`ItemDetails/`+String(item.menu_id)).then(
-          (res: any)=> {
-            setIngredients(res['data']);
+          (res: ItemDetailsJsonResponse)=> {
+            setIngredients(res.data);
           })
         // setIngredients(testingredients);
         setName(item.item_name);
         setDescription(item.description);
         setPrice(item.price);
       }
-    }, [props.item]);
+    }, [item, isNew]);
     
     const addMenu = () => {
       if(!image_file){
@@ -73,7 +74,7 @@ export function MenuItemDetails(props){
                   'calorie':ingredient.calorie,
                   'modifiable':ingredient.modifiable
                 }
-              axios.post(`ItemDetails/`+String(newMD['menu_id']),new_item_detail)
+              return axios.post<ItemDetailsJson>(`ItemDetails/`+String(newMD['menu_id']),new_item_detail)
           })
           ).then(props.addMenu(newMD))          
         }
@@ -96,9 +97,23 @@ export function MenuItemDetails(props){
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setNewModi(event.target.checked);
+      setNewModi(Boolean(event.target.checked));
     };
 
+    const saveMenu = () => {
+      const modifiedMenu = {
+        "item_name": name,
+        "description": description,
+        "price": price
+      }
+      axios.patch(`Menu/`+String(item.menu_id), modifiedMenu).then((res)=>props.updateMenu())
+    }
+
+    const deleteMenu = () => {
+      axios.patch(`Menu/`+String(item.menu_id), {"visibility": false}).then((res)=>
+        props.updateMenu()
+      )
+    }
 
     return (
       <Card style={{flex:1}}>
@@ -133,7 +148,7 @@ export function MenuItemDetails(props){
                             {ingredients.map((ingredient, index)=>(
                             <TableRow key={index}>
                                 <TableCell>{ingredient.ingredients}</TableCell>
-                                <TableCell><Checkbox checked={ingredient.modifiable} disabled={true}/></TableCell>
+                                <TableCell><Checkbox checked={ingredient.modifiable=="False"?false:true} disabled={true}/></TableCell>
                                 <TableCell align="right">{ingredient.calorie}</TableCell>
                                 <TableCell align="right"><IconButton><EditIcon/></IconButton></TableCell>
                             </TableRow>
@@ -156,10 +171,18 @@ export function MenuItemDetails(props){
           </Grid>
            </CardContent>
           <CardActions>
-              <Grid container alignItems="center">
+              <Grid container justify="flex-end">
+                <Grid item>
                 {isNew?
                 <Button variant="contained" color="primary" onClick={addMenu}>Add</Button>:
-                <Button variant="contained" color="primary" >Save</Button>}
+                // <Grid item container spacing={2} xs={3}>
+                 <React.Fragment> 
+                <Button variant="contained" color="primary" onClick={saveMenu}>Save</Button>
+                <Button variant="contained" color="primary" onClick={deleteMenu}>Delete</Button>
+                 </React.Fragment> 
+              //  </Grid>
+                }
+                </Grid>
               </Grid>
           </CardActions>
       </Card> 

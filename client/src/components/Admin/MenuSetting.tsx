@@ -2,6 +2,8 @@ import * as React from "react";
 import PropTypes from 'prop-types';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Tab, Tabs, Typography } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { commonStyles } from "../../styles/generalStyles";
 // import { userStyles } from "../../styles/userStyles";
 import {Box, Grid, TextField, Button, Card, CardActions, CardContent} from "@material-ui/core";
@@ -10,6 +12,7 @@ import { MenuJson, MenuResponse } from '../../interfaces/menu';
 import { Category, CategoryResponse, CategoryPostResponse } from '../../interfaces/category';
 import axios from '../../axios';
 import { MenuItemDetails } from './MenuItemDetails';
+import DeleteConfirmDialog from './DeleteConfirmDialog';
 
 
 function TabPanel(props) {
@@ -17,7 +20,7 @@ function TabPanel(props) {
 
   return (
     <Typography
-      component="paper"
+      component="div"
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -52,6 +55,8 @@ export default function MenuSetting(){
     const [newCategory, setCategory] = React.useState("newCategory");
     const [loading, setLoading] = React.useState(true);
     const [open, setOpen] = React.useState(false);
+    const [openDelete, setOpenDelete] = React.useState(false);
+    const [del_cat, setdelcat] = React.useState(0);
 
     React.useEffect(() => {
       if (menu.length === 0){
@@ -74,7 +79,7 @@ export default function MenuSetting(){
           }
         )
       }
-    }, []);
+    }, [menu, categories]);
     
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,7 +94,7 @@ export default function MenuSetting(){
   }
 
   const addCategory = () => {
-    const new_position = categories.length ? categories[categories.length-1].position_in_menu+2 : 2
+    const new_position = Math.round(Math.random()*100)
     const newC = {
       category_name: newCategory,
       position_in_menu: new_position
@@ -97,12 +102,32 @@ export default function MenuSetting(){
     axios.post(`Categories`, newC).then(
       (res:CategoryPostResponse)=>{
         setCategories((categories)=>[...categories, res.data]);
+        setCategory("newCategory");
       });
+  }
+
+  const deleteCategory = () => {
+    axios.patch(`Categories/`+String(del_cat), {"visibility":false}).then(res=>
+      axios.get(`Categories`).then((res:CategoryResponse)=>setCategories(res.data)))
+  }
+
+  const onDeleteIconClick = (category_id) => {
+    setdelcat(category_id);
+    setOpenDelete(true);    
   }
 
   const addMenu = (newMenu:MenuJson) => {
     setMenu((menu)=>[...menu, newMenu]);
     setOpen(false);
+  }
+
+  const updateMenu = () => {
+    axios.get(`Menu`).then(
+      (res: MenuResponse) => {
+          const Menudata = res.data;
+          setMenu(Menudata);
+      }
+    )
   }
 
     return(
@@ -111,7 +136,7 @@ export default function MenuSetting(){
               <React.Fragment>
                 <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto" aria-label="simple tabs example">
                           {categories.map((category, index)=>(
-                            <Tab label={category.category_name} {...a11yProps(index)} key={index}/>
+                            <Tab label={<Typography>{category.category_name} <IconButton disabled={value !== index}><DeleteIcon fontSize="small" onClick={()=>onDeleteIconClick(category.category_id)}/></IconButton></Typography>} {...a11yProps(index)} key={index} />//icon={<ExpandMoreIcon onClick={()=>deleteCategory(category.category_id)}/>}/>
                           ))}
                           <Tab label="Add category" {...a11yProps(-1)} key={-1}/>
                 </Tabs>
@@ -119,7 +144,7 @@ export default function MenuSetting(){
                   <TabPanel value={value} index={cat_in} key={cat_in}>                  
                       {
                         menu.filter((item)=>item.category===cm.category_name).map((item,index)=>(
-                          <Item item={item} key={item.menu_id}/>
+                          <Item item={item} key={item.menu_id} updateMenu={updateMenu}/>
                         ))
                       }
                       <ExpansionPanel>
@@ -144,6 +169,7 @@ export default function MenuSetting(){
                      </CardActions>
                   </Card>
                 </TabPanel>
+                <DeleteConfirmDialog open={openDelete} handleClose={()=>setOpenDelete(false)} type="Category" agree={deleteCategory}/>
               </React.Fragment>}
             </main>
     )
@@ -153,16 +179,20 @@ export default function MenuSetting(){
 
 export function Item(props){
   const item = props.item
+  const [open, setOpen] = React.useState(false)
   return(
     <ExpansionPanel>
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
-        id="Item3">
+        id="Item3"
+        onClick={()=>setOpen((open)=>!open)}>
         <Typography /*className={classes.heading}*/>{item.item_name}</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-          <MenuItemDetails item={item} isNew={false}/>
+        {open?
+          <MenuItemDetails item={item} isNew={false} updateMenu={props.updateMenu}/>:null
+        }
       </ExpansionPanelDetails>
     </ExpansionPanel>
   )

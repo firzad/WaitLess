@@ -25,7 +25,7 @@ export default function AddMenuItem(props){
             maxWidth="lg"
         >
             <DialogTitle>
-                <Grid container xs justify="space-between">
+                <Grid container justify="space-between">
                     <Grid item>Add New Menu Item</Grid>
                     <Grid item><IconButton onClick={props.handleClose}><CloseIcon/></IconButton></Grid>
                 </Grid>

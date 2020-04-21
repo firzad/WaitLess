@@ -1,4 +1,4 @@
-from flask_restful import Resource, fields, marshal_with, reqparse, url_for
+from flask_restful import Resource, fields, marshal_with, reqparse, url_for, request
 
 from core.models.menu import Menu
 from core import db, app
@@ -39,7 +39,7 @@ class MenuItems(Resource):
     @marshal_with(menu_resource_fields)
     def get(self):
         """Return the list of all MenuItems."""
-        return Menu.query.all(), 200
+        return Menu.query.filter(Menu.visibility==True).order_by(Menu.menu_id).all(), 200
 
     @marshal_with(menu_resource_fields)
     def post(self):
@@ -66,6 +66,25 @@ class MenuItemById(Resource):
     def get_no_marshal(self, menu_id):
         """Return menu item by id, non marshaled object directly. used internally by ticket_item.py view"""
         return Menu.query.filter(Menu.menu_id == menu_id).all()
+
+    @marshal_with(menu_resource_fields)
+    def patch(self, menu_id):
+        menu = Menu.query.get_or_404(menu_id)
+        if 'item_name' in request.json:
+            menu.item_name = request.json['item_name']
+        if 'description' in request.json:
+            menu.description = request.json['description']
+        if 'price' in request.json:
+            menu.price = request.json['price']
+        if 'imgfile' in request.json:
+            menu.imgfile = request.json['imgfile']
+        if 'visibility' in request.json:
+            visibility = 0 if request.json['visibility'] == False else 1
+            menu.visibility = visibility
+
+        db.session.commit()
+
+        return menu, 200
 
 
 class MenuItemByCategory(Resource):
