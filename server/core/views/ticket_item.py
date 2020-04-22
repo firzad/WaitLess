@@ -50,20 +50,22 @@ class TicketItem(Resource):
                                      remark=args.get('remark'),quantity=args.get('quantity'))
         db.session.add(new_item)
         db.session.commit()
-        socketio.emit('ticketsUpdated', broadcast=True)
+        #socketio.emit('ticketsUpdated', broadcast=True)
         return new_item, 200
 
+class TicketFlag(Resource):
+    def get(self):
+        socketio.emit('ticketsUpdated', broadcast=True)
+        return [], 200
 
 # --
 class UpdateTicketItems(Resource):
     #@marshal_with(ticket_item_resource_fields)
     def patch(self):
 
-        print(request.json)
         if 'item_status' in request.json:
             if 'order_item_ids' in request.json:
                 for order_item_id in request.json['order_item_ids']:
-                    print(order_item_id)
                     ticket_item = TicketItemModel.query.get_or_404(order_item_id)
                     ticket_item.item_status = request.json['item_status']
         db.session.commit()

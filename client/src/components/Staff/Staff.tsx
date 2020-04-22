@@ -80,9 +80,9 @@ export function Staff() {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{backgroundColor:'ALICEBLUE'}}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar)}>
+      <AppBar position="absolute" className={clsx(classes.appBar)} style={{backgroundColor:'STEELBLUE'}}>
         <Toolbar className={classes.toolbar}>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Waitless : Staff View

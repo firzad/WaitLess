@@ -27,16 +27,18 @@ import HelpIcon from '@material-ui/icons/Help';
 //import Image from './brown.jpeg';
 //import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
+//import io from "socket.io-client";
 
-import io from "socket.io-client";
-import { Widget, addResponseMessage } from 'react-chat-widget';
+//import { Widget, addResponseMessage } from 'react-chat-widget';
 
-import 'react-chat-widget/lib/styles.css';
-import '../../styles/chatbotStyle.css';
+//import 'react-chat-widget/lib/styles.css';
+//import '../../styles/chatbotStyle.css';
 import {TicketMenuItemResponse} from "../../interfaces/ticket"
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
 //import { ImageBackground, StyleSheet, Text, View } from "react-native";
+//const socket = io.connect('http://localhost:5000');
+
 const drawerWidth = 240;
 const newTheme = createMuiTheme({
 	palette: {
@@ -238,19 +240,20 @@ export function Customer(props) {
 	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
-	const [checkEmit, setCheckEmit] = React.useState(false)
-	console.log("Current Session")
-	console.log(current_session)
+	//const [checkEmit, setCheckEmit] = React.useState(false)
+
 	useEffect(() => {
 		const interval = setInterval(() => {
-			axios.get(`Tables/` + table_number.toString()).then(
+			if (assistance_click === true){
+				axios.get(`Tables/` + table_number.toString()).then(
 				(res) => {
 					if (res.data.assistance !== assistance_click) {
 						setAssistanceClick(res.assistance)
 					}
 				}
 			)
-		}, 3000)
+			}
+		}, 2000)
 		return () => clearInterval(interval)		
 	}
 	)
@@ -261,8 +264,6 @@ export function Customer(props) {
 							// let temp = []
 							// tk.data.map((t,key)=>temp.concat(t))
 							setOrderedValue(tk.data)
-							console.log("Item Details")
-							console.log(tk.data)
 	            		}
 	            	)
 	},[])
@@ -304,34 +305,33 @@ export function Customer(props) {
 		setOrderValue([])
 	}
 
-	const socket = io.connect('http://localhost:5000');
-	useEffect(() => {
+	/*useEffect(() => {
+		console.log('chatbox socket connection')
 		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
+    
+		socket.on('chatResponse', (data) => {
+			console.log(data)
+			console.log(checkEmit)
+			//if(checkEmit){
+				addResponseMessage(data.responseMessage);
+				if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+					if(!assistance_click){
+						addAssistanceTable()
+						socket.removeAllListeners();
+					}
+				}	
+				setCheckEmit(false);
+			//}
+		});
     }, []);
+
 
 
 	const handleNewUserMessage = (message: string) => {
 		setCheckEmit(true);
-		console.log('got it')
-		console.log(checkEmit);
 		socket.emit('chatRequest', message);
 	}
-	socket.on('chatResponse', (data) => {
-		console.log('what happened')
-		console.log(checkEmit)
-		if(checkEmit){
-		console.log('printing log')
-		console.log(checkEmit)
-			addResponseMessage(data.responseMessage);
-			if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
-				if(!assistance_click){
-					addAssistanceTable()
-					socket.removeAllListeners();
-				}
-			}	
-		}
-		setCheckEmit(false);
-	});
+	*/
 
 	return (
 		<div>
@@ -417,13 +417,14 @@ export function Customer(props) {
                   				<HelpIcon style={{marginLeft:'5px'}}/>
 							</Button>
 							<div className={classes.grow} />
-							<Widget
+							{/*<Widget
 								handleNewUserMessage={handleNewUserMessage}
 								// profileAvatar={logo}
 								title="Waitless"
 								subtitle="Chat Assistance"
 								senderPlaceHolder="Type the message..."
 							/>
+						*/}
 						</Toolbar>
 
 					</AppBar>

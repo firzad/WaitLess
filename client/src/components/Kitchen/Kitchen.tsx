@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { getCategories } from "src/services/category.service";
 import { getActiveTickets } from "src/services/ticket.service";
 
+const socket = io.connect('http://localhost:5000');
+console.log('Socket connected from kitchen')
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -28,7 +30,15 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 export function Kitchen() {
-    const socket = io.connect('http://localhost:5000');
+
+    useEffect(() => {
+        // Socket registered to listen to new tickets added to the system
+        socket.on('ticketsUpdated', () => {
+            console.log('Tickets Updated');
+            updateTickets();
+        })
+    }, []);
+
     const styleClasses = userStyles();
 
     const orderTickets: Array<any> = []
@@ -39,11 +49,7 @@ export function Kitchen() {
     const [orderTicketsData, setOrderTicketsData] = React.useState(orderTickets);
     const [filteredData, setFilteredData] = React.useState(orderTickets);
 
-    // Socket registered to listen to new tickets added to the system
-    socket.on('ticketsUpdated', () => {
-        console.log('Tickets Updated');
-        updateTickets();
-    })
+
 
     // update the active tickets data
     const setTickets = (ticketResp: any) => {

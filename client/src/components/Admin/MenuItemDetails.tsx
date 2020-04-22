@@ -140,7 +140,6 @@ export function MenuItemDetails(props){
                             <TableRow>
                             <TableCell>Ingredient (100g serving)</TableCell>
                             <TableCell>Modifiable</TableCell>
-                            <TableCell align="right">Calories</TableCell>
                             <TableCell align="right">Action</TableCell>
                             </TableRow>
                         </TableHead>
@@ -149,14 +148,12 @@ export function MenuItemDetails(props){
                             <TableRow key={index}>
                                 <TableCell>{ingredient.ingredients}</TableCell>
                                 <TableCell><Checkbox checked={ingredient.modifiable=="False"?false:true} disabled={true}/></TableCell>
-                                <TableCell align="right">{ingredient.calorie}</TableCell>
                                 <TableCell align="right"><IconButton><EditIcon/></IconButton></TableCell>
                             </TableRow>
                             ))}
                             <TableRow>
                             <TableCell><TextField placeholder="Ingredient" value={new_ingredient_name} onChange={(event)=>setNewIngredient(event.target.value)}/></TableCell>
                             <TableCell><Checkbox checked={new_in_modi} onChange={handleChange}/></TableCell>
-                            <TableCell align="right"><TextField placeholder="Calories" value={new_in_calorie} onChange={(event)=>setNewCal(Number(event.target.value))}/></TableCell>
                             <TableCell align="right"><IconButton onClick={addIngredients}><AddIcon/></IconButton></TableCell>
                             </TableRow>
                         </TableBody>

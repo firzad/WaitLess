@@ -37,7 +37,7 @@ export function LandingPage() {
 
     return (
         <div className={styleClasses.root}>
-            <AppBar position="static" className={styleClasses.appBar}>
+            <AppBar position="static" className={styleClasses.appBar} style={{backgroundColor:'STEELBLUE'}}>
                 <Toolbar>
                     <Typography variant="h6" className={styleClasses.title}>
                         WAITLESS

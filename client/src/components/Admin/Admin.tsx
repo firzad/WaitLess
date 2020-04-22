@@ -114,7 +114,7 @@ export function Admin() {
     return (
         <div className={styleClasses.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
+            <AppBar style={{backgroundColor:'STEELBLUE'}} position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
                 <Toolbar>
                         <IconButton color="inherit"
                             aria-label="open drawer"

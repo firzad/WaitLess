@@ -70,7 +70,7 @@ export function CustomerEntry(){
 	                }
 	        	})
 			}
-			},1000)
+			},2000)
 		return () => clearInterval(interval)
 		})
 

@@ -134,6 +134,7 @@ export default function Bucket(props) {
 				).then(() => {
 					//props.setOrderValue(itemList)})
 					props.bucketClear()
+					axios.get('TicketFlag')
 				})
 
 				//promise.all async multiple calls/ async await
@@ -191,7 +192,7 @@ export default function Bucket(props) {
 								</IconButton>
 							</ListItemIcon>
 							<ListItemText primary={obj.item_name + (obj.quantity > 1 ? '  x' + obj.quantity : '')} />
-							<ListItemText primary={'$' + obj.price * obj.quantity} />
+							<ListItemText primary={<Typography align="right">{'$' + obj.price * obj.quantity}</Typography>} />
 						</ListItem>
 					))}
 				</List>
@@ -213,9 +214,9 @@ export default function Bucket(props) {
 				<Collapse in={prevorder_click} unmountOnExit>
 					<List component="nav">
 						{props.orderedValue.map((ticket, index) => (
-							<React.Fragment>
+							<React.Fragment key={index}>
 							{ticket.map((obj,o_index)=>(
-							<ListItem key={index} style={{ paddingLeft: '2.4vw' }}>
+							<ListItem key={o_index} style={{ paddingLeft: '2.4vw' }}>
 								<ListItemIcon style={{ minWidth: '30px', minHeight: '20px' }}>
 									<DoneIcon />
 								</ListItemIcon>
