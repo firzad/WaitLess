@@ -301,6 +301,7 @@ export function Customer(props) {
 
 		//handleClose()
 	}
+	
 	const bucketClear = () => {
 		setOrderValue([])
 	}
@@ -332,6 +333,7 @@ export function Customer(props) {
 		socket.emit('chatRequest', message);
 	}
 	*/
+
 
 	return (
 		<div>

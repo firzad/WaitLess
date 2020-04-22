@@ -8,6 +8,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import DoneIcon from '@material-ui/icons/Done';
 import Restaurant from '@material-ui/icons/Restaurant';
 import AddIcon from '@material-ui/icons/Add';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import { userStyles } from "../../styles/userStyles";
 import axios from '../../axios';
 
@@ -50,15 +51,15 @@ const table_status_map = {
         'icon': <Restaurant/>
     },
     'Ready to Deliver': {
-        'backgroundColor': "tomato",
+        'backgroundColor': "FIREBRICK",
         'icon': <LocalDiningIcon/>
     },
     'Delivered': {
-            'backgroundColor': "darkcyan",
+            'backgroundColor': "DARKCYAN",
             'icon': <DoneIcon/>
     },
     'Ordered': {
-        'backgroundColor': "Thistle",
+        'backgroundColor': "darkcyan",
         'icon': <MenuBookIcon/>
     },
     'Empty': {
@@ -69,6 +70,10 @@ const table_status_map = {
         'backgroundColor': "grey",
         'icon': <AddIcon/>
     },
+    'Paying': {
+        'backgroundColor': "PALETURQUOISE",
+        'icon': <AttachMoneyIcon/> 
+    }
 }
 
 export default function TableSetting(){
