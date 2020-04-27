@@ -1,12 +1,17 @@
 import * as React from "react";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { orderTicketFilterStyles } from "src/styles/orderTicketFilter";
+import { useEffect } from "react";
 
 export function OrderTicketFilter(props: any) {
     const { categoryList, callbackFn } = props;
-    const [value, setValue] = React.useState(categoryList[0].category_id);
+    const [value, setValue] = React.useState(props.filterValue.category_id);
 
     const styleClasses = orderTicketFilterStyles();
+
+    useEffect(() => {
+        setValue(props.filterValue.category_id);
+    }, [props.filterValue]);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: any) => {
         setValue(newValue);

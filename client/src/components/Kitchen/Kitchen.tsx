@@ -34,9 +34,10 @@ export function Kitchen() {
     useEffect(() => {
         // Socket registered to listen to new tickets added to the system
         socket.on('ticketsUpdated', () => {
-            console.log('Tickets Updated');
+            // console.log('Tickets Updated');
             updateTickets();
         })
+    // eslint-disable-next-line
     }, []);
 
     const styleClasses = userStyles();
@@ -55,6 +56,7 @@ export function Kitchen() {
     const setTickets = (ticketResp: any) => {
         const orderTicketList = ticketResp.data.sort((a, b) => (a.ticket_timestamp > b.ticket_timestamp) ? 1 : ((b.ticket_timestamp > a.ticket_timestamp) ? -1 : 0));
         const orderTickets: Array<any> = [];
+        // eslint-disable-next-line
         orderTicketList.map((order) => {
             const ticketDetails = {
                 ticket_id: order[0].ticket_id,
@@ -63,6 +65,7 @@ export function Kitchen() {
                 table_number: order[0].table_number,
                 orderItems: {}
             };
+        // eslint-disable-next-line
             order.map((orderItem) => {
                 const itemDetails = {
                     order_item_id: orderItem.order_item_id,
@@ -107,8 +110,7 @@ export function Kitchen() {
         // eslint-disable-next-line
     }, []);
 
-
-    useEffect(() => {
+    const filterData = () => {
         const filteredDummy: Array<any> = [];
         if (filterValue.category_id === 100) {
             setFilteredData(orderTicketsData);
@@ -128,6 +130,10 @@ export function Kitchen() {
             }
         }
         setFilteredData(filteredDummy);
+    }
+
+    useEffect(() => {
+        filterData();
         // eslint-disable-next-line
     }, [filterValue]);
 
@@ -154,7 +160,7 @@ export function Kitchen() {
 
     return (
         <div className={styleClasses.orderTicketFilter}>
-            <OrderTicketFilter categoryList={categoryList} callbackFn={updateFilter} />
+            <OrderTicketFilter filterValue={filterValue} categoryList={categoryList} callbackFn={updateFilter} />
             {categoryList.map(item => (
                 <TabPanel value={filterValue.category_id} index={item.category_id} key={item.category_id}>
                     {filteredData.length > 0 && <Grid container className={`${styleClasses.root} ${styleClasses.gridContainer}`} spacing={2}>
