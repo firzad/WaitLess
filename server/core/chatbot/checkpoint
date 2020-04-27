@@ -1,2 +1,2 @@
-model_checkpoint_path: "/Users/aarushigera/Downloads/COMP9900/capstone-project-masterminds/server/core/chatbot/model.tflearn"
-all_model_checkpoint_paths: "/Users/aarushigera/Downloads/COMP9900/capstone-project-masterminds/server/core/chatbot/model.tflearn"
+model_checkpoint_path: "/Users/aarushigera/Downloads/COMP9900/untitled folder/capstone-project-masterminds/server/core/chatbot/model.tflearn"
+all_model_checkpoint_paths: "/Users/aarushigera/Downloads/COMP9900/untitled folder/capstone-project-masterminds/server/core/chatbot/model.tflearn"

@@ -5,6 +5,7 @@ from core.models.table import TableDetails
 from core import db, socketio
 from core.chatbot import chatbot
 from core.views.ticket_item import TicketSummary
+from core.views.category import Categories
 
 table_resource_fields = {
     'table_number': fields.Integer,
@@ -16,6 +17,7 @@ table_resource_fields = {
 
 parser = reqparse.RequestParser()
 parser.add_argument('table_size')
+parser.add_argument('message')
 
 class TableDetail(Resource):
 
@@ -135,20 +137,38 @@ class SwitchTableAssistance(Resource):
         return table, 200
 
 # CHATBOT  -------------------------------------------------------------------
-@socketio.on('chatRequest')
-def handle_message(message):
-    response_str = ""
-    chatbot_response, list_response = chatbot.chat(message)
-    socketio.emit('chatResponse', {'responseMessage': chatbot_response}, broadcast=False)
-    if list_response:
-        return_list = ""
-        for e in list_response:
-            return_list = return_list+e+',\n'
-        socketio.emit('chatResponse', {'responseMessage': return_list}, broadcast=False)
-    if 'Our Best Sellers are' in chatbot_response:
-        best_seller,_= TicketSummary.get('DishSummary')
-        
-        for i in range(len(best_seller['top_10'])):
-            print(best_seller['top_10'][i]['category'])
-            response_str= response_str+best_seller['top_10'][i]['item_name']+' : '+ best_seller['top_10'][i]['category']+ ',\n'
-        socketio.emit('chatResponse', {'responseMessage': response_str}, broadcast=False)
+class Chat(Resource):
+    def post(self):
+        args = parser.parse_args()
+        message=args.get('message')       
+        chatbot_response, item_list = chatbot.chat(message)
+        response = [chatbot_response]
+
+        if 'Please pick a category' in chatbot_response:
+            category =  Categories.get('Categories')
+            response_str = ""
+            for i in range(len(category[0])):
+                response_str = response_str+category[0][i]['category_name']+',\n'
+            response.append(response_str[:-2])
+        if 'Our Best Sellers are' in chatbot_response:
+            best_seller,_= TicketSummary.get('DishSummary')
+            response_str = ""
+            for i in range(len(best_seller['top_10'])):
+                response_str= response_str+best_seller['top_10'][i]['item_name']+" : "+ best_seller['top_10'][i]['category']+ ",\n"
+            response.append(response_str[:-2])
+
+        if 'Our recommendation for' in chatbot_response:
+            best_seller,_= TicketSummary.get('DishSummary')
+            response_str = ""
+            for i in range(len(best_seller['top_10'])):
+                if best_seller['top_10'][i]['category'] == item_list[0]:
+                    response_str= response_str+best_seller['top_10'][i]['item_name']+ ",\n"
+            if not response_str == "":
+                response.append(response_str[:-2])
+            else:
+                response_str = 'Well, I can\'t suggest you something at the moment. Why not try something new today!'
+                response = [response_str] 
+  
+        return response, 200
+
+

@@ -17,22 +17,24 @@ import Menu from './Menu'
 import Bucket from './Bucket';
 //import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-//import BottomNavigation from '@material-ui/core/BottomNavigation';
-//import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 //import RestoreIcon from '@material-ui/icons/Restore';
 //import FavoriteIcon from '@material-ui/icons/Favorite';
 //import LocationOnIcon from '@material-ui/icons/LocationOn';
 import HelpIcon from '@material-ui/icons/Help';
-// import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import AssistantIcon from '@material-ui/icons/Assistant';
 //import Image from './brown.jpeg';
 //import Avatar from '@material-ui/core/Avatar';
 import { deepOrange } from '@material-ui/core/colors';
 //import io from "socket.io-client";
+import { Chat, ChatPostResponse } from "../../interfaces/chat"
 
-//import { Widget, addResponseMessage } from 'react-chat-widget';
+import { Widget, addResponseMessage } from 'react-chat-widget';
 
-//import 'react-chat-widget/lib/styles.css';
-//import '../../styles/chatbotStyle.css';
+import 'react-chat-widget/lib/styles.css';
+import '../../styles/chatbotStyle.css';
 import {TicketMenuItemResponse} from "../../interfaces/ticket"
 //import Image2 from './spices_bottom.jpg';
 //import { url } from 'inspector';
@@ -277,7 +279,7 @@ export function Customer(props) {
 	const [orderValue, setOrderValue] = React.useState<any>([]);
 	const [orderedValue, setOrderedValue] = React.useState<any>([]);
 	//const [tableDetails, setTableDetails]= React.useState();
-	//const [bottomValue, setbottonValue] = React.useState(0);
+	const [bottomValue, setbottonValue] = React.useState(0);
 	const handleDrawerOpen = () => {
 		setOpen(true);
 	};
@@ -306,11 +308,12 @@ export function Customer(props) {
 		setOrderValue([])
 	}
 
-	/*useEffect(() => {
-		console.log('chatbox socket connection')
-		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Did you make a mistake! Our staff can help you?\n3. Waiting time");
-    
-		socket.on('chatResponse', (data) => {
+	useEffect(() => {
+		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?");
+
+      }, []);
+
+		/*socket.on('chatResponse', (data) => {
 			console.log(data)
 			console.log(checkEmit)
 			//if(checkEmit){
@@ -325,14 +328,31 @@ export function Customer(props) {
 			//}
 		});
     }, []);
+    */
 
 
 
 	const handleNewUserMessage = (message: string) => {
-		setCheckEmit(true);
-		socket.emit('chatRequest', message);
-	}
-	*/
+
+		const msg = message
+		axios.post<Chat>(`Chat`, { 'message': msg}).then(
+				(res: ChatPostResponse) => {
+				const response = res.data
+				addResponseMessage(response[0].toString());
+				if (response[0].includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
+					if(!assistance_click){
+						addAssistanceTable()
+					}
+				}	
+				if (response[1]){
+					let str = response[1];
+					addResponseMessage(str) 
+				}
+				}
+			)
+			
+		}
+	
 
 
 	return (
@@ -397,7 +417,7 @@ export function Customer(props) {
 						{/* <Bucket /> */}
 						{/* </Container> */}
 					</div>
-					{/* <BottomNavigation
+					{ <BottomNavigation
               value={bottomValue}
               onChange={(event, newValue) => {
                 setbottonValue(newValue);
@@ -406,9 +426,10 @@ export function Customer(props) {
               style={{position: 'fixed'}}
               className={classes.bottomnavigation}
             >
-              <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
+
+            //  <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
-            </BottomNavigation> */}
+            </BottomNavigation> }
 					<div className={classes.grow} style={{backgroundColor: 'ALICEBLUE', height:'5vh'}}/>
 
 					<AppBar position="fixed" style={{ backgroundColor: 'STEELBLUE',padding:'4px 0 4px 0' }} className={classes.bottomAppBar}>
@@ -419,14 +440,14 @@ export function Customer(props) {
                   				<HelpIcon style={{marginLeft:'5px'}}/>
 							</Button>
 							<div className={classes.grow} />
-							{/*<Widget
+							{<Widget
 								handleNewUserMessage={handleNewUserMessage}
 								// profileAvatar={logo}
 								title="Waitless"
 								subtitle="Chat Assistance"
 								senderPlaceHolder="Type the message..."
 							/>
-						*/}
+						}
 						</Toolbar>
 
 					</AppBar>
