@@ -11,10 +11,7 @@ import random
 def chat(inp):
     model, data, words, labels, training, output = get_model.model()
     response_flag = 0
-    print('''Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n
-            1. Recommendations\n
-            2. Do you need staff assistance?\n
-            3. Waiting time\n''')
+ 
     while True:
         #inp = input("You: ")
         if inp.lower() == "quit":
@@ -27,22 +24,18 @@ def chat(inp):
         results = model.predict([input_processing.bag_of_words(inp, words)])[0]
         results_index = numpy.argmax(results)
         tag = labels[results_index]
-        best_seller = None
+        item_list = None
 
         if results[results_index]> 0.7:
             for tg in data["intents"]:
                 if tg['tag'] == tag:
                     responses = tg['responses']
-                    if tag == "Vegan" or tag == "Vegetarian" or tag == "Lactose Intolerant" or tag == "Gluten Free" or tag == "no_special_requirements":
-                        responses = [recommendations.get_recommendations(tag, data)]
-
+                    if tag == "Mains" or tag == "Salads" or tag == "Sides" or tag == "Drinks" or tag == "Desserts":
+                        item_list = [tag]
+                    
             try:
                 choice = random.choice(responses)
-                item_list = None
-                if best_seller:
-                    item_list = best_seller
-                    best_seller = None
-
+            
                 return choice,item_list
             except:
                 continue

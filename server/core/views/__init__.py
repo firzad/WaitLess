@@ -2,11 +2,10 @@ from flask_restful import Api
 
 from core import app, socketio
 from .menu import MenuItems, MenuItemById, MenuItemByCategory
-from .table import TableItemDelivered, TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance
+from .table import TableItemDelivered, TableDetail, TableDetailById, FreeTables, ActiveTables, TableStatus, SwitchTableAssistance, Chat
 from .category import Categories, CategoryById
 from .ticket import Ticket, SessionTicket
 from .ticket_item import TicketFlag, TicketItemByTicket, TicketItem, TicketItemsBySession, TicketPriceTotal, ActiveTicketMenuItems, UpdateTicketItems, TicketSummary
-# from .chatbot import Chat
 from .ingredients import Ingredients
 from .itemDetails import ItemDetails
 from .summary import SummaryTable, SummaryById, SummaryForDay
@@ -43,7 +42,7 @@ api.add_resource(TicketPriceTotal, '/Ticket/Session/Price/<session_id>')
 api.add_resource(SwitchTableAssistance, '/Tables/Assistance/<table_number>')
 api.add_resource(Image, '/Image/<file_name>')
 api.add_resource(TicketFlag, '/TicketFlag')
-# api.add_resource(Chat, '/Chat')
+api.add_resource(Chat, '/Chat')
 
 if __name__ == '__main__':
     # app.run()
