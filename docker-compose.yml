@@ -1,33 +1,94 @@
-version: "3"
+# version: "3"
+
+# services:
+#   flask:
+#     build: ./server/
+#     container_name: flask-servers
+#     working_dir: /var/www/server
+#     ports:
+#       - 5000:5000
+#     volumes:
+#       - ./server/:/var/www/server
+#     command: python manage.py # runserver --host=0.0.0.0
+#     # command: python manage.py runserver --host=0.0.0.0
+#     env_file:
+#       - .env
+#     depends_on:
+#       - database
+#   database:
+#     image: postgres:12
+#     container_name: flask-databases
+#     volumes:
+#       - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
+#   node:
+#     image: node:12
+#     container_name: node-clients
+#     working_dir: /var/www/client/
+#     command: npm start
+#     ports:
+#       - 3000:3000
+#     env_file:
+#       - .env
+#     volumes:
+      # - ./server/:/var/www/server/
+      # - ./client/:/var/www/client/
+
+
+version: '3.5'
 
 services:
-  flask:
-    build: ./server/
-    container_name: flask-servers
-    working_dir: /var/www/server
+
+  database:
+    image: postgres:12
+    container_name: postgres
+    # networks:
+    #   - default
+    # ports:
+    #   - 5405:5432
+    restart: always
     ports:
-      - 5000:5000
+      - '5430:5432'
+    environment:
+      - POSTGRES_DB=Waitless
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      # - './db/init:/docker-entrypoint-initdb.d/'
+      - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
+
+  flask-api:
+    container_name: flask-servers
+    restart: always
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
     volumes:
       - ./server/:/var/www/server
-    command: python manage.py runserver --host=0.0.0.0
-    env_file:
-      - .env
     depends_on:
-      - database
-  database:
-    image: postgres:10
-    container_name: flask-databases
+      - "database"
+
+  client:
+    image: node:12
+    container_name: react-app
+    stdin_open: true
+    build:
+      context: ./client
+      dockerfile: Dockerfile
     volumes:
-      - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
-  node:
-    image: node:10
-    container_name: node-clients
-    working_dir: /var/www/client/
-    command: yarn start
+      - './client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+      # - ./server/:/var/www/server/
+      # - ./client/:/var/www/client/
+    expose:
+      - '3000'
     ports:
-      - 3000:3000
-    env_file:
-      - .env
-    volumes:
-      - ./server/:/var/www/server/
-      - ./client/:/var/www/client/
+      - '3000:3000'
+    depends_on:
+      - "flask-api"
+    restart: always
+    # environment:
+    #   - NODE_ENV=development
+    #   - CHOKIDAR_USEPOLLING=true
+    #   - HOST_URL=http://192.168.99.100:5000
