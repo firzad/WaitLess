@@ -20,7 +20,7 @@ docker-compose up --build
 This will set-up the environment for the application using the required libraries, build and run the **client, backend** and **database** servers. By default, a demo database script is run to populate the menu and tables, see options below to revert to a clean database.
 
 3. After the docker container **react-app** is running and outputs *“Compiled successfully”*, visit the Waitless homepage.
-[link](http://localhost:3000/)
+<http://localhost:3000/>
 This url will host the deployed systems where all the four areas of the application can be accessed from the homepage.
 
 4. To exit the server, **Ctrl + C** to gracefully exit.
@@ -41,8 +41,9 @@ docker system prune -a
 If the target system is running an older version of windows and Docker Toolbox is required, additional steps are required.
 
 1. Install Docker Toolbox and virtualBox
-	[Docker Toolbox](https://github.com/docker/toolbox/releases)
-	[virtualBox](https://www.virtualbox.org/wiki/Downloads)
+	(https://github.com/docker/toolbox/releases)
+
+	(https://www.virtualbox.org/wiki/Downloads)
 
 2. Due to the virtualisation of docker toolbox, the address localhost is not available within or outside of docker toolbox containers. A different IP needs to be used. First, navigate to *capstone-project-masterminds/client/src/pathing.tsx*, comment line 1 and uncomment line 2. It should now look like: 
 ```javascript
@@ -65,7 +66,7 @@ docker-compose up --build
 to begin the installation and run. Wait until the react-app container outputs *“Compiled Successfully”* 
 
 6. The Waitless application can be accessed at 
-	[link](http://192.168.99.100:3000/)
+	<http://192.168.99.100:3000/>
 
 7.For shutting down and cleaning, see the above section from step 4
 
