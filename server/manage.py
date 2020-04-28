@@ -8,5 +8,4 @@ app.config['UPLOAD_FOLDER'] = os.path.join(basepath,UPLOAD_FOLDER)
 
 
 if __name__ == '__main__':
-    #app.run()
     socketio.run(app,host='0.0.0.0')

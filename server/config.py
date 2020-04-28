@@ -2,12 +2,10 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
 class Config(object):
     DEBUG = True
     TESTING = False
     CSRF_ENABLED = True
-    # SECRET_KEY = 'this-really-needs-to-be-changed'
     MIGRATION_DIR = os.path.join('core', 'migrations')
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@postgres:5432/{db}'.format(
         user="postgres",
@@ -16,20 +14,16 @@ class Config(object):
         db="Waitless"
     )
 
-
 class ProductionConfig(Config):
     DEBUG = False
-
 
 class StagingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
 
-
 class DevelopmentConfig(Config):
-    DEVELOPMENT = True
+    DEVELOPMENT = False
     DEBUG = False
-
 
 class TestingConfig(Config):
     TESTING = True

@@ -267,7 +267,8 @@ export function Customer(props) {
 							// tk.data.map((t,key)=>temp.concat(t))
 							setOrderedValue(tk.data)
 	            		}
-	            	)
+					)
+	// eslint-disable-next-line
 	},[])
 
 	const styleClasses: any = userStyles();

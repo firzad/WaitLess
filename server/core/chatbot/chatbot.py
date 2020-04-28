@@ -1,4 +1,3 @@
-#from server.chatbot import pre_processing, recommendations, input_processing, get_model
 from . import pre_processing, recommendations, input_processing, get_model
 
 from nltk.stem.lancaster import LancasterStemmer
@@ -6,6 +5,8 @@ stemmer = LancasterStemmer()
 
 import numpy
 import random
+import nltk
+nltk.download('punkt')
 
 
 def chat(inp):
@@ -13,7 +14,6 @@ def chat(inp):
     response_flag = 0
  
     while True:
-        #inp = input("You: ")
         if inp.lower() == "quit":
             break
         if response_flag:
@@ -32,10 +32,9 @@ def chat(inp):
                     responses = tg['responses']
                     if tag == "Mains" or tag == "Salads" or tag == "Sides" or tag == "Drinks" or tag == "Desserts":
                         item_list = [tag]
-                    
+
             try:
                 choice = random.choice(responses)
-            
                 return choice,item_list
             except:
                 continue

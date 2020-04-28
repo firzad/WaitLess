@@ -147,7 +147,7 @@ export function MenuItemDetails(props){
                             {ingredients.map((ingredient, index)=>(
                             <TableRow key={index}>
                                 <TableCell>{ingredient.ingredients}</TableCell>
-                                <TableCell><Checkbox checked={ingredient.modifiable=="False"?false:true} disabled={true}/></TableCell>
+                                <TableCell><Checkbox checked={ingredient.modifiable==="False"?false:true} disabled={true}/></TableCell>
                                 <TableCell align="right"><IconButton><EditIcon/></IconButton></TableCell>
                             </TableRow>
                             ))}
