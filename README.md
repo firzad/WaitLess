@@ -5,9 +5,9 @@ capstone-project-masterminds created by GitHub Classroom
 ### Build and run the project Waitless
 
 ### Installation
-1. Install a Docker Engine (Docker Desktop recommended) for the respective system. [Docker engine](https://docs.docker.com/engine/install/)
+1. Install a Docker Engine (Docker Desktop recommended) for the respective system. (https://docs.docker.com/engine/install/)
 For older Mac and Windows versions, use Docker Toolbox if the system doesn't support Docker Desktop.
-[Docker Toolbox](https://github.com/docker/toolbox/releases).
+(https://github.com/docker/toolbox/releases).
 If Docker toolbox is required, additional setup steps are required before proceeding, see below
 Once Docker Desktop is installed, it will set up the required environment. 
 
