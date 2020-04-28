@@ -73,3 +73,8 @@ Added react chat widget for the chatbot. Implemented the socketio connection for
 ---------
 Docker has been set up to package and run an application in a loosely isolated environment. The corresponding docker files and config have been added.
 
+
+## Week 11
+---------
+Worked on installation manual for the application. Working on the final project report.
+
