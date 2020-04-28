@@ -14,6 +14,7 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - ./database/initial.sql:/docker-entrypoint-initdb.d/initial.sql
+      #- ./database/initial_base.sql:/docker-entrypoint-initdb.d/initial_base.sql
 
   flask-api:
     container_name: flask-servers
