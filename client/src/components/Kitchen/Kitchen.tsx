@@ -37,7 +37,7 @@ export function Kitchen() {
             // console.log('Tickets Updated');
             updateTickets();
         })
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     const styleClasses = userStyles();
@@ -65,7 +65,7 @@ export function Kitchen() {
                 table_number: order[0].table_number,
                 orderItems: {}
             };
-        // eslint-disable-next-line
+            // eslint-disable-next-line
             order.map((orderItem) => {
                 const itemDetails = {
                     order_item_id: orderItem.order_item_id,

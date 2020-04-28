@@ -1,13 +1,11 @@
+import os
+import pickle
+import tensorflow
+import tflearn
+import numpy
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
-
-import numpy
-import tflearn
-import tensorflow
-import pickle
-import os
-
 
 
 def preprocession(data):
@@ -37,13 +35,10 @@ def preprocession(data):
 
         labels = sorted(labels)
 
-
-
         out_empty = [0 for _ in range(len(labels))]
 
         for x, doc in enumerate(docs_x):
             bag = []
-
 
             wrds = [stemmer.stem(w.lower()) for w in doc]
 
@@ -59,14 +54,14 @@ def preprocession(data):
             training.append(bag)
             output.append(output_row)
 
-
         training = numpy.array(training)
         output = numpy.array(output)
 
         with open("core/chatbot/data.pickle", "wb") as f:
             pickle.dump((words, labels, training, output), f)
             print('pickle file generated')
-        return create_model(words, labels, training,output)
+        return create_model(words, labels, training, output)
+
 
 def create_model(words, labels, training, output):
     tensorflow.reset_default_graph()
@@ -82,7 +77,8 @@ def create_model(words, labels, training, output):
     if os.path.exists("core/chatbot/model.tflearn" + ".meta"):
         model.load("core/chatbot/model.tflearn")
     else:
-        model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+        model.fit(training, output, n_epoch=1000,
+                  batch_size=8, show_metric=True)
         w = model.get_weights(net.W)
         b = model.get_weights(net.b)
 
@@ -102,10 +98,11 @@ def bag_of_words(s, words):
                 bag[i] = 1
     return numpy.array(bag)
 
+
 def get_order(data):
     for tg in data["intents"]:
         if tg['tag'] == 'mistake':
-            tg['update_order_list'] = ["3Cheese Pizza", "Beef Burger", "Cold Coffee", "Fries", "Penne Arrabiata Pasta"]
+            tg['update_order_list'] = ["3Cheese Pizza", "Beef Burger",
+                                       "Cold Coffee", "Fries", "Penne Arrabiata Pasta"]
             print(tg['update_order_list'])
             return tg['update_order_list']
-

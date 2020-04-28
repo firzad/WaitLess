@@ -8,7 +8,7 @@ summary_resource_fields = {
     'session_id': fields.Integer,
     'table_number': fields.Integer,
     'date_order': fields.DateTime,
-    'price': fields.Integer 
+    'price': fields.Integer
 }
 
 parser = reqparse.RequestParser()
@@ -26,10 +26,12 @@ class SummaryTable(Resource):
     def post(self):
         """Inserts new session summary into DB."""
         args = parser.parse_args()
-        session = SummaryModel(args.get('table_number'), args.get('date_order'))
+        session = SummaryModel(args.get('table_number'),
+                               args.get('date_order'))
         db.session.add(session)
         db.session.commit()
         return session, 201
+
 
 class SummaryById(Resource):
     @marshal_with(summary_resource_fields)
@@ -47,12 +49,10 @@ class SummaryById(Resource):
         db.session.commit()
         return summary, 200
 
+
 class SummaryForDay(Resource):
 
     def get(self):
         rows = SummaryModel.query.all()
         return {'total_customers': len(rows), 'total_sale': sum(row.price for row in rows)}, 200
-
-
-
 

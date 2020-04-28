@@ -1,4 +1,4 @@
-export interface MenuJson{
+export interface MenuJson {
 	menu_id: number,
 	category_id: number,
 	item_name: string,
@@ -13,10 +13,10 @@ export interface MenuJson{
 	img_url: string
 }
 
-export interface MenuResponse{
-    data: [MenuJson]
+export interface MenuResponse {
+	data: [MenuJson]
 }
 
-export interface MenuPostResponse{
-    data: MenuJson
+export interface MenuPostResponse {
+	data: MenuJson
 }

@@ -4,12 +4,12 @@ from core.models.itemDetails import ItemDetail
 from core.models.ingredients import IngredientsList
 from core import db
 
-item_details_resource_fields={
-    'menu_id': fields.Integer, 
-    'ingredient_id': fields.Integer, 
-    'modifiable': fields.String, 
-    'quantity':fields.Integer,
-    'ingredients':fields.String
+item_details_resource_fields = {
+    'menu_id': fields.Integer,
+    'ingredient_id': fields.Integer,
+    'modifiable': fields.String,
+    'quantity': fields.Integer,
+    'ingredients': fields.String
 }
 
 parser = reqparse.RequestParser()
@@ -32,7 +32,8 @@ class ItemDetails(Resource):
         args = parser.parse_args()
         ingredient_id = 0
         if 'ingredient_id' not in args or not args['ingredient_id']:
-            new_ingredient = IngredientsList(args.get('ingredient'),args.get('calorie'))
+            new_ingredient = IngredientsList(
+                args.get('ingredient'), args.get('calorie'))
             db.session.add(new_ingredient)
             db.session.commit()
             ingredient_id = new_ingredient.ingredient_id

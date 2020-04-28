@@ -11,11 +11,11 @@ import { Staff } from "./components/Staff";
 class App extends React.Component {
 
     render() {
-        
+
         return (
             <Router>
                 <div>
-                    <Route key="base" exact path="/"> <Redirect to="/home"/> </Route>
+                    <Route key="base" exact path="/"> <Redirect to="/home" /> </Route>
                     <Route key="home" exact path="/home" component={LandingPage} />
                     <Route key="admin" path="/admin" component={Admin} />
                     <Route key="customer" path="/customer/:table_number" component={CustomerEntry} />

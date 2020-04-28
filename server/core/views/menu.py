@@ -4,6 +4,7 @@ from core.models.menu import Menu
 from core import db, app
 from core.views.image import Image
 
+
 class ImageURL(fields.Raw):
     def format(self, value):
         return app.config['BASE_URL']+url_for('image', file_name=value)
@@ -34,12 +35,11 @@ parser.add_argument('position_in_menu')
 parser.add_argument('imgfile')
 
 
-
 class MenuItems(Resource):
     @marshal_with(menu_resource_fields)
     def get(self):
         """Return the list of all MenuItems."""
-        return Menu.query.filter(Menu.visibility==True).order_by(Menu.menu_id).all(), 200
+        return Menu.query.filter(Menu.visibility == True).order_by(Menu.menu_id).all(), 200
 
     @marshal_with(menu_resource_fields)
     def post(self):
@@ -56,6 +56,7 @@ class MenuItems(Resource):
         db.session.add(new_menu)
         db.session.commit()
         return new_menu, 201
+
 
 class MenuItemById(Resource):
     @marshal_with(menu_resource_fields)

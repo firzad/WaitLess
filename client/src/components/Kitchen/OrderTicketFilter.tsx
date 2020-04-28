@@ -31,7 +31,7 @@ export function OrderTicketFilter(props: any) {
                 aria-label="scrollable auto tabs example"
             >
                 {categoryList.map((item, index) => (
-                    <Tab key={index} label={item.category_name} value={item.category_id} {...a11yProps(item.category_id)}/>
+                    <Tab key={index} label={item.category_name} value={item.category_id} {...a11yProps(item.category_id)} />
                 ))}
 
             </Tabs>
@@ -40,7 +40,7 @@ export function OrderTicketFilter(props: any) {
 }
 function a11yProps(index: any) {
     return {
-      id: `scrollable-auto-tab-${index}`,
-      'aria-controls': `scrollable-auto-tabpanel-${index}`,
+        id: `scrollable-auto-tab-${index}`,
+        'aria-controls': `scrollable-auto-tabpanel-${index}`,
     };
-  }
+}

@@ -2,6 +2,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config(object):
     DEBUG = True
     TESTING = False
@@ -14,16 +15,20 @@ class Config(object):
         db="Waitless"
     )
 
+
 class ProductionConfig(Config):
     DEBUG = False
+
 
 class StagingConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
 
+
 class DevelopmentConfig(Config):
     DEVELOPMENT = False
     DEBUG = False
+
 
 class TestingConfig(Config):
     TESTING = True

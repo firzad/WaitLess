@@ -1,54 +1,112 @@
-{"intents": [
-        {"tag": "welcome",
-         "patterns": ["start again", "start over", "another question", "1 more thing", "one more thing", "Food"],
-         "responses": ["Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?"],
-         "context_set": [""]
-        },
-        {"tag": "greeting",
-         "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Hey"],
-         "responses": ["Hello, thanks for visiting. How can I help you? \n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?", "Good to see you again, how can I help? \n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?"],
-         "context_set": [""]
-        },
-        {"tag": "goodbye",
-         "patterns": ["Bye", "See you later", "Goodbye"],
-         "responses": ["See you later, thanks for visiting", "Have a nice day", "Bye! Come back again soon."]
-        },
-        {"tag": "thanks",
-         "patterns": ["Thanks", "Thank you", "Thankyou","That's helpful", "Thx","Thanx"],
-         "responses": ["Happy to help!", "Any time!", "My pleasure"]
-        },
-        {"tag": "best_seller",
-         "patterns": ["best-seller", "best Seller", "what is best in your restaurant", "chef's special", "chef special", "best", "best tonight", "favourite"],
-         "responses": ["Our Best Sellers are: "]
-        },
-        {"tag": "recommendations",
-         "patterns": ["What do you recommend?", "recommendations", "recommend"],
-         "responses": ["Please pick a category: "]
-        },
-        {"tag": "Mains",
-         "patterns": ["Mains", "best in Mains","Mains please", "Main"],
-         "responses": ["Our recommendation for Mains is : "]
-        },
-        {"tag": "Salads",
-         "patterns": ["Salads", "best in Salads", "Salads please", "Salad"],
-         "responses": ["Our recommendation for Salads is : "]
-        },
-        {"tag": "Sides",
-         "patterns": ["Sides", "best in Sides", "Sides please", "side"],
-         "responses": ["Our recommendation for Sides is : "]
-        },
-        {"tag": "Desserts",
-         "patterns": ["desserts", "best in desserts", "desserts please", "dessert"],
-         "responses": ["Our recommendation for Desserts is : "]
-        },
-        {"tag": "Drinks",
-         "patterns": ["drinks", "best in drinks", "drinks please", "drink"],
-         "responses": ["Our recommendation for Drinks is : "]
-        },
-        {"tag": "other",
-         "patterns": ["other", "Staff Assistance", "Call staff", "Need help"],
-         "responses": ["Calling for Staff Assistance. The Staff will assist you shortly!"]
-        }
-]
+{
+  "intents": [
+    {
+      "tag": "welcome",
+      "patterns": [
+        "start again",
+        "start over",
+        "another question",
+        "1 more thing",
+        "one more thing",
+        "Food"
+      ],
+      "responses": [
+        "Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?"
+      ],
+      "context_set": [""]
+    },
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day",
+        "Hey"
+      ],
+      "responses": [
+        "Hello, thanks for visiting. How can I help you? \n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?",
+        "Good to see you again, how can I help? \n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?"
+      ],
+      "context_set": [""]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "Thankyou",
+        "That's helpful",
+        "Thx",
+        "Thanx"
+      ],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "best_seller",
+      "patterns": [
+        "best-seller",
+        "best Seller",
+        "what is best in your restaurant",
+        "chef's special",
+        "chef special",
+        "best",
+        "best tonight",
+        "favourite"
+      ],
+      "responses": ["Our Best Sellers are: "]
+    },
+    {
+      "tag": "recommendations",
+      "patterns": ["What do you recommend?", "recommendations", "recommend"],
+      "responses": ["Please pick a category: "]
+    },
+    {
+      "tag": "Mains",
+      "patterns": ["Mains", "best in Mains", "Mains please", "Main"],
+      "responses": ["Our recommendation for Mains is : "]
+    },
+    {
+      "tag": "Salads",
+      "patterns": ["Salads", "best in Salads", "Salads please", "Salad"],
+      "responses": ["Our recommendation for Salads is : "]
+    },
+    {
+      "tag": "Sides",
+      "patterns": ["Sides", "best in Sides", "Sides please", "side"],
+      "responses": ["Our recommendation for Sides is : "]
+    },
+    {
+      "tag": "Desserts",
+      "patterns": [
+        "desserts",
+        "best in desserts",
+        "desserts please",
+        "dessert"
+      ],
+      "responses": ["Our recommendation for Desserts is : "]
+    },
+    {
+      "tag": "Drinks",
+      "patterns": ["drinks", "best in drinks", "drinks please", "drink"],
+      "responses": ["Our recommendation for Drinks is : "]
+    },
+    {
+      "tag": "other",
+      "patterns": ["other", "Staff Assistance", "Call staff", "Need help"],
+      "responses": [
+        "Calling for Staff Assistance. The Staff will assist you shortly!"
+      ]
+    }
+  ]
 }
-

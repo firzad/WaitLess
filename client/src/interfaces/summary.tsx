@@ -1,14 +1,14 @@
-export interface Summary{
+export interface Summary {
     session_id: number,
     table_number: number,
     date_order: Date,
-    price: number 
+    price: number
 }
 
-export interface SummaryResponse{
+export interface SummaryResponse {
     data: [Summary]
 }
 
-export interface SummaryPostResponse{
+export interface SummaryPostResponse {
     data: Summary
 }

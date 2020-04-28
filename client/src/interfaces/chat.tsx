@@ -1,11 +1,11 @@
-export interface Chat{
+export interface Chat {
     message: string
 }
 
-export interface ChatResponse{
+export interface ChatResponse {
     data: [Chat]
 }
 
-export interface ChatPostResponse{
+export interface ChatPostResponse {
     data: Chat
 }

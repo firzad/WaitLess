@@ -1,4 +1,4 @@
-export interface Ticket{
+export interface Ticket {
     ticket_id: number,
     session_id: number,
     ticket_timestamp: Date,
@@ -6,16 +6,16 @@ export interface Ticket{
     ticket_status: string
 }
 
-export interface TicketResponse{
+export interface TicketResponse {
     data: [Ticket]
 }
 
-export interface TicketPostResponse{
+export interface TicketPostResponse {
     data: Ticket
 }
 
-export interface TicketItem{
-	order_item_id: number,
+export interface TicketItem {
+    order_item_id: number,
     ticket_id: number,
     menu_id: number,
     ingredients_added: string,
@@ -25,15 +25,15 @@ export interface TicketItem{
     quantity: number
 }
 
-export interface TicketItemResponse{
-	data: [TicketItem]
+export interface TicketItemResponse {
+    data: [TicketItem]
 }
 
-export interface TicketItemPostResponse{
-	data: TicketItem
+export interface TicketItemPostResponse {
+    data: TicketItem
 }
 
-export interface TicketMenuItem{
+export interface TicketMenuItem {
     ticket_id: number,
     session_id: number,
     ticket_timestamp: string,
@@ -57,10 +57,10 @@ export interface TicketMenuItem{
     discount: number
 }
 
-export interface TicketMenuItemResponse{
+export interface TicketMenuItemResponse {
     data: [TicketMenuItem]
 }
 
-export interface TicketMenuItemPostResponse{
+export interface TicketMenuItemPostResponse {
     data: TicketMenuItem
 }

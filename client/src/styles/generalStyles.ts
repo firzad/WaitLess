@@ -4,19 +4,19 @@ import customerEntryImage from "./waitless_background.jpg";
 
 const drawerWidth = 240;
 
-export const commonStyles = makeStyles((theme) => 
-    createStyles({
+export const commonStyles = makeStyles((theme) =>
+  createStyles({
     root: {
       display: 'flex',
     },
-    background:{
-      backgroundImage: 'url('+customerEntryImage+')',
+    background: {
+      backgroundImage: 'url(' + customerEntryImage + ')',
       backgroundSize: 'cover',
-      width:'100%',
-      height:'100%',
+      width: '100%',
+      height: '100%',
       position: 'fixed',
     },
-    fillBar:{
+    fillBar: {
       minHeight: '120px',
       backgroundColor: 'CORNFLOWERBLUE',
       opacity: '0.5',
@@ -25,28 +25,28 @@ export const commonStyles = makeStyles((theme) =>
       alignItems: 'center',
       color: 'white'
     },
-    fillBarB:{
+    fillBarB: {
       minHeight: '60px',
       backgroundColor: 'CORNFLOWERBLUE',
       marginTop: '85px',
-      opacity:'0.5',
+      opacity: '0.5',
     },
-    fillBarW:{
+    fillBarW: {
       paddingTop: '20px',
       minHeight: '120px',
       flexGrow: 1,
       verticalAlign: 'middle',
       alignItems: 'center',
     },
-    entryButton:{
+    entryButton: {
       backgroundColor: 'SKYBLUE',
       minWidth: '200px',
       minHeight: '100px',
       '&:hover': {
-          backgroundColor: 'CORNFLOWERBLUE',
+        backgroundColor: 'CORNFLOWERBLUE',
       },
     },
-    rootCenter:{
+    rootCenter: {
       width: '420px',
       minHeight: '500px',
       margin: '0 auto',
@@ -57,16 +57,16 @@ export const commonStyles = makeStyles((theme) =>
       textAlign: 'center',
       boxShadow: '0 0 20px rgba(0, 0, 0, 0.2)',
       borderRadius: '.25em .25em .4em .4em',
-      overflow:'hidden',
-      opacity:'0.9',
+      overflow: 'hidden',
+      opacity: '0.9',
     },
     tableHead: {
       backgroundColor: 'azure',
       color: theme.palette.common.white,
     },
     tableHeadCell: {
-    	fontWeight: 'bold',
-    	fontSize: '16px',
+      fontWeight: 'bold',
+      fontSize: '16px',
     },
     'tableBody0': {
       backgroundColor: 'whitesmoke',
@@ -79,14 +79,14 @@ export const commonStyles = makeStyles((theme) =>
       minWidth: 700,
       alignItems: 'center',
     },
-    divFinish:{
+    divFinish: {
       paddingTop: '20px',
     },
-    toolTitle:{
+    toolTitle: {
       minWidth: 120,
     },
     tableContainer: {
-   	  alignItems: 'center',
+      alignItems: 'center',
     },
     expBar: {
       width: '100%',

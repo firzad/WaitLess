@@ -1,5 +1,6 @@
 from core import db
 
+
 class SummaryModel(db.Model):
     __tablename__ = 'summary'
 
@@ -9,6 +10,6 @@ class SummaryModel(db.Model):
     price = db.Column(db.Integer)
 
     def __init__(self, table_number, date_order):
-    	self.table_number = table_number
-    	self.date_order = date_order
-    	self.price = 0
+        self.table_number = table_number
+        self.date_order = date_order
+        self.price = 0

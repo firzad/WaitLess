@@ -49,7 +49,7 @@ export function OrderTicket(props: any) {
             index = options.indexOf(+e.target.value);
             options.splice(index, 1);
 
-            if(options.length === 0){
+            if (options.length === 0) {
                 setServeButtonDisabled(true);
             }
         }
@@ -92,8 +92,8 @@ export function OrderTicket(props: any) {
                                         <FormGroup>
                                             <FormControlLabel className={styleClasses.formControlLabel}
                                                 control={
-                                                <Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems}
-                                                    disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"}/>
+                                                    <Checkbox value={item.order_item_id} inputProps={{ 'aria-label': 'Test Item #1' }} onChange={updateItems}
+                                                        disabled={item.item_status === "Complete"} defaultChecked={item.item_status === "Complete"} />
                                                 }
                                                 label={`${item.quantity} x ${item.item_name}`} />
                                             {item.ingredients_added && item.ingredients_added.split(",").map((ingredient, idx) => (

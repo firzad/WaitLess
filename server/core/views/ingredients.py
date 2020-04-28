@@ -7,8 +7,9 @@ ingredients_resource_fields = {
     'ingredient_id': fields.Integer,
     'ingredient_name': fields.String,
     'price': fields.Integer,
-    'calorie': fields.Integer    
+    'calorie': fields.Integer
 }
+
 
 class Ingredients(Resource):
 

@@ -1,5 +1,6 @@
 from core import db
 
+
 class TicketItemModel(db.Model):
     __tablename__ = 'ticket_item'
 
@@ -12,7 +13,7 @@ class TicketItemModel(db.Model):
     item_status = db.Column(db.String)
     quantity = db.Column(db.Integer)
 
-    def __init__(self,ticket_id, menu_id, ingredients_added, ingredients_removed, remark, quantity):
+    def __init__(self, ticket_id, menu_id, ingredients_added, ingredients_removed, remark, quantity):
         self.ticket_id = ticket_id
         self.menu_id = menu_id
         self.ingredients_added = ingredients_added

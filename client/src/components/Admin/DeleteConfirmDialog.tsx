@@ -6,35 +6,35 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
-export default function DeleteConfirmDialog(props){
-    const {open, handleClose, type, agree} = props;
+export default function DeleteConfirmDialog(props) {
+  const { open, handleClose, type, agree } = props;
 
-    const handleDelete = () =>{
-        agree();
-        handleClose();
-    }
+  const handleDelete = () => {
+    agree();
+    handleClose();
+  }
 
-    return(
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete category?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Once you delete you won't be able to bring back the {type}.
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete category?"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Once you delete you won't be able to bring back the {type}.
           </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
           </Button>
-          <Button onClick={handleDelete} color="primary" autoFocus>
-            Delete
+        <Button onClick={handleDelete} color="primary" autoFocus>
+          Delete
           </Button>
-        </DialogActions>
-      </Dialog>
-    )
+      </DialogActions>
+    </Dialog>
+  )
 }

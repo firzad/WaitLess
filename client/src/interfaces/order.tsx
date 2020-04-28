@@ -1,4 +1,4 @@
-export interface Order{
+export interface Order {
     item_name: string,
     menu_id: number,
     ingredients_added: string,
@@ -6,9 +6,9 @@ export interface Order{
     remark: string,
     order_item_id: number
 };
-export interface OrderResponse{
+export interface OrderResponse {
     data: [Order]
 };
-export interface OrderPostResponse{
+export interface OrderPostResponse {
     data: Order
 };

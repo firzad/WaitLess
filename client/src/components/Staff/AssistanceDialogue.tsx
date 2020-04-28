@@ -16,17 +16,17 @@ import axios from '../../axios';
 
 
 function AssistanceDialogue(props) {
-	const { onClose, open, assistance_tables } = props;
+    const { onClose, open, assistance_tables } = props;
 
-	function handleClose(){
-		onClose(false);
-	};
+    function handleClose() {
+        onClose(false);
+    };
 
 
-	function removeAssistanceTable(table_number){
-		axios.patch('Tables/Assistance/' + table_number.toString(), {'assistance':false})
+    function removeAssistanceTable(table_number) {
+        axios.patch('Tables/Assistance/' + table_number.toString(), { 'assistance': false })
         handleClose()
-	}
+    }
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -36,48 +36,48 @@ function AssistanceDialogue(props) {
                     <ListItem key={table.table_number}>
                         <ListItemAvatar>
                             <Avatar>
-                            <PersonIcon />
+                                <PersonIcon />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary={'Table ' + table.table_number.toString()} />
                         <ListItemSecondaryAction>
-                        <IconButton edge="end"  onClick={() => removeAssistanceTable(table.table_number)} aria-label="More"  >
-                            <Done />
-                        </IconButton>
+                            <IconButton edge="end" onClick={() => removeAssistanceTable(table.table_number)} aria-label="More"  >
+                                <Done />
+                            </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>	
+                    </ListItem>
                 ))}
             </List>
-      </Dialog>
+        </Dialog>
     );
 }
 
-export default function AssistanceDialogueIcon(props){
-	const {assistance_tables} = props
- 	const [open, setOpen] = React.useState(false);
+export default function AssistanceDialogueIcon(props) {
+    const { assistance_tables } = props
+    const [open, setOpen] = React.useState(false);
 
 
- 	function handleClickOpen(){
-    	setOpen(true);
-  	};
+    function handleClickOpen() {
+        setOpen(true);
+    };
 
-  	function handleClose(){
-    	setOpen(false);
-	}
+    function handleClose() {
+        setOpen(false);
+    }
 
-	//num_assistance = backend.getNumAssistance()
+    //num_assistance = backend.getNumAssistance()
 
     //const [num_assistance, setNumAssistance] = React.useState(3)
 
-	return (
-		<div>
-        <IconButton color="inherit" onClick={handleClickOpen}>
-            <Badge badgeContent={assistance_tables.length} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+    return (
+        <div>
+            <IconButton color="inherit" onClick={handleClickOpen}>
+                <Badge badgeContent={assistance_tables.length} color="secondary">
+                    <NotificationsIcon />
+                </Badge>
+            </IconButton>
 
-          <AssistanceDialogue open={open} onClose={handleClose} assistance_tables={assistance_tables} />
+            <AssistanceDialogue open={open} onClose={handleClose} assistance_tables={assistance_tables} />
         </div>
     )
 }

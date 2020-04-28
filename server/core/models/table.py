@@ -1,5 +1,6 @@
 from core import db
 
+
 class TableDetails(db.Model):
     __tablename__ = 'table_details'
 

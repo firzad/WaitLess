@@ -11,7 +11,7 @@ from .itemDetails import ItemDetails
 from .summary import SummaryTable, SummaryById, SummaryForDay
 from .image import Image
 
-api = Api(app)   
+api = Api(app)
 
 
 api.add_resource(MenuItems, '/Menu')

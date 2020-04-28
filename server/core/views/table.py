@@ -19,13 +19,14 @@ parser = reqparse.RequestParser()
 parser.add_argument('table_size')
 parser.add_argument('message')
 
+
 class TableDetail(Resource):
 
     @marshal_with(table_resource_fields)
     def get(self):
         """Return the list of all TableDetails."""
         return TableDetails.query.all(), 200
-    
+
     @marshal_with(table_resource_fields)
     def post(self):
         """Inserts new TableDetail into DB."""
@@ -34,6 +35,7 @@ class TableDetail(Resource):
         db.session.add(table)
         db.session.commit()
         return table, 201
+
 
 class TableItemDelivered(Resource):
     def patch(self, table_number):
@@ -48,14 +50,15 @@ class TableItemDelivered(Resource):
 
         db.session.commit()
 
+
 class TableDetailById(Resource):
-    
+
     def delete(self, table_number):
         """Delete existing TableDetail from DB."""
         table = TableDetails.query.get_or_404(table_number)
         db.session.delete(table)
         db.session.commit()
-        return {"message":f"Deleted table {table_number}"}, 200
+        return {"message": f"Deleted table {table_number}"}, 200
 
     @marshal_with(table_resource_fields)
     def patch(self, table_number):
@@ -74,7 +77,6 @@ class TableDetailById(Resource):
         """get table status"""
         table_status = TableDetails.query.get_or_404(table_number)
         return table_status, 200
-
 
 
 class FreeTables(Resource):
@@ -105,7 +107,6 @@ class TableStatus(Resource):
         return table, 200
 
 
-
 class ActiveTables(Resource):
     @marshal_with(table_resource_fields)
     def get(self):
@@ -117,6 +118,7 @@ class ActiveTables(Resource):
                 active_tables.append(table)
         return active_tables, 200
 
+
 class TableSession(Resource):
     @marshal_with(table_resource_fields)
     def patch(self, table_number):
@@ -126,6 +128,7 @@ class TableSession(Resource):
             table.current_session = request.json['session_id']
         db.session.commit()
         return table, 200
+
 
 class SwitchTableAssistance(Resource):
     @marshal_with(table_resource_fields)
@@ -137,38 +140,43 @@ class SwitchTableAssistance(Resource):
         return table, 200
 
 # CHATBOT  -------------------------------------------------------------------
+
+
 class Chat(Resource):
     def post(self):
         args = parser.parse_args()
-        message=args.get('message')       
+        message = args.get('message')
         chatbot_response, item_list = chatbot.chat(message)
         response = [chatbot_response]
 
         if 'Please pick a category' in chatbot_response:
-            category =  Categories.get('Categories')
+            category = Categories.get('Categories')
             response_str = ""
             for i in range(len(category[0])):
-                response_str = response_str+category[0][i]['category_name']+',\n'
+                response_str = response_str + \
+                    category[0][i]['category_name']+',\n'
             response.append(response_str[:-2])
         if 'Our Best Sellers are' in chatbot_response:
-            best_seller,_= TicketSummary.get('DishSummary')
+            best_seller, _ = TicketSummary.get('DishSummary')
             response_str = ""
             for i in range(len(best_seller['top_10'])):
-                response_str= response_str+best_seller['top_10'][i]['item_name']+" : "+ best_seller['top_10'][i]['category']+ ",\n"
+                response_str = response_str + \
+                    best_seller['top_10'][i]['item_name']+" : " + \
+                    best_seller['top_10'][i]['category'] + ",\n"
             response.append(response_str[:-2])
 
         if 'Our recommendation for' in chatbot_response:
-            best_seller,_= TicketSummary.get('DishSummary')
+            best_seller, _ = TicketSummary.get('DishSummary')
             response_str = ""
             for i in range(len(best_seller['top_10'])):
                 if best_seller['top_10'][i]['category'] == item_list[0]:
-                    response_str= response_str+best_seller['top_10'][i]['item_name']+ ",\n"
+                    response_str = response_str + \
+                        best_seller['top_10'][i]['item_name'] + ",\n"
             if not response_str == "":
                 response.append(response_str[:-2])
             else:
                 response_str = 'Well, I can\'t suggest you something at the moment. Why not try something new today!'
-                response = [response_str] 
-  
-        return response, 200
+                response = [response_str]
 
+        return response, 200
 

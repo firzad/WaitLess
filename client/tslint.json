@@ -1,16 +1,14 @@
 {
-    "extends": [],
-    "linterOptions": {
-        "exclude": [
-            "config/**/*.js",
-            "node_modules/**/*.ts",
-            "coverage/lcov-report/*.js"
-        ]
-    },
-    "no-unused-expression": true,
-    "compilerOptions": {
-        "plugins": [
-          { "name": "typescript-tslint-plugin" }
-        ]
-      }
+  "extends": [],
+  "linterOptions": {
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**/*.ts",
+      "coverage/lcov-report/*.js"
+    ]
+  },
+  "no-unused-expression": true,
+  "compilerOptions": {
+    "plugins": [{ "name": "typescript-tslint-plugin" }]
+  }
 }

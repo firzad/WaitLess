@@ -9,15 +9,15 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import { MenuItemDetails } from './MenuItemDetails';
 
-export default function AddMenuItem(props){
+export default function AddMenuItem(props) {
     const data = {
         item_name: "Untitled",
         description: "Describe The Menu Item",
-        price:0,
+        price: 0,
         category_id: props.category_id
     }
     return (
-        
+
         <Dialog
             open={props.open}
             onClose={props.handleClose}
@@ -27,11 +27,11 @@ export default function AddMenuItem(props){
             <DialogTitle>
                 <Grid container justify="space-between">
                     <Grid item>Add New Menu Item</Grid>
-                    <Grid item><IconButton onClick={props.handleClose}><CloseIcon/></IconButton></Grid>
+                    <Grid item><IconButton onClick={props.handleClose}><CloseIcon /></IconButton></Grid>
                 </Grid>
             </DialogTitle>
             <DialogContent>
-                <MenuItemDetails item={data} isNew={true} addMenu={props.addMenu}/>
+                <MenuItemDetails item={data} isNew={true} addMenu={props.addMenu} />
             </DialogContent>
         </Dialog>
     )

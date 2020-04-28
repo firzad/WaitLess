@@ -16,13 +16,16 @@ parser.add_argument('session_id')
 parser.add_argument('table_number')
 parser.add_argument('ticket_status')
 
+
 class SessionTicket(Resource):
 
     @marshal_with(ticket_resource_fields)
     def get(self, session_id):
         """get ticket details"""
-        ticket = TicketModel.query.filter(TicketModel.session_id == session_id).all()
+        ticket = TicketModel.query.filter(
+            TicketModel.session_id == session_id).all()
         return ticket, 200
+
 
 class Ticket(Resource):
     @marshal_with(ticket_resource_fields)
@@ -35,10 +38,12 @@ class Ticket(Resource):
     def post(self):
         """Adds new ticket"""
         args = parser.parse_args()
-        new_ticket = TicketModel(session_id=args.get('session_id'), table_number=args.get('table_number'))
+        new_ticket = TicketModel(session_id=args.get(
+            'session_id'), table_number=args.get('table_number'))
         db.session.add(new_ticket)
         db.session.commit()
         return new_ticket, 201
+
 
 class TicketById(Resource):
     @marshal_with(ticket_resource_fields)

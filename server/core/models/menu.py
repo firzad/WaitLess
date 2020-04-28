@@ -1,6 +1,7 @@
 from core import db
 from .category import Category
 
+
 class Menu(db.Model):
     __tablename__ = 'menu'
 

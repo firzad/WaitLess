@@ -48,12 +48,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
     },
     content: {
       flexGrow: 1,
@@ -75,67 +75,67 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const settings = [
-    {
-        'title': 'Menu',
-        'icon': <LocalDiningIcon/>,
-        'component': <MenuSetting/>
-    },
-    {
-        'title': 'Tables',
-        'icon': <TableChartIcon/>,
-        'component': <TableSetting/>
-    },
-    // {
-    //     'title': 'Staff',
-    //     'icon': <PersonIcon/>,
-    //     'component': <StaffSetting/>
-    // },
-    {
-        'title': 'Analytics',
-        'icon': <BarChartIcon/>,
-        'component': <Analytics/>
-    }
+  {
+    'title': 'Menu',
+    'icon': <LocalDiningIcon />,
+    'component': <MenuSetting />
+  },
+  {
+    'title': 'Tables',
+    'icon': <TableChartIcon />,
+    'component': <TableSetting />
+  },
+  // {
+  //     'title': 'Staff',
+  //     'icon': <PersonIcon/>,
+  //     'component': <StaffSetting/>
+  // },
+  {
+    'title': 'Analytics',
+    'icon': <BarChartIcon />,
+    'component': <Analytics />
+  }
 ]
 
 export function Admin() {
-    const styleClasses: any = userStyles();
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const [index, setIndex] = React.useState(0);
+  const styleClasses: any = userStyles();
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [index, setIndex] = React.useState(0);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-    
-    return (
-        <div className={styleClasses.root}>
-            <CssBaseline />
-            <AppBar style={{backgroundColor:'STEELBLUE'}} position="fixed" className={clsx(classes.appBar, {[classes.appBarShift]: open,})}>
-                <Toolbar>
-                        <IconButton color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={clsx(classes.menuButton, open && classes.hide)}>
-                            <MenuIcon />
-                        </IconButton>
-                    <Typography variant="h6" className={styleClasses.title}>
-                        Admin
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div className={styleClasses.root}>
+      <CssBaseline />
+      <AppBar style={{ backgroundColor: 'STEELBLUE' }} position="fixed" className={clsx(classes.appBar, { [classes.appBarShift]: open, })}>
+        <Toolbar>
+          <IconButton color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={styleClasses.title}>
+            Admin
                     </Typography>
-                    {/* <Button color="inherit">Login</Button> */}
-                </Toolbar>
-            </AppBar>
-            <SideBar settingsList={settings} setIndex={setIndex} handleDrawerClose={handleDrawerClose} open={open}/>
-            <main className={clsx(classes.content, {
-                [classes.contentShift]: open,
-                })} >        
-             <div className={classes.drawerHeader} />
-                {settings[index].component}
-            </main>
-        </div>
-    );
+          {/* <Button color="inherit">Login</Button> */}
+        </Toolbar>
+      </AppBar>
+      <SideBar settingsList={settings} setIndex={setIndex} handleDrawerClose={handleDrawerClose} open={open} />
+      <main className={clsx(classes.content, {
+        [classes.contentShift]: open,
+      })} >
+        <div className={classes.drawerHeader} />
+        {settings[index].component}
+      </main>
+    </div>
+  );
 }

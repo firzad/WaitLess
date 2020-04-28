@@ -2,14 +2,14 @@ import React from 'react';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 
 import {
-          Drawer,
-          List,
-          Divider,
-          IconButton,
-          ListItem,
-          ListItemIcon,
-          ListItemText
-        } from '@material-ui/core';
+  Drawer,
+  List,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -42,7 +42,7 @@ export default function SideBar(props) {
   const classes = useStyles();
   const theme = useTheme();
   const settings = props.settingsList
-  
+
 
 
   return (
@@ -62,11 +62,11 @@ export default function SideBar(props) {
       </div>
       <Divider />
       <List>
-          <ListItem button>
-              <ListItemText>
-                  <Link to="/home">Home</Link>
-              </ListItemText>
-          </ListItem>
+        <ListItem button>
+          <ListItemText>
+            <Link to="/home">Home</Link>
+          </ListItemText>
+        </ListItem>
         {settings.map((obj, index) => (
           <ListItem button key={obj.title} onClick={() => props.setIndex(index)}>
             <ListItemIcon>{obj.icon}</ListItemIcon>

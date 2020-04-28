@@ -1,15 +1,15 @@
-export interface Tables{
+export interface Tables {
     table_number: number,
     table_size: number,
     table_status: string,
     current_session: number,
-    assistance: boolean 
+    assistance: boolean
 }
 
-export interface ServerResponse{
+export interface ServerResponse {
     data: [Tables]
 }
 
-export interface ServerPostResponse{
+export interface ServerPostResponse {
     data: Tables
 }

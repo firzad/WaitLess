@@ -1,6 +1,7 @@
 from core import db
 from datetime import datetime
 
+
 class TicketModel(db.Model):
     __tablename__ = 'ticket'
 
