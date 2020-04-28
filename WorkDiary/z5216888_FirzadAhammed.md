@@ -62,3 +62,14 @@ Set up Flask-Socket-IO for asynchronous server messages.
 ## Week 8
 ---------
 Integrated with DB and updated function calls. Real-time data updation and realted database schema changes have been made
+
+
+## Week 9
+---------
+Added react chat widget for the chatbot. Implemented the socketio connection for the chatbot. Minor code cleanup. Created file structure for endpoints on the client side.
+
+
+## Week 10
+---------
+Docker has been set up to package and run an application in a loosely isolated environment. The corresponding docker files and config have been added.
+
