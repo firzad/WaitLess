@@ -9,8 +9,10 @@ import { TabPanelProps } from "src/interfaces/kitchen";
 import { useEffect } from "react";
 import { getCategories } from "src/services/category.service";
 import { getActiveTickets } from "src/services/ticket.service";
+import {net_path} from '../../pathing';
 
-const socket = io.connect('http://localhost:5000');
+
+const socket = io.connect(net_path);
 console.log('Socket connected from kitchen')
 
 function TabPanel(props: TabPanelProps) {

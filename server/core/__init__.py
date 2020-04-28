@@ -7,8 +7,10 @@ from sqlalchemy import MetaData
 
 
 app = Flask(__name__)
-app.config.from_object('config.DevelopmentConfig')
+app.config.from_object('config.ProductionConfig')
 app.config['BASE_URL'] = "http://localhost:5000"
+#app.config['BASE_URL'] = "http://192.168.99.100:5000"
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
     user="postgres",
