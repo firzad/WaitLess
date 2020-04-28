@@ -86,22 +86,11 @@ const useStyles = makeStyles((theme: Theme) =>
 				'"Segoe UI Symbol"',
 			].join(','),
 		},
-		// container: {
-		//   flex: 1,
-		//   flexDirection: "column"
-		// },
-		// image: {
-		//   flex: 1,
-		//   resizeMode: "cover",
-		//   justifyContent: "center"
-		// },
 		paper: {
 			padding: theme.spacing(1),
 			margin: 'auto',
 			width: '100%',
 			opacity: '0.5',
-			//overflowY:'auto'
-			//maxWidth: 250,
 		},
 		inputRoot: {
 			color: 'inherit',
@@ -215,35 +204,14 @@ const useStyles = makeStyles((theme: Theme) =>
 	}),
 );
 export function Customer(props) {
-	// const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-	// const theme = React.useMemo(
-	//   () =>
-	//     createMuiTheme({
-	//       palette: {
-	//         type: prefersDarkMode ? 'dark' : 'light',
-	//       },
-	//     }),
-	//   [prefersDarkMode],
-	// );
-
-
-	////////////////////////////////////
-	//const themeValue: any = newTheme();
-	//export function Customer(props) {
-
 	function handleSearchChange(e) {
 		setSearchValue(e.target.value)
 	}
 	const [searchValue, setSearchValue] = React.useState('')
 
 
-	//const {handleExitCustomer} = props
-	////SET sethandleEntryCustomer(0) once the session is done
 	const { current_session, table_number, handleExitCustomer } = props
 	const [assistance_click, setAssistanceClick] = React.useState(false)
-	//const [checkEmit, setCheckEmit] = React.useState(false)
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (assistance_click === true){
@@ -263,8 +231,6 @@ export function Customer(props) {
 		axios.get('Ticket/Session/'+current_session.toString())
 	            	.then(
 	            		(tk: TicketMenuItemResponse) => {
-							// let temp = []
-							// tk.data.map((t,key)=>temp.concat(t))
 							setOrderedValue(tk.data)
 	            		}
 					)
@@ -275,11 +241,10 @@ export function Customer(props) {
 	const classes1: any = commonStyles();
 	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
-	const [/*index, */setIndex] = React.useState(0);
+	const [setIndex] = React.useState(0);
 	const [modifyvalue, setmodifyValue] = React.useState(null);
 	const [orderValue, setOrderValue] = React.useState<any>([]);
 	const [orderedValue, setOrderedValue] = React.useState<any>([]);
-	//const [tableDetails, setTableDetails]= React.useState();
 	const [bottomValue, setbottonValue] = React.useState(0);
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -302,9 +267,8 @@ export function Customer(props) {
 		axios.patch('Tables/Assistance/' + table_number.toString(), { 'assistance': !assistance_click })
 		setAssistanceClick(!assistance_click)
 
-		//handleClose()
 	}
-	
+
 	const bucketClear = () => {
 		setOrderValue([])
 	}
@@ -313,25 +277,6 @@ export function Customer(props) {
 		addResponseMessage("Hi! I am Jenny, your waiting assistant for the day. How can I help you?\n1. Recommendations\n2. Best Sellers\n3. Did you make a mistake! Our staff can help you?");
 
       }, []);
-
-		/*socket.on('chatResponse', (data) => {
-			console.log(data)
-			console.log(checkEmit)
-			//if(checkEmit){
-				addResponseMessage(data.responseMessage);
-				if (data.responseMessage.includes('Calling for Staff Assistance. The Staff will assist you shortly!')){
-					if(!assistance_click){
-						addAssistanceTable()
-						socket.removeAllListeners();
-					}
-				}	
-				setCheckEmit(false);
-			//}
-		});
-    }, []);
-    */
-
-
 
 	const handleNewUserMessage = (message: string) => {
 
@@ -344,22 +289,18 @@ export function Customer(props) {
 					if(!assistance_click){
 						addAssistanceTable()
 					}
-				}	
+				}
 				if (response[1]){
 					let str = response[1];
-					addResponseMessage(str) 
+					addResponseMessage(str);
 				}
 				}
 			)
-			
 		}
-	
-
 
 	return (
 		<div>
 			<MuiThemeProvider theme={newTheme}>
-				{/* <ThemeProvider theme={theme}> */}
 				<div className={styleClasses.root}>
 					<AppBar position="static" className={clsx(classes1.appBar)} style={{ backgroundColor: 'STEELBLUE' }}>
 						<Toolbar>
@@ -380,7 +321,6 @@ export function Customer(props) {
 									onChange={handleSearchChange}
 								/>
 							</div>
-							{/* <Avatar className={classes.orange}>{table_number}</Avatar> */}
 							<Typography variant="h6" className={styleClasses.title} align='right'>
 								CART
 
@@ -393,11 +333,8 @@ export function Customer(props) {
 								<Badge badgeContent={orderValue.length} color="error">
 									<ShoppingBasketIcon style={{ color: "white" }} />
 								</Badge>
-								{/* <ShoppingBasketIcon style={{ color: "white" }} /> */}
-								{/* <MenuIcon color="secondary" /> */}
 							</IconButton>
 
-							{/* <Button color="inherit">Login</Button> */}
 						</Toolbar>
 					</AppBar>
 
@@ -414,9 +351,6 @@ export function Customer(props) {
 								{modifyvalue ? <ModifyOrder setBucketValue={setBucketValue} setmodifyValue={setmodifyValue} modifyvalue={modifyvalue} /> : null}
 							</Grid>
 						</Grid>
-
-						{/* <Bucket /> */}
-						{/* </Container> */}
 					</div>
 					{ <BottomNavigation
               value={bottomValue}
@@ -428,7 +362,7 @@ export function Customer(props) {
               className={classes.bottomnavigation}
             >
 
-            //  <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
+            <BottomNavigationAction label="Assistance" icon={<AssistantIcon />} />
               <BottomNavigationAction label="Chatbot" icon={<ChatBubbleIcon />} />
             </BottomNavigation> }
 					<div className={classes.grow} style={{backgroundColor: 'ALICEBLUE', height:'5vh'}}/>
@@ -437,13 +371,12 @@ export function Customer(props) {
 						<Toolbar variant="dense">
 							<Button onClick={addAssistanceTable} variant='contained' aria-label="call help"
 								style={{ opacity:'0.9',color:'white',backgroundColor: assistance_click ? 'FIREBRICK' : 'STEELBLUE' }}>
-								CALL HELP 
+								CALL HELP
                   				<HelpIcon style={{marginLeft:'5px'}}/>
 							</Button>
 							<div className={classes.grow} />
 							{<Widget
 								handleNewUserMessage={handleNewUserMessage}
-								// profileAvatar={logo}
 								title="Waitless"
 								subtitle="Chat Assistance"
 								senderPlaceHolder="Type the message..."
@@ -463,7 +396,6 @@ export function Customer(props) {
 					handleExitCustomer={handleExitCustomer}
 					open={open} orderValue={orderValue}
 				/>
-				{/* </ThemeProvider> */}
 			</MuiThemeProvider>
 
 		</div>

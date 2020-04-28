@@ -51,7 +51,6 @@ export function MenuItemDetails(props) {
 
   const addMenu = () => {
     if (!image_file) {
-      console.log("Upload Image");
       alert("Upload Image first!!!");
       return
     }
@@ -86,9 +85,6 @@ export function MenuItemDetails(props) {
       'ingredients': new_ingredient_name,
       'calorie': new_in_calorie,
       'modifiable': new_in_modi ? "True" : "False"
-    }
-    if (!isNew) {
-      console.log("Axios Call")
     }
     setIngredients((ingredients) => [...ingredients, newIngredient]);
     setNewModi(false);

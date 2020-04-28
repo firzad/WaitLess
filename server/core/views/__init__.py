@@ -45,5 +45,4 @@ api.add_resource(TicketFlag, '/TicketFlag')
 api.add_resource(Chat, '/Chat')
 
 if __name__ == '__main__':
-    # app.run()
     socketio.run(app)

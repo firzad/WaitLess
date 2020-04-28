@@ -85,11 +85,6 @@ const settings = [
     'icon': <TableChartIcon />,
     'component': <TableSetting />
   },
-  // {
-  //     'title': 'Staff',
-  //     'icon': <PersonIcon/>,
-  //     'component': <StaffSetting/>
-  // },
   {
     'title': 'Analytics',
     'icon': <BarChartIcon />,

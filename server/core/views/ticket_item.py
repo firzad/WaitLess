@@ -96,7 +96,6 @@ class UpdateTicketItems(Resource):
 
 class TicketItemsBySession(Resource):
 
-    # @marshal_with({**ticket_resource_fields,**ticket_item_resource_fields})
     def get(self, session_id):
         """get all ticket details for a given table session"""
         tickets = TicketModel.query.filter(

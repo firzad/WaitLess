@@ -73,7 +73,6 @@ export default function MenuSetting() {
             setCategories(data);
           }
           setLoading(false);
-          // console.log(data)
         }
       )
     }

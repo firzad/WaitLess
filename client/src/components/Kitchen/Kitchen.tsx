@@ -13,7 +13,6 @@ import {net_path} from '../../pathing';
 
 
 const socket = io.connect(net_path);
-console.log('Socket connected from kitchen')
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -36,7 +35,6 @@ export function Kitchen() {
     useEffect(() => {
         // Socket registered to listen to new tickets added to the system
         socket.on('ticketsUpdated', () => {
-            // console.log('Tickets Updated');
             updateTickets();
         })
         // eslint-disable-next-line

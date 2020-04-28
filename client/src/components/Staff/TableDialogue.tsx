@@ -47,7 +47,6 @@ function TableDetails(props) {
 
 	const expansionChange = (panel) => (event, isExpanded) => {
 		if (isExpanded === true) {
-			console.log('*')
 			axios.get('Tables/' + tableid.toString())
 				.then(
 					(res) => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Paper } from '@material-ui/core';
-//import { userStyles } from "src/styles/userStyles";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,9 +12,7 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DoneIcon from '@material-ui/icons/Done';
 import axios from '../../axios';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-//import {useState/*, useEffect, Fragment*/} from "react"
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-//import {Order, OrderResponse, OrderPostResponse} from "../../interfaces/order"
 import {
 	Drawer,
 	Divider,
@@ -53,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		drawer: {
 			width: drawerWidth,
 			flexShrink: 0,
-			//opacity: '0.5'
 		},
 		drawerPaper: {
 			width: '23vw',
@@ -122,26 +118,13 @@ export default function Bucket(props) {
 						'remark': ticket_item.remarks, 'quantity': ticket_item.quantity, 'item_status': item_status
 					}).then(
 						(res: TicketItemPostResponse) => {
-							//setTicketItem((ticketItem)=>[...ticketItem,res.data]);
-							//ticket_item.ordered=true;
 							props.setOrderedBucketValue([ticket_item])
 						}).catch(error => console.log(error))
 				))
-
-					//ticket_item.ordered=true;
-					//console.log(ticket_item[1].ordered)
-
 				).then(() => {
-					//props.setOrderValue(itemList)})
 					props.bucketClear()
 					axios.get('TicketFlag')
 				})
-
-				//promise.all async multiple calls/ async await
-				//props.bucketClear()
-				// console.log("Item List--------")
-				//console.log(itemList)
-				// props.setOrderValue(itemList)
 			}
 		)
 	}

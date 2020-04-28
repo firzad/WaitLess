@@ -89,9 +89,8 @@ export default function Analytics() {
 export function DailySummary(props) {
   const classes: any = useStyles();
 
-  const { metric, value, icon, acolor, elevate, ...others } = props;
+  const { metric, value, icon, acolor, elevate } = props;
 
-  console.log(others);
   return (
     <Paper className={classes.paper} elevation={elevate}>
       <Grid item container className={classes.root}>

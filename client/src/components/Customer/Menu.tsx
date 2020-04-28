@@ -194,7 +194,6 @@ export default function Menu(props){
     }
 
     React.useEffect(() => {
-        console.log('*')
         if (current_category.length === 0){
         axios.get('Categories').then(
             (res:CategoryResponse) =>{
@@ -224,16 +223,12 @@ export default function Menu(props){
     function renderCategoryItems(){
         return(current_category.map((category,index) => (
             <TabPanel value={value} key={index} index={index}>
-                {/* <GridList cellHeight={250} cols={4} spacing={10} className={classes.gridList}>
-                    <GridListTile key="Subheader" cols={4} style={{ height: 'auto' }}>
-                    </GridListTile> */}
                     <Grid container direction="row" style={{padding: '0 0 10px 10px',marginLeft:'10px',marginTop:'-10px',height:'68vh',overflowY:'auto'}}>
                     {
                             filtered_menu.filter((item)=>item.category===category.category_name).map((tile,index) => {
                                 return(
-                                    <Grid style={{maxHeight:'180px', marginBottom:'10px'}} key={index} item /*xs={props.open?4:3}*/ >
-                                      <Card raised={true} 
-                                      // className={clsx(classes.cardRoot,{[classes.cardShift]: props.open,})}
+                                    <Grid style={{maxHeight:'180px', marginBottom:'10px'}} key={index} item >
+                                      <Card raised={true}
                                       className={classes.cardRoot} key={tile.menu_id} onClick={()=>onModifyMenu(tile)}>
                                       <CardActionArea>
                                         <CardMedia
@@ -245,7 +240,7 @@ export default function Menu(props){
                                           <Typography variant="subtitle1" color="textSecondary" component="p" style={{fontSize:'.85vw',marginBottom:'0 !important'}}>
                                             {<span>${tile.price}</span>}
                                           </Typography>
-                                          <Typography variant="button" component="p" 
+                                          <Typography variant="button" component="p"
                                             style={{fontSize:'1.4vh',lineHeight:'1.5',marginBottom:'0 !important'}}>
                                             {tile.item_name}
                                           </Typography>
@@ -253,21 +248,9 @@ export default function Menu(props){
                                       </CardActionArea>
                                     </Card>
                                   </Grid>
-                                  
-                            // <GridListTile key={tile.menu_id} onClick={()=>props.setmodifyValue(tile)}>
-                            //     {/* <Typography>{tile.img}</Typography> */}
-                            //     {/* <img src={imagePath+tile.img} alt={tile.title} /> */}
-                            //     <GridListTileBar
-                            //     title={tile.item_name}
-                            //     subtitle={<span>$ {tile.price}</span>}
-                            //     />
-                            // </GridListTile>
-                            
                         );
                         })
                     }
-                {/* </GridList> */}
-                
                 </Grid>
             </TabPanel>
             ))
@@ -278,16 +261,16 @@ export default function Menu(props){
     return(
         <Box maxWidth="lg" className={classes.container} style={{'color':'red'}}>
             <Grid container spacing={3}>
-                <Tabs 
-                value={value} 
+                <Tabs
+                value={value}
                 onChange={handleChange}
-                aria-label="Categories tabs" 
+                aria-label="Categories tabs"
                 indicatorColor="primary"
                 textColor="primary"
                 variant="scrollable"
                 scrollButtons="auto"
                 style={{'paddingLeft': '10px', minWidth:'72vw'}}>
-                
+
                 {current_category.map((category,index) => (
                 <Tab style={{'paddingLeft': '10px'}} key={index} label={category.category_name} {...a11yProps(index)}/>
                 ))}
