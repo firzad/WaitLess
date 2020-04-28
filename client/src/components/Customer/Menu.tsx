@@ -21,7 +21,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 //import Burrito from './burrito.jpg';
 //import Burrito from './burrito.jpeg';
 //import interfaces
-import {MenuJson, MenuResponse} from "../../interfaces/menu"
+import {MenuJson} from "../../interfaces/menu"
 import {Category, CategoryResponse} from "../../interfaces/category"
 //import { spacing } from '@material-ui/system';
 
@@ -192,27 +192,34 @@ export default function Menu(props){
         props.setmodifyValue(null);
         props.setmodifyValue(tile);
     }
+
     React.useEffect(() => {
+        console.log('*')
         if (current_category.length === 0){
         axios.get('Categories').then(
             (res:CategoryResponse) =>{
                 const categoryList=res.data
-                setCategory(categoryList)
+                //if (res.data.length !== 0){
+                  setCategory(categoryList)
+                //}
             }
         )
         }
         if (menu.length === 0){
         axios.get('Menu').then(
-            (menuItem:MenuResponse)=>{
+            (menuItem)=>{
                 const menuData = menuItem.data
-                setMenu(menuData)
+                if (menuItem.data.length > 0){
+                  setMenu(menuData)
 
-                //set the search filtered menu data
-                setFilteredMenu(menuData)
+                  //set the search filtered menu data
+                  setFilteredMenu(menuData)
+                }
+
             }
         )
         }
-    })
+    },[])
 
     function renderCategoryItems(){
         return(current_category.map((category,index) => (
