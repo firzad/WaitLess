@@ -58,17 +58,20 @@ export default function MenuSetting() {
       axios.get(`Menu`).then(
         (res: MenuResponse) => {
           const Menudata = res.data;
-          console.log(Menudata);
-          setMenu(Menudata);
+          //if (res.data.length !== 0){
+            setMenu(Menudata); 
+          //}
           setLoading(false);
         }
       )
     }
     if (categories.length === 0) {
       axios.get(`Categories`).then(
-        (res: CategoryResponse) => {
+        (res) => {
           const data = res.data;
-          setCategories(data);
+          if (res.data.length !== 0){
+            setCategories(data);
+          }
           setLoading(false);
           // console.log(data)
         }
