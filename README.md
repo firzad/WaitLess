@@ -2,88 +2,27 @@
 
 capstone-project-masterminds created by GitHub Classroom
 
-Boilerplate credits:
-https://github.com/kingbar1990/React-TypeScript-Flask-boilerplate
+### Build and run the project Waitless
 
-### Build project
+1. Install [Docker Engine](https://docs.docker.com/engine/install/) (Docker Desktop recommended) for the respective system.
+For older Mac and Windows versions, use [Docker Toolbox](https://github.com/docker/toolbox/releases) if the system doesn't support Docker Desktop.
 
-1. Rename ".env.example" to ".env"
 
-```bash
-mv .env.example .env
-```
-
-2. Create files folder
+2. Start the Docker Engine and run the following command to build and set-up the containers for the web application.
 
 ```bash
-mkdir server/files
+docker-compose up --build
 ```
 
-3. Build docker-compose
+3. Access the web app by visiting the following [link](http://localhost:3000/)
+
+> http://localhost:3000/
+
+
+4. To exit the server, Ctrl + C to gracefully exit.
+
+5. To clear the created containers, type the following command
 
 ```bash
-docker-compose build
-```
-
-4. Create database
-
-```bash
-docker-compose up -d database
-```
-
-5. Make database migrations
-
-```bash
-docker-compose run flask python manage.py db upgrade
-```
-
-6. Create node_modules
-
-```bash
-docker-compose run node yarn
-```
-
-7. Run the project
-
-```bash
-docker-compose up
-```
-
-8. Open in your browser http://localhost:3000/
-
-#### Steps to run the server
-
-1. Change directory to server
-
-```bash
-cd server
-```
-
-2. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Change DB details if required in config.py
-
-```python
-SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
-        user="username",
-        passwd="password",
-        host="localhost",
-        db="Waitless"
-)
-```
-
-4. Start the server
-
-```bash
-python manage.py
-```
-
-### Run tests
-
-```bash
-docker-compose run flask pytest
+docker-compose down
 ```
