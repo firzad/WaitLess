@@ -218,6 +218,7 @@ export default function Menu(props){
             }
         )
         }
+        // eslint-disable-next-line
     },[])
 
     function renderCategoryItems(){
