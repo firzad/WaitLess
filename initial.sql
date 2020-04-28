@@ -82,6 +82,19 @@ PRIMARY KEY(order_item_id),
 FOREIGN KEY(menu_id) REFERENCES Menu(menu_id) ON DELETE CASCADE,
 FOREIGN KEY(ticket_id) REFERENCES ticket(ticket_id) ON DELETE CASCADE);
 
+--create tables
+insert into table_details (table_size,table_status,assistance) values(
+	2,'Empty',FALSE
+);
+insert into table_details (table_size,table_status,assistance) values(
+	3,'Empty',FALSE
+);
+insert into table_details (table_size,table_status,assistance) values(
+	4,'Empty',FALSE
+);
+insert into table_details (table_size,table_status,assistance) values(
+	2,'Empty',FALSE
+);
 
 
 INSERT INTO category VALUES(

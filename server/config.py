@@ -9,10 +9,10 @@ class Config(object):
     CSRF_ENABLED = True
     # SECRET_KEY = 'this-really-needs-to-be-changed'
     MIGRATION_DIR = os.path.join('core', 'migrations')
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@{host}:5432/{db}'.format(
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{passwd}@postgres:5432/{db}'.format(
         user="postgres",
         passwd="password",
-        host="localhost",
+        host="postgres",
         db="Waitless"
     )
 
@@ -28,7 +28,7 @@ class StagingConfig(Config):
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
-    DEBUG = True
+    DEBUG = False
 
 
 class TestingConfig(Config):

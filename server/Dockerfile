@@ -5,6 +5,4 @@ RUN pip install -r /tmp/requirements.txt
 
 COPY . .
 
-EXPOSE 5000
-
 CMD ["python", "manage.py"]

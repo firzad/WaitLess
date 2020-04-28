@@ -46,14 +46,16 @@ services:
     # ports:
     #   - 5405:5432
     restart: always
-    ports:
-      - '5430:5432'
+    # ports:
+    #   - '5432:5432'
+    expose:
+      - 5432
     environment:
       - POSTGRES_DB=Waitless
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     volumes:
-      # - './db/init:/docker-entrypoint-initdb.d/'
+      # - './db/init:/docker-entrypoint-initdb.d/initial_base.sql'
       - ./initial.sql:/docker-entrypoint-initdb.d/initial.sql
 
   flask-api:
@@ -63,7 +65,7 @@ services:
       context: ./server/
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - 5000:5000
     volumes:
       - ./server/:/var/www/server
     depends_on:
