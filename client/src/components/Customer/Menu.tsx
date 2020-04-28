@@ -246,7 +246,7 @@ export default function Menu(props){
                                             {<span>${tile.price}</span>}
                                           </Typography>
                                           <Typography variant="button" component="p" 
-                                            style={{fontSize:'.75vw',marginBottom:'0 !important'}}>
+                                            style={{fontSize:'1.4vh',lineHeight:'1.5',marginBottom:'0 !important'}}>
                                             {tile.item_name}
                                           </Typography>
                                         </CardContent>
